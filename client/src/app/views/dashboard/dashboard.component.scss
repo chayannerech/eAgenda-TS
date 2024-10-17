@@ -1,0 +1,15 @@
+.botao-redirecionamento {
+  min-height: 55px;
+  background-color: transparent;
+  border: 1px solid #4e444b;
+
+  transition: background-color 100ms ease-in-out;
+
+  &:hover {
+    background-color: #6b12c5;
+  }
+}
+
+.cor-destaque {
+  color: #ffabf3;
+}

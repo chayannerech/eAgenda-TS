@@ -1,0 +1,39 @@
+<main class="container my-4">
+  <div class="row justify-content-center g-3 gap-3 mt-2 mt-lg-5">
+    <div class="col col-md-10 col-lg-8">
+      <mat-card appearance="outlined" class="p-md-2">
+        <mat-card-content>
+          <h1 mat-card-title class="cor-destaque mb-0 display-3">
+            Painel de Controle
+          </h1>
+          <mat-divider class="my-3"></mat-divider>
+          <h3 mat-card-subtitle>Seja bem-vindo(a)!</h3>
+          <p>
+            Organize sua rotina de maneira eficiente e simplificada com o
+            e-Agenda, sua plataforma centralizada para gerenciar tarefas,
+            compromissos, contatos e despesas. Mantenha tudo sob controle com
+            uma interface intuitiva e funcionalidades otimizadas para sua
+            produtividade.
+          </p>
+          <p>
+            Com o e-Agenda, você terá todas as ferramentas necessárias para
+            simplificar sua rotina e otimizar seu tempo. Vamos começar?
+          </p>
+        </mat-card-content>
+      </mat-card>
+      <div class="row g-3 mt-2">
+        <div *ngFor="let item of itensRedirect" class="col-md-4">
+          <a
+          [routerLink]="item.rota"
+          class="botao-redirecionamento w-100"
+          mat-fab
+          extended
+          >
+          <mat-icon>{{ item.icone }}</mat-icon>
+          {{ item.texto }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

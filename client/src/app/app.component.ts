@@ -20,4 +20,8 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.usuarioAuthenticado$ = this.usuarioService.usuarioAutenticado;
   }
+
+  efetuarLogout() {
+    this.usuarioService.logout();
+  }
 }

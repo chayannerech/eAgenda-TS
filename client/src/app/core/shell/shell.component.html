@@ -41,6 +41,15 @@
       >
         <mat-icon aria-label="Ícone ativador da barra lateral">menu</mat-icon>
       </button>
+
+      <span *ngIf="usuarioAutenticado" class="d-flex align-items-center gap-3 ms-auto">
+        <span>Seja bem-vindo(a), {{ usuarioAutenticado.nome }}</span>
+        <button (click)="logoutEfetuado" mat-stroked-button>
+          <mat-icon>logout</mat-icon>
+          Logout
+        </button>
+      </span>
+
       <span
         *ngIf="isHandset$ | async"
         class="d-flex align-items-center gap-2 ms-auto"
@@ -49,7 +58,6 @@
         e-Agenda
       </span>
     </mat-toolbar>
-
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -33,6 +33,7 @@ import { UsuarioTokenViewModel } from '../auth/models/auth.models';
 
 export class ShellComponent {
   @Input() usuarioAutenticado?: UsuarioTokenViewModel;
+  @Output() logout: EventEmitter<void>
 
   links: LinkNavegacao[] = [
     {
@@ -56,6 +57,7 @@ export class ShellComponent {
   ];
 
   isHandset$: Observable<boolean>;
+
   constructor(private breakpointObserver: BreakpointObserver) {
     this.isHandset$ = this.breakpointObserver
     .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Tablet])
@@ -63,5 +65,11 @@ export class ShellComponent {
       map((result) => result.matches),
       shareReplay()
     );
+
+    this.logout = new EventEmitter();
+  }
+
+  logoutEfetuado() {
+    this.logout.emit();
   }
 }

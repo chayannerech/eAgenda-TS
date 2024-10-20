@@ -74,27 +74,27 @@
           />
           <mat-icon matSuffix color="primary">password</mat-icon>
           <mat-error class="text-white" *ngIf="senha?.invalid">
-          <span *ngIf="senha?.errors?.['required']">
-            A senha precisa ser preenchida.
-          </span>
-          <span *ngIf="senha?.errors?.['minlength']">
-            A senha deve conter ao menos 6 caracteres.
-          </span>
-          <span *ngIf="senha?.errors?.['pattern']">
-            A senha deve conter ao menos uma letra maiúscula, um caractere especial e um número.
-          </span>
+            <span *ngIf="senha?.errors?.['required']">
+              A senha precisa ser preenchida.
+            </span>
+            <span *ngIf="senha?.errors?.['minlength']">
+              A senha deve conter ao menos 6 caracteres.
+            </span>
+            <span *ngIf="senha?.errors?.['pattern']">
+              A senha deve conter ao menos uma letra maiúscula, um caractere especial e um número.
+            </span>
           </mat-error>
         </mat-form-field>
 
         <div class="row justify-content-end g-2 gap-2 mt-5">
-        <button type="submit" mat-flat-button class="col-sm-4">
-        <mat-icon matIconPrefix>person_add</mat-icon>
-        Registrar
-        </button>
-        <a mat-button type="button" class="col-sm-4" routerLink="/login">
-        <mat-icon matIconPrefix>login</mat-icon>
-        Já tenho uma conta
-        </a>
+          <button type="submit" mat-flat-button class="col-sm-4">
+            <mat-icon matIconPrefix>person_add</mat-icon>
+            Registrar
+          </button>
+          <a mat-button type="button" class="col-sm-4" routerLink="/login">
+            <mat-icon matIconPrefix>login</mat-icon>
+            Já tenho uma conta
+          </a>
         </div>
       </form>
     </div>

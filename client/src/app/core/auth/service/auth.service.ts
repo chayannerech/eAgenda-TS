@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { map, Observable, throwError } from "rxjs";
-import { RegistrarUsuarioViewModel, TokenViewModel } from "../models/auth.models";
+import { LoginUsuarioViewModel, RegistrarUsuarioViewModel, TokenViewModel } from "../models/auth.models";
 
 @Injectable()
 export class AuthService {
@@ -22,5 +22,9 @@ export class AuthService {
     if (resposta.sucesso) return resposta.dados;
 
     throw new Error('Erro ao mapear token do usuário.');
+  }
+
+  login(usuarioLogin: LoginUsuarioViewModel) {
+    throw new Error('Method not implemented.');
   }
 }

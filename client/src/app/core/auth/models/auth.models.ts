@@ -14,3 +14,9 @@ export interface UsuarioTokenViewModel {
   nome: string,
   email: string
 }
+export interface LoginUsuarioViewModel {
+  nome: string,
+  login: string,
+  email: string,
+  senha: string
+}

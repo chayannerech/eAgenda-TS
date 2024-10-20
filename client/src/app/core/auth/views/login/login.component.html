@@ -1,7 +1,7 @@
 <main class="container my-4">
   <div class="row justify-content-center g-3 mt-2">
     <div class="col col-md-10 col-lg-6">
-      <h1 class="display-3">Login de Usuário</h1>
+      <h2 class="display-3">Login de Usuário</h2>
       <hr />
 
       <form [formGroup]="form" (submit)="entrar()">
@@ -37,15 +37,17 @@
         <mat-error *ngIf="erroLogin" class="text-danger mt-0">
           <span>Login ou senha inválidos</span>
         </mat-error>
-        <div class="row justify-content-end g-2 gap-2 mt-5">
-          <button type="submit" mat-flat-button class="col-sm-4">
-            <mat-icon matIconPrefix>login</mat-icon>
-            Login
-          </button>
-          <a mat-button type="button" class="col-sm-4" routerLink="/registro">
-            <mat-icon matIconPrefix>person_add</mat-icon>
-            Não tenho uma conta
-          </a>
+        <div class="row justify-content-center mt-5">
+          <div class="col-sm-5 d-flex flex-column align-items-center gap-3">
+            <button type="submit" mat-flat-button class="w-100">
+              <mat-icon matIconPrefix>login</mat-icon>
+              Login
+            </button>
+            <a mat-button type="button" class="w-100 text-center" routerLink="/registro">
+              <mat-icon matIconPrefix>person_add</mat-icon>
+              Não tenho uma conta
+            </a>
+          </div>
         </div>
       </form>
     </div>

@@ -15,10 +15,18 @@
     </mat-toolbar>
 
     <mat-nav-list>
-      <a *ngFor="let link of links" mat-list-item [routerLink]="link.rota">
-        <mat-icon matListItemIcon>{{ link.icone }}</mat-icon>
-        {{ link.titulo }}
-      </a>
+      <ng-container *ngIf="!usuarioAutenticado">
+        <a *ngFor="let link of links" mat-list-item [routerLink]="link.rota">
+          <mat-icon matListItemIcon>{{ link.icone }}</mat-icon>
+          {{ link.titulo }}
+        </a>
+      </ng-container>
+      <ng-container *ngIf="usuarioAutenticado">
+        <a *ngFor="let link of authLinks" mat-list-item [routerLink]="link.rota">
+          <mat-icon matListItemIcon>{{ link.icone }}</mat-icon>
+          {{ link.titulo }}
+        </a>
+      </ng-container>
     </mat-nav-list>
   </mat-sidenav>
 

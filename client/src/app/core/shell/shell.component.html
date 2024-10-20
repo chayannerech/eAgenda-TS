@@ -44,7 +44,7 @@
 
       <span *ngIf="usuarioAutenticado" class="d-flex align-items-center gap-3 ms-auto">
         <span>Seja bem-vindo(a), {{ usuarioAutenticado.nome }}</span>
-        <button (click)="logoutEfetuado()" mat-stroked-button>
+        <button (click)="logoutEfetuado()" [routerLink]="'/login'" mat-stroked-button>
           <mat-icon>logout</mat-icon>
           Logout
         </button>

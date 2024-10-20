@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
-import { map, Observable, throwError } from "rxjs";
+import { catchError, map, Observable, throwError } from "rxjs";
 import { LoginUsuarioViewModel, RegistrarUsuarioViewModel, TokenViewModel } from "../models/auth.models";
 
 @Injectable()
@@ -18,13 +18,19 @@ export class AuthService {
       .pipe(map(this.processarDados));
   }
 
-  private processarDados(resposta: any): TokenViewModel {
-    if (resposta.sucesso) return resposta.dados;
+  public entrar(usuarioLogin: LoginUsuarioViewModel): Observable<TokenViewModel> {
+    const urlCompleto = `${this.apiUrl}/contas/autenticar`;
 
-    throw new Error('Erro ao mapear token do usuário.');
+    return this.http
+      .post<TokenViewModel>(urlCompleto, usuarioLogin)
+      .pipe(
+        map(this.processarDados),
+        catchError(() => throwError(() => new Error('Falha na autenticação')))
+      );
   }
 
-  login(usuarioLogin: LoginUsuarioViewModel) {
-    throw new Error('Method not implemented.');
+  private processarDados(resposta: any): TokenViewModel {
+    if (resposta.sucesso) return resposta.dados;
+    throw new Error();
   }
 }

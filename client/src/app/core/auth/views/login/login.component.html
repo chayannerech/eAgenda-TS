@@ -16,7 +16,7 @@
           <mat-icon matSuffix color="primary">mail</mat-icon>
           <mat-error class="text-white" *ngIf="login?.invalid">
             <span *ngIf="login?.errors?.['required']">
-              O login precisa ser preenchido.
+              O login precisa ser preenchido
             </span>
           </mat-error>
         </mat-form-field>
@@ -26,14 +26,17 @@
             matInput
             type="password"
             autocomplete="current-password"
-            placeholder="A senha precisa conter ao menos 6 caracteres"  />
+            placeholder="Insira a senha"  />
           <mat-icon matSuffix color="primary">password</mat-icon>
           <mat-error class="text-white" *ngIf="senha?.invalid">
             <span *ngIf="senha?.errors?.['required']">
-              A senha precisa ser preenchida.
+              A senha precisa ser preenchida
             </span>
           </mat-error>
         </mat-form-field>
+        <mat-error *ngIf="erroLogin" class="text-danger mt-0">
+          <span>Login ou senha inválidos</span>
+        </mat-error>
         <div class="row justify-content-end g-2 gap-2 mt-5">
           <button type="submit" mat-flat-button class="col-sm-4">
             <mat-icon matIconPrefix>login</mat-icon>

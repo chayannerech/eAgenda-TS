@@ -64,7 +64,7 @@ export class LoginComponent {
         console.clear();
         this.usuarioService.logarUsuario(resposta.usuario);
         this.notificacao.sucesso(
-          `O login do usuário ${resposta.usuario} foi executado com sucesso!`
+          `O usuário ${resposta.usuario.nome} está conectado!`
         );
 
         this.router.navigate(['/dashboard']);

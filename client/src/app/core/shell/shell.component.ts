@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { LinkNavegacao } from './models/link-navegacao.model';
+import { UsuarioTokenViewModel } from '../auth/models/auth.models';
+import { NotificacaoService } from '../notificacao/notificacao.service';
 
 @Component({
   selector: 'app-shell',
@@ -31,6 +33,9 @@ import { LinkNavegacao } from './models/link-navegacao.model';
 })
 
 export class ShellComponent {
+  @Input() usuarioAutenticado?: UsuarioTokenViewModel;
+  @Output() logout: EventEmitter<void>
+
   links: LinkNavegacao[] = [
     {
       titulo: 'Login',
@@ -41,7 +46,10 @@ export class ShellComponent {
       titulo: 'Registro',
       icone: 'person_add',
       rota: '/registro',
-    },
+    }
+  ];
+
+  authLinks: LinkNavegacao[] = [
     {
       titulo: 'Dashboard',
       icone: 'home',
@@ -50,12 +58,23 @@ export class ShellComponent {
   ];
 
   isHandset$: Observable<boolean>;
-  constructor(private breakpointObserver: BreakpointObserver) {
+
+  constructor(private breakpointObserver: BreakpointObserver, private notificacao: NotificacaoService) {
     this.isHandset$ = this.breakpointObserver
     .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Tablet])
     .pipe(
       map((result) => result.matches),
       shareReplay()
     );
+
+    this.logout = new EventEmitter();
+  }
+
+  logoutEfetuado() {
+    this.notificacao.sucesso(
+      `Logout efetuado!`
+    );
+
+    this.logout.emit();
   }
 }

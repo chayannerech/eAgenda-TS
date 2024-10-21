@@ -24,7 +24,7 @@ export class ListarCategoriasComponent implements OnInit {
 
   ngOnInit(): void {
     this.categorias$ = this.categoriaService.selecionarTodos().pipe(
-      tap(categorias => console.log(categorias))  // Verifique o conteúdo do array
+      tap(categorias => console.log(categorias))
     );
   }
 }

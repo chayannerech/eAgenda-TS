@@ -10,6 +10,7 @@ import { LoginUsuarioViewModel } from '../../models/auth.models';
 import { AuthService } from '../../service/auth.service';
 import { UsuarioService } from '../../service/usuario.service';
 import { catchError, tap, throwError } from 'rxjs';
+import { NotificacaoService } from '../../../notificacao/notificacao.service';
 
 @Component({
   selector: 'app-login',
@@ -28,9 +29,16 @@ import { catchError, tap, throwError } from 'rxjs';
 
 export class LoginComponent {
   form: FormGroup;
-  erroLogin: boolean = false;
+  erroLogin: boolean;
 
-  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService, private usuarioService: UsuarioService) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private usuarioService: UsuarioService,
+    private notificacao: NotificacaoService
+  ) {
+    this.erroLogin = false;
     this.form = this.fb.group({
       login: ['', [ Validators.required ]],
       senha: ['', [ Validators.required ]],
@@ -48,13 +56,17 @@ export class LoginComponent {
     .pipe(
       catchError(() => {
         this.erroLogin = true;
-        return throwError(() => new Error('Autenticação falhou')); // Retorna um erro corretamente
+        return throwError(() => new Error('Autenticação falhou'));
       })
     )
     .subscribe(resposta => {
         this.erroLogin = false;
         console.clear();
         this.usuarioService.logarUsuario(resposta.usuario);
+        this.notificacao.sucesso(
+          `O login do usuário ${resposta.usuario} foi executado com sucesso!`
+        );
+
         this.router.navigate(['/dashboard']);
       }
     );

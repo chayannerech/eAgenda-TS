@@ -11,6 +11,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { LinkNavegacao } from './models/link-navegacao.model';
 import { UsuarioTokenViewModel } from '../auth/models/auth.models';
+import { NotificacaoService } from '../notificacao/notificacao.service';
 
 @Component({
   selector: 'app-shell',
@@ -58,7 +59,7 @@ export class ShellComponent {
 
   isHandset$: Observable<boolean>;
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(private breakpointObserver: BreakpointObserver, private notificacao: NotificacaoService) {
     this.isHandset$ = this.breakpointObserver
     .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Tablet])
     .pipe(
@@ -70,6 +71,10 @@ export class ShellComponent {
   }
 
   logoutEfetuado() {
+    this.notificacao.sucesso(
+      `Logout efetuado!`
+    );
+
     this.logout.emit();
   }
 }

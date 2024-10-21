@@ -11,6 +11,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { RegistrarUsuarioViewModel } from '../../models/auth.models';
 import { UsuarioService } from '../../service/usuario.service';
+import { NotificacaoService } from '../../../notificacao/notificacao.service';
 
 @Component({
   selector: 'app-registro',
@@ -35,13 +36,17 @@ import { UsuarioService } from '../../service/usuario.service';
 
 export class RegistroComponent {
   form: FormGroup;
+  erroLogin: string | null;
+  erroEmail: string | null;
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private notificacao: NotificacaoService
   ) {
+    this.erroLogin = this.erroEmail = null;
     this.form = this.formBuilder.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       login: ['', [Validators.required, Validators.minLength(3)]],
@@ -63,9 +68,14 @@ export class RegistroComponent {
     if (this.form.invalid) return;
 
     const registro: RegistrarUsuarioViewModel = this.form.value;
+
     this.authService.registrar(registro)
       .subscribe(resposta => {
         this.usuarioService.logarUsuario(resposta.usuario);
+        this.notificacao.sucesso(
+          `O usuário ${resposta.usuario} foi cadastrado com sucesso!`
+        );
+
         this.router.navigate(['/dashboard'])
       }
     );

@@ -40,6 +40,9 @@
             <span *ngIf="nome?.errors?.['minlength']">
               O nome de usuário deve conter ao menos 3 caracteres
             </span>
+            <span *ngIf="erroLogin">
+              {{ erroLogin }}
+            </span>
           </mat-error>
         </mat-form-field>
 
@@ -59,6 +62,9 @@
             </span>
             <span *ngIf="email?.errors?.['required']">
               O email precisa ser preenchido
+            </span>
+            <span *ngIf="erroEmail">
+              {{ erroEmail }}
             </span>
           </mat-error>
         </mat-form-field>

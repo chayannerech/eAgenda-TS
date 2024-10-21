@@ -12,40 +12,36 @@ export class CategoriaService {
 
   constructor(private http: HttpClient) { }
 
-  cadastrar(novaCategoria: InserirCategoria): Observable<CategoriaInserida> {
-    return this.http.post<CategoriaInserida>(this.url, novaCategoria, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': environment.apiKey  // Adiciona o header de autorização
-      })
-    });
+  cadastrar(novaCategoria: InserirCategoria, chaveDeAcesso: string): Observable<CategoriaInserida> {
+    return this.http.post<CategoriaInserida>(this.url, novaCategoria, this.obterHeadersDeAutorizacao(chaveDeAcesso));
   }
 
-  editar(id: number, categoriaEditada: EditarCategoria): Observable<CategoriaEditada> {
+  editar(id: number, categoriaEditada: EditarCategoria, chaveDeAcesso: string): Observable<CategoriaEditada> {
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.put<CategoriaEditada>(urlCompleto, categoriaEditada);
+    return this.http.put<CategoriaEditada>(urlCompleto, categoriaEditada, this.obterHeadersDeAutorizacao(chaveDeAcesso));
   }
 
-  excluir(id: number): Observable<CategoriaExcluida> {
+  excluir(id: number, chaveDeAcesso: string): Observable<CategoriaExcluida> {
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.delete<CategoriaExcluida>(urlCompleto);
+    return this.http.delete<CategoriaExcluida>(urlCompleto, this.obterHeadersDeAutorizacao(chaveDeAcesso));
   }
 
-  selecionarTodos(): Observable<ListarCategorias[]> {
+  selecionarTodos(chaveDeAcesso: string): Observable<ListarCategorias[]> {
     const urlCompleto = `${this.url}?_expand=categoria`;
-    return this.http.get<ListarCategorias[]>(urlCompleto, this.obterHeadersDeAutorizacao());
+    return this.http.get<ListarCategorias[]>(urlCompleto, this.obterHeadersDeAutorizacao(chaveDeAcesso));
   }
 
-  selecionarPorId(id: number): Observable<DetalhesCategoria> {
+  selecionarPorId(id: number, chaveDeAcesso: string): Observable<DetalhesCategoria> {
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.get<DetalhesCategoria>(urlCompleto);
+    return this.http.get<DetalhesCategoria>(urlCompleto, this.obterHeadersDeAutorizacao(chaveDeAcesso));
   }
 
-  private obterHeadersDeAutorizacao() {
+  private obterHeadersDeAutorizacao(chaveDeAcesso: string) {
     return {
       method: 'GET',
       headers: {
         accept: 'application/json',
+        //Authorization: chaveDeAcesso,
         Authorization: environment.apiKey,
       }
     }

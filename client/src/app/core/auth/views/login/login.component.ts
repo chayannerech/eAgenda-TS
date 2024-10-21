@@ -11,6 +11,7 @@ import { AuthService } from '../../service/auth.service';
 import { UsuarioService } from '../../service/usuario.service';
 import { catchError, tap, throwError } from 'rxjs';
 import { NotificacaoService } from '../../../notificacao/notificacao.service';
+import { LocalStorageService } from '../../service/local-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -36,6 +37,7 @@ export class LoginComponent {
     private router: Router,
     private authService: AuthService,
     private usuarioService: UsuarioService,
+    private localStorageService: LocalStorageService,
     private notificacao: NotificacaoService
   ) {
     this.erroLogin = false;
@@ -49,23 +51,23 @@ export class LoginComponent {
   get senha() { return this.form.get('senha'); }
 
   public entrar() {
+    console.clear();
+
     if (this.form.invalid) return;
     const usuarioLogin: LoginUsuarioViewModel = this.form.value;
 
-    this.authService.entrar(usuarioLogin)
-    .pipe(
-      catchError(() => {
+    this.authService.login(usuarioLogin)
+    .pipe(catchError(() => {
         this.erroLogin = true;
-        return throwError(() => new Error('Autenticação falhou'));
+        return throwError(() => Error('Login ou senha incorretos'));
       })
     )
     .subscribe(resposta => {
         this.erroLogin = false;
-        console.clear();
         this.usuarioService.logarUsuario(resposta.usuario);
-        this.notificacao.sucesso(
-          `O usuário ${resposta.usuario.nome} está conectado!`
-        );
+        this.localStorageService.salvarTokenAutenticacao(resposta);
+
+        this.notificacao.sucesso(`O usuário ${resposta.usuario.nome} está conectado!`);
 
         this.router.navigate(['/dashboard']);
       }

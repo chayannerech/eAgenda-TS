@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CategoriaService } from '../services/categoria.service';
 import { Observable, tap } from 'rxjs';
+import { AuthService } from '../../../core/auth/service/auth.service';
 
 @Component({
   selector: 'app-listagem-categorias',
@@ -20,10 +21,10 @@ import { Observable, tap } from 'rxjs';
 export class ListarCategoriasComponent implements OnInit {
   categorias$?: Observable<ListarCategorias[]>;
 
-  constructor( private categoriaService: CategoriaService ) {}
+  constructor( private categoriaService: CategoriaService, private authService: AuthService ) {}
 
   ngOnInit(): void {
-    this.categorias$ = this.categoriaService.selecionarTodos().pipe(
+    this.categorias$ = this.categoriaService.selecionarTodos(this.authService.chaveDeAcesso).pipe(
       tap(categorias => console.log(categorias))
     );
   }

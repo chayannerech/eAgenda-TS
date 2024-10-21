@@ -37,7 +37,7 @@ export class EditarCategoriaComponent implements OnInit{
     this.id = this.route.snapshot.params['id'];
 
     if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
-    this.categoriaService.selecionarPorId(this.id).subscribe((res) => this.trazerValoresParaEdicao(res));
+    this.categoriaService.selecionarPorId(this.id, "").subscribe((res) => this.trazerValoresParaEdicao(res));
   }
 
   get titulo() {
@@ -50,7 +50,7 @@ export class EditarCategoriaComponent implements OnInit{
 
     const categoriaEditada: EditarCategoria = this.categoriaForm.value;
 
-    this.categoriaService.editar(this.id, categoriaEditada).subscribe((res) => {
+    this.categoriaService.editar(this.id, categoriaEditada, "").subscribe((res) => {
       this.notificacao.sucesso(
         `A categoria ${res.titulo} foi editada com sucesso!`
       );

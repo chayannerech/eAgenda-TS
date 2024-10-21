@@ -25,14 +25,14 @@ export class ExcluirCategoriaComponent implements OnInit {
     this.id = this.route.snapshot.params['id'];
 
     if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
-    this.categoria$ = this.categoriaService.selecionarPorId(this.id);
+    this.categoria$ = this.categoriaService.selecionarPorId(this.id, "");
   }
 
   excluir() {
     if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
     this.categoriaService
-      .excluir(this.id)
+      .excluir(this.id, "")
       .subscribe((res) => {
         this.notificacao.sucesso(
           `A categoria de ID ${this.id} foi excluída com sucesso!`

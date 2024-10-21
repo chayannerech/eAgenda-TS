@@ -9,3 +9,21 @@ mat-error {
   font-size: 15px;
   margin-top: 5px;
 }
+
+.notificacao-sucesso {
+  --mdc-snackbar-container-color: #0b4730;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-snack-bar-button-color: #ffffff;
+}
+
+.notificacao-aviso {
+  --mdc-snackbar-container-color: #dccf40;
+  --mdc-snackbar-supporting-text-color: #000000;
+  --mat-snack-bar-button-color: #000000;
+}
+
+.notificacao-erro {
+  --mdc-snackbar-container-color: #dd4f4f;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-snack-bar-button-color: #ffffff;
+}

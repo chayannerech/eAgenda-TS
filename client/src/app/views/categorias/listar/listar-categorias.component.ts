@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CategoriaService } from '../services/categoria.service';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'app-listagem-categorias',
@@ -23,6 +23,8 @@ export class ListarCategoriasComponent implements OnInit {
   constructor( private categoriaService: CategoriaService ) {}
 
   ngOnInit(): void {
-    this.categorias$ = this.categoriaService.selecionarTodos();
+    this.categorias$ = this.categoriaService.selecionarTodos().pipe(
+      tap(categorias => console.log(categorias))  // Verifique o conteúdo do array
+    );
   }
 }

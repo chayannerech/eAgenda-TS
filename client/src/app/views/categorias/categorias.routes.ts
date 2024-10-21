@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
 import { InserirCategoriaComponent } from "./inserir/inserir-categorias.component";
 import { ListarCategoriasComponent } from "./listar/listar-categorias.component";
-import { EditarCategoriaComponent } from "./editar/editar-categorias.component";
+import { EditarCategoriaComponent } from "./editar/editar-categoria.component";
 import { ExcluirCategoriaComponent } from "./excluir/excluir-categorias.component";
 
 export const categoriasRoutes: Routes = [

@@ -26,7 +26,7 @@ const authUserGuard: CanMatchFn = (): Observable<boolean | UrlTree> => {
 
   return usuarioService.usuarioAutenticado
     .pipe(map(usuario => {
-      if (!usuario)
+      if (usuario)
         return router.parseUrl('/dashboard');
 
       return true;

@@ -1,49 +1,57 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CategoriaEditada, CategoriaExcluida, CategoriaInserida, DetalhesCategoria, EditarCategoria, InserirCategoria, ListarCategorias } from '../models/categoria.models';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { LocalStorageService } from '../../../core/auth/service/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class CategoriaService {
   private readonly url = `${environment.apiUrl}/categorias`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
 
-  cadastrar(novaCategoria: InserirCategoria, chaveDeAcesso: string): Observable<CategoriaInserida> {
-    return this.http.post<CategoriaInserida>(this.url, novaCategoria, this.obterHeadersDeAutorizacao(chaveDeAcesso));
+  cadastrar(novaCategoria: InserirCategoria): Observable<CategoriaInserida> {
+    return this.http.post<CategoriaInserida>(this.url, novaCategoria, this.obterHeadersDeAutorizacao());
   }
 
-  editar(id: number, categoriaEditada: EditarCategoria, chaveDeAcesso: string): Observable<CategoriaEditada> {
+  editar(id: number, categoriaEditada: EditarCategoria): Observable<CategoriaEditada> {
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.put<CategoriaEditada>(urlCompleto, categoriaEditada, this.obterHeadersDeAutorizacao(chaveDeAcesso));
+    return this.http.put<CategoriaEditada>(urlCompleto, categoriaEditada, this.obterHeadersDeAutorizacao());
   }
 
-  excluir(id: number, chaveDeAcesso: string): Observable<CategoriaExcluida> {
+  excluir(id: number): Observable<CategoriaExcluida> {
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.delete<CategoriaExcluida>(urlCompleto, this.obterHeadersDeAutorizacao(chaveDeAcesso));
+    return this.http.delete<CategoriaExcluida>(urlCompleto, this.obterHeadersDeAutorizacao());
   }
 
-  selecionarTodos(chaveDeAcesso: string): Observable<ListarCategorias[]> {
+  selecionarTodos(): Observable<ListarCategorias[]> {
     const urlCompleto = `${this.url}?_expand=categoria`;
-    return this.http.get<ListarCategorias[]>(urlCompleto, this.obterHeadersDeAutorizacao(chaveDeAcesso));
+    return this.http.get<ListarCategorias[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }
 
-  selecionarPorId(id: number, chaveDeAcesso: string): Observable<DetalhesCategoria> {
+  selecionarPorId(id: number): Observable<DetalhesCategoria> {
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.get<DetalhesCategoria>(urlCompleto, this.obterHeadersDeAutorizacao(chaveDeAcesso));
+    return this.http.get<DetalhesCategoria>(urlCompleto, this.obterHeadersDeAutorizacao());
   }
 
-  private obterHeadersDeAutorizacao(chaveDeAcesso: string) {
+  private obterHeadersDeAutorizacao() {
+    const chave = this.localStorageService.obterTokenAutenticacao()?.chave ?? "";
+
     return {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        //Authorization: chaveDeAcesso,
-        Authorization: environment.apiKey,
+        Authorization: `Bearer ${chave}`
       }
     }
+  }
+
+  private processarDados(resposta: any) {
+    if (resposta.sucesso) return resposta.dados;
+    throw new Error();
   }
 }

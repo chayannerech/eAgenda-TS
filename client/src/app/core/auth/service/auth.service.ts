@@ -7,7 +7,6 @@ import { LoginUsuarioViewModel, RegistrarUsuarioViewModel, TokenViewModel } from
 @Injectable()
 export class AuthService {
   private apiUrl: string = environment.apiUrl;
-  public chaveDeAcesso: string = "";
 
   constructor(private http: HttpClient) {}
 
@@ -22,14 +21,10 @@ export class AuthService {
   public login(usuarioLogin: LoginUsuarioViewModel): Observable<TokenViewModel> {
     const urlCompleto = `${this.apiUrl}/contas/autenticar`;
 
-    const resultado = this.http
-      .post<TokenViewModel>(urlCompleto, usuarioLogin)
-      .pipe(map(this.processarDados)
+    return this.http
+    .post<TokenViewModel>(urlCompleto, usuarioLogin)
+    .pipe(map(this.processarDados)
     );
-
-    resultado.subscribe(res => this.chaveDeAcesso = res.chave);
-
-    return resultado;
   }
 
   public logout() {

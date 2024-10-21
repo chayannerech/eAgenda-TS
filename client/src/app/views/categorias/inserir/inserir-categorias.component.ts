@@ -42,7 +42,7 @@ export class InserirCategoriaComponent {
 
     const novaCategoria: InserirCategoria = this.categoriaForm.value;
 
-    this.categoriaService.cadastrar(novaCategoria, "").subscribe((res) => {
+    this.categoriaService.cadastrar(novaCategoria).subscribe((res) => {
       this.notificacao.sucesso(
         `A categoria ${res.titulo} foi cadastrada com sucesso!`
       );

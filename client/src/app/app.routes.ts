@@ -21,11 +21,25 @@ const authGuard: CanMatchFn = (): Observable<boolean> => {
     }));
 }
 
+const authUserGuard: CanMatchFn = (): Observable<boolean> => {
+  const router = inject(Router);
+  const usuarioService = inject(UsuarioService)
+
+  return usuarioService.usuarioAutenticado
+    .pipe(map(usuario => {
+      if (usuario) {
+        router.navigate(['/dashboard'])
+        return false;
+      }
+      return true;
+    }));
+}
+
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'registro', component: RegistroComponent },
-  { path: 'login', component: LoginComponent },
+  { path: 'registro', component: RegistroComponent, canMatch:[authUserGuard]},
+  { path: 'login', component: LoginComponent, canMatch:[authUserGuard]},
 
   { path: 'dashboard', component: DashboardComponent, canMatch:[authGuard]},
-  { path: 'categorias', children: categoriasRoutes },
+  { path: 'categorias', children: categoriasRoutes, canMatch:[authGuard]},
 ];

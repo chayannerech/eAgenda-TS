@@ -1,0 +1,53 @@
+.app-container-categorias {
+  padding: 50px;
+}
+
+.app-card-categorias {
+  background-color: #3d3d3d;
+}
+
+.app-botao-categorias {
+  border: 1px solid rgb(114, 114, 114);
+}
+
+.app-botao-home {
+  width: 64px;
+  height: 64px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.app-icone-contatos {
+  width: 64px;
+  height: 64px;
+  display: inline-flex;
+  justify-content: center;
+  margin-right: 15px;
+  font-size: 30px;
+  width: 25px;
+  height: 26px;
+}
+
+.app-icone-home {
+  font-size: 35px;
+  width: 35px;
+  height: 35px;
+  margin: 0;
+}
+
+.app-btn-editar {
+  color: #ffffff;
+  border: 1px solid rgb(39, 39, 39);
+}
+
+.app-btn-excluir {
+  color: #942626;
+  border: 1px solid rgb(39, 39, 39);
+}
+
+.app-form-field {
+  width: 100%;
+  margin-top: 15px;
+}

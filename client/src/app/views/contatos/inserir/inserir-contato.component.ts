@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { InserirCategoria } from '../../categorias/models/categoria.models';
-import { CategoriaService } from '../../categorias/services/categoria.service';
 import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -78,7 +76,7 @@ export class InserirContatoComponent {
 
     this.contatoService.cadastrar(novoContato).subscribe((res) => {
       this.notificacao.sucesso(
-        `O contato '${toTitleCase(novoContato.nome)}' foi cadastrado com sucesso!`
+        `O contato '${novoContato.nome}' foi cadastrado com sucesso!`
       );
 
       this.router.navigate(['/contatos']);

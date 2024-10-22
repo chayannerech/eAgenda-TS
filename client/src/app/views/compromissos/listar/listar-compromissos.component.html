@@ -1,8 +1,8 @@
-<main class="container-fluid app-container-categorias">
+<main class="container-fluid app-container-compromissos">
   <div class="d-flex justify-content-between align-items-center">
     <h1 class="fs-2 m-0">
-      <mat-icon class="app-icone-contatos">people</mat-icon>
-      Contatos
+      <mat-icon class="app-icone-compromissos">checklist</mat-icon>
+      Compromissos
     </h1>
     <section class="d-flex justify-content-end">
       <a
@@ -20,48 +20,48 @@
   >
     <a
       mat-button
-      class="col-sm-6 col-md-4 fs-6 py-4 mb-3 app-botao-categorias"
-      [routerLink]="['/contatos', 'inserir']"
+      class="col-sm-6 col-md-4 fs-6 py-4 mb-3 app-botao-compromissos"
+      [routerLink]="['/compromissos', 'inserir']"
     >
       <mat-icon>bookmark_add</mat-icon>
       Cadastrar
     </a>
   </section>
 
-  <div *ngIf="contatos$ | async as contatos" class="row g-3 mt-2">
-    <div *ngFor="let con of contatos" class="col-sm-6 col-md-4 col-xxl-3">
-      <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-categorias">
+  <div *ngIf="compromissos$ | async as compromissos" class="row g-3 mt-2">
+    <div *ngFor="let con of compromissos" class="col-sm-6 col-md-4 col-xxl-3">
+      <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-compromissos">
         <mat-card-header>
           <mat-card-title class="app-titulo-card">
-            {{ con.nome }}
+            {{ con.assunto }}
           </mat-card-title>
         </mat-card-header>
         <mat-card-content style="font-size: 13px;">
-          <p class="m-0">{{ con.email }}</p>
-          <p class="m-0">{{ con.telefone }}</p>
-          <p class="m-0 mt-3">Empresa: {{ con.empresa }}</p>
-          <p class="m-0">Cargo: {{ con.cargo }}</p>
+          <p class="m-0">{{ con.data }}</p>
+          <p class="m-0">{{ con.horaInicio }}</p>
+          <p class="m-0 mt-3">Empresa: {{ con.horaTermino }}</p>
         </mat-card-content>
         <mat-card-footer class="d-flex justify-content-end p-3 mt-auto gap-1">
           <a mat-icon-button
             class="app-btn-editar"
-            [routerLink]="['/contatos', 'editar', con.id]"
-            matTooltip="Editar {{ con.nome }}"
+            [routerLink]="['/compromissos', 'editar', con.id]"
+            matTooltip="Editar"
           >
             <mat-icon> edit </mat-icon>
           </a>
           <a mat-icon-button
             class="app-btn-excluir"
-            [routerLink]="['/contatos', 'excluir', con.id]"
-            matTooltip="Excluir {{ con.nome }}"
+            [routerLink]="['/compromissos', 'excluir', con.id]"
+            matTooltip="Excluir"
           >
             <mat-icon> delete </mat-icon>
           </a>
         </mat-card-footer>
       </mat-card>
     </div>
-    <div *ngIf="contatos.length == 0" class="row g-3 mt-4">
-      <p class="text-center text-secondary">Ainda não existem contatos cadastrados :(</p>
+    <div *ngIf="compromissos.length == 0" class="row g-3 mt-4">
+      <p class="text-center text-secondary">Ainda não existem compromissos cadastrados :(</p>
     </div>
   </div>
 </main>
+

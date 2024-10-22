@@ -24,7 +24,7 @@ export class AppComponent implements OnInit{
     private authService: AuthService,
     private usuarioService: UsuarioService,
     private localStorageService: LocalStorageService,
-    private notificacao: NotificacaoService
+    private notificacao: NotificacaoService,
   ) {}
 
   ngOnInit(): void {

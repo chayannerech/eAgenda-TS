@@ -6,8 +6,8 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Montserrat, "Helvetica Neue", sans-serif !important; }
 
 mat-error {
-  font-size: 15px;
-  margin-top: 5px;
+  font-size: 13px;
+  margin-top: 4px;
 }
 
 .notificacao-sucesso {
@@ -26,4 +26,9 @@ mat-error {
   --mdc-snackbar-container-color: #dd4f4f;
   --mdc-snackbar-supporting-text-color: #ffffff;
   --mat-snack-bar-button-color: #ffffff;
+}
+
+.app-form-field {
+  width: 100%;
+  margin-top: 15px;
 }

@@ -1,8 +1,19 @@
 <main class="container-fluid app-container-categorias">
-    <h1 class="fs-2 m-0">
-      <mat-icon class="app-icone-categorias">bookmarks</mat-icon>
-      Categorias
-    </h1>
+    <div class="d-flex justify-content-between align-items-center">
+      <h1 class="fs-2 m-0">
+        <mat-icon class="app-icone-categorias">bookmarks</mat-icon>
+        Categorias
+      </h1>
+      <section class="d-flex justify-content-end">
+        <a
+          mat-button
+          class="app-botao-home"
+          [routerLink]="['/dashboard']"
+        >
+          <mat-icon class="app-icone-home">home</mat-icon>
+        </a>
+      </section>
+    </div>
   <hr>
   <section
     class="row justify-content-center justify-content-lg-start g-1"
@@ -48,14 +59,3 @@
     </div>
   </div>
 </main>
-
-<section class="row justify-content-center justify-content-lg-start g-1">
-  <a
-    mat-button
-    class="col-sm-6 col-md-4 fs-6 py-4 my-4"
-    [routerLink]="['/dashboard']"
-  >
-    <mat-icon>keyboard_return</mat-icon>
-    Voltar
-  </a>
-</section>

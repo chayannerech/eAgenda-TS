@@ -36,6 +36,9 @@
             {{ con.nome }}
           </mat-card-title>
         </mat-card-header>
+        <mat-card-content class="mt-3">
+          <p>{{ con.cargo }}</p>
+        </mat-card-content>
         <mat-card-footer class="d-flex justify-content-end p-3 mt-auto gap-1">
           <a mat-icon-button
             class="app-btn-editar"
@@ -54,19 +57,8 @@
         </mat-card-footer>
       </mat-card>
     </div>
-    <div *ngIf="contatos.length == 0" class="row g-3 mt-2">
+    <div *ngIf="contatos.length == 0" class="row g-3 mt-4">
       <p class="text-center text-secondary">Ainda não existem contatos cadastrados :(</p>
     </div>
   </div>
 </main>
-
-<section class="row justify-content-center justify-content-lg-start g-1">
-  <a
-    mat-button
-    class="col-sm-6 col-md-4 fs-6 py-4 my-4"
-    [routerLink]="['/dashboard']"
-  >
-    <mat-icon>keyboard_return</mat-icon>
-    Voltar
-  </a>
-</section>

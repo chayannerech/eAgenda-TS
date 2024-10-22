@@ -1,1 +1,84 @@
-<p>inserir-contato works!</p>
+<main class="container-fluid p-5">
+  <h1 class="fs-2">Cadastrar Contato</h1>
+  <hr>
+
+  <div class="row g-3 mx-auto col-12 col-md-10 col-lg-8">
+    <form [formGroup]="contatoForm" (submit)="cadastrar()">
+      <mat-form-field class="app-form-field" appearance="fill">
+        <mat-label>Nome</mat-label>
+        <input formControlName="nome" matInput placeholder="Ex: Ana Júlia" />
+        <mat-icon matSuffix color="primary">subtitles</mat-icon>
+        <mat-error *ngIf="nome?.invalid && (nome?.errors)!['required']">
+          O nome é obrigatório!
+        </mat-error>
+        <mat-error *ngIf="nome?.invalid && (nome?.errors)!['minlength']">
+          O nome precisa conter ao menos 3 caracteres!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="app-form-field" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput placeholder="Ex: ana@email.com" />
+        <mat-icon matSuffix color="primary">subtitles</mat-icon>
+        <mat-error *ngIf="email?.invalid && (email?.errors)!['required']">
+          O email é obrigatório!
+        </mat-error>
+        <mat-error *ngIf="email?.invalid && (email?.errors)!['email']">
+          O email precisa seguir o formato "usuario&#64;dominio.com"
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="app-form-field" appearance="fill">
+        <mat-label>Empresa</mat-label>
+        <input formControlName="empresa" matInput placeholder="Ex: Anatel" />
+        <mat-icon matSuffix color="primary">subtitles</mat-icon>
+        <mat-error *ngIf="empresa?.invalid && (empresa?.errors)!['required']">
+          A empresa é obrigatória!
+        </mat-error>
+        <mat-error *ngIf="empresa?.invalid && (empresa?.errors)!['minlength']">
+          A empresa precisa conter ao menos 3 caracteres!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="app-form-field" appearance="fill">
+        <mat-label>Cargo</mat-label>
+        <input formControlName="cargo" matInput placeholder="Ex: Presidente" />
+        <mat-icon matSuffix color="primary">subtitles</mat-icon>
+        <mat-error *ngIf="cargo?.invalid && (cargo?.errors)!['required']">
+          O cargo é obrigatório!
+        </mat-error>
+        <mat-error *ngIf="cargo?.invalid && (cargo?.errors)!['minlength']">
+          O cargo precisa conter ao menos 3 caracteres!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="app-form-field" appearance="fill">
+        <mat-label>Telefone</mat-label>
+        <input formControlName="telefone" matInput mask="(00) 00000-0000" placeholder="Ex: (22) 99999-9999" />
+        <mat-icon matSuffix color="primary">subtitles</mat-icon>
+        <mat-error *ngIf="telefone?.invalid && (telefone?.errors)!['required']">
+          O telefone é obrigatório!
+        </mat-error>
+        <mat-error *ngIf="telefone?.invalid && (telefone?.errors)!['pattern']">
+          O telefone precisa conter 11 dígitos!
+        </mat-error>
+      </mat-form-field>
+
+      <div class="row justify-content-center g-2 gap-2 mt-3">
+        <button type="submit" mat-flat-button class="col-sm-4 col-md-3">
+          <mat-icon matIconPrefix>check</mat-icon>
+          Confirmar
+        </button>
+        <a
+          mat-stroked-button
+          type="button"
+          class="col-sm-4 col-md-3"
+          routerLink="/contatos"
+        >
+          <mat-icon matIconPrefix>keyboard_return</mat-icon>
+          Voltar
+        </a>
+      </div>
+    </form>
+  </div>
+</main>

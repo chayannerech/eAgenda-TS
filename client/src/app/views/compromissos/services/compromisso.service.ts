@@ -3,39 +3,39 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { LocalStorageService } from '../../../core/auth/service/local-storage.service';
-import { ContatoEditado, ContatoExcluido, ContatoInserido, DetalhesContato, EditarContato, InserirContato, ListarContatos } from '../models/contato.models';
+import { CompromissoEditado, CompromissoExcluido, CompromissoInserido, DetalhesCompromisso, EditarCompromisso, InserirCompromisso, ListarCompromissos } from '../models/compromisso.models';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class ContatoService {
-  private readonly url = `${environment.apiUrl}/contatos`;
+export class CompromissoService {
+  private readonly url = `${environment.apiUrl}/compromissos`;
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
 
-  cadastrar(novoContato: InserirContato): Observable<ContatoInserido> {
-    return this.http.post<ContatoInserido>(this.url, novoContato, this.obterHeadersDeAutorizacao());
+  cadastrar(novoCompromisso: InserirCompromisso): Observable<CompromissoInserido> {
+    return this.http.post<CompromissoInserido>(this.url, novoCompromisso, this.obterHeadersDeAutorizacao());
   }
 
-  editar(id: number, ContatoEditada: EditarContato): Observable<ContatoEditado> {
+  editar(id: number, CompromissoEditada: EditarCompromisso): Observable<CompromissoEditado> {
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.put<ContatoEditado>(urlCompleto, ContatoEditada, this.obterHeadersDeAutorizacao());
+    return this.http.put<CompromissoEditado>(urlCompleto, CompromissoEditada, this.obterHeadersDeAutorizacao());
   }
 
-  excluir(id: number): Observable<ContatoExcluido> {
+  excluir(id: number): Observable<CompromissoExcluido> {
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.delete<ContatoExcluido>(urlCompleto, this.obterHeadersDeAutorizacao());
+    return this.http.delete<CompromissoExcluido>(urlCompleto, this.obterHeadersDeAutorizacao());
   }
 
-  selecionarTodos(): Observable<ListarContatos[]> {
+  selecionarTodos(): Observable<ListarCompromissos[]> {
     const urlCompleto = `${this.url}`;
-    return this.http.get<ListarContatos[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
+    return this.http.get<ListarCompromissos[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }
 
-  selecionarPorId(id: number): Observable<DetalhesContato> {
+  selecionarPorId(id: number): Observable<DetalhesCompromisso> {
     const urlCompleto = `${this.url}/visualizacao-completa/${id}`;
-    return this.http.get<DetalhesContato>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
+    return this.http.get<DetalhesCompromisso>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }
 
   private obterHeadersDeAutorizacao() {

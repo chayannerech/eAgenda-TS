@@ -1,11 +1,11 @@
-export interface ListarContatos {
+export interface ListarCompromissos {
   id: number;
   assunto: string;
   data: string;
   horaInicio: string;
   horaTermino: string;
 }
-export interface InserirContato {
+export interface InserirCompromisso {
   assunto: string;
   local: string;
   tipoLocal: 0;
@@ -13,30 +13,9 @@ export interface InserirContato {
   data: string;
   horaInicio: string;
   horaTermino: string;
-  contatoId: number
+  CompromissoId: number
 }
-export interface ContatoInserido {
-  id: number;
-  assunto: string;
-  local: string;
-  tipoLocal: 0;
-  link: string;
-  data: string;
-  horaInicio: string;
-  horaTermino: string;
-  contatoId: number
-}
-export interface EditarContato {
-  assunto: string;
-  local: string;
-  tipoLocal: 0;
-  link: string;
-  data: string;
-  horaInicio: string;
-  horaTermino: string;
-  contatoId: number
-}
-export interface ContatoEditado {
+export interface CompromissoInserido {
   id: number;
   assunto: string;
   local: string;
@@ -45,9 +24,19 @@ export interface ContatoEditado {
   data: string;
   horaInicio: string;
   horaTermino: string;
-  contatoId: number
+  CompromissoId: number
 }
-export interface DetalhesContato {
+export interface EditarCompromisso {
+  assunto: string;
+  local: string;
+  tipoLocal: 0;
+  link: string;
+  data: string;
+  horaInicio: string;
+  horaTermino: string;
+  CompromissoId: number
+}
+export interface CompromissoEditado {
   id: number;
   assunto: string;
   local: string;
@@ -56,7 +45,18 @@ export interface DetalhesContato {
   data: string;
   horaInicio: string;
   horaTermino: string;
-  contato: ContatoEmCompromissoViewModel
+  CompromissoId: number
+}
+export interface DetalhesCompromisso {
+  id: number;
+  assunto: string;
+  local: string;
+  tipoLocal: 0;
+  link: string;
+  data: string;
+  horaInicio: string;
+  horaTermino: string;
+  Compromisso: ContatoEmCompromissoViewModel
 }
 export interface ContatoEmCompromissoViewModel {
   id: number;
@@ -66,4 +66,4 @@ export interface ContatoEmCompromissoViewModel {
   telefone: string;
 }
 
-export interface ContatoExcluido {}
+export interface CompromissoExcluido {}

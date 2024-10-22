@@ -1,1 +1,35 @@
-<p>excluir-contato works!</p>
+<main class="container my-4">
+  <div
+    *ngIf="contato$ | async as categoria"
+    class="row justify-content-center g-3 mt-2"
+  >
+    <div class="col col-lg-8 col-xxl-6">
+      <h1 class="fs-2">Excluir contato</h1>
+      <hr />
+
+      <p>Deseja realmente excluir o contato "{{ categoria.nome }}"?</p>
+
+      <div class="row justify-content-end g-2 gap-1 mt-5">
+        <button
+          (click)="excluir()"
+          mat-flat-button
+          class="col-md-3"
+          type="button"
+        >
+          <mat-icon>check</mat-icon>
+          Confirmar
+        </button>
+
+        <button
+          mat-stroked-button
+          class="col-md-3"
+          type="button"
+          routerLink="/contatos"
+        >
+          <mat-icon>keyboard_return</mat-icon>
+          Voltar
+        </button>
+      </div>
+    </div>
+  </div>
+</main>

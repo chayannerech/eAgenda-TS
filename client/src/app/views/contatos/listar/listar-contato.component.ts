@@ -14,7 +14,7 @@ import { ListarContatos } from '../models/contato.models';
   standalone: true,
   imports: [ RouterLink, NgForOf, NgIf, AsyncPipe, MatCardModule, MatButtonModule, MatIconModule, MatTooltipModule ],
   templateUrl: './listar-contato.component.html',
-  styleUrl: './listar-contato.component.scss'
+  styleUrl: '../styles/contatos.scss'
 })
 
 export class ListarContatosComponent {

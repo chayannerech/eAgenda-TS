@@ -26,6 +26,7 @@ import { toTitleCase } from '../../../app.component';
     NgxMaskDirective
   ],
   templateUrl: './editar-contato.component.html',
+  styleUrl: '../styles/contatos.scss',
   providers: [provideNgxMask()]
 })
 

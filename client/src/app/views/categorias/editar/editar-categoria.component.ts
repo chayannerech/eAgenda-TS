@@ -14,6 +14,7 @@ import { NotificacaoService } from '../../../core/notificacao/notificacao.servic
   standalone: true,
   imports: [ RouterLink, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule ],
   templateUrl: './editar-categoria.component.html',
+  styleUrl: '../styles/categorias.scss',
 })
 export class EditarCategoriaComponent implements OnInit{
   id?: number;

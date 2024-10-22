@@ -26,7 +26,7 @@ import { toTitleCase } from '../../../app.component';
     NgxMaskDirective
   ],
   templateUrl: './inserir-contato.component.html',
-  styleUrl: './inserir-contato.component.scss',
+  styleUrl: '../styles/contatos.scss',
   providers: [provideNgxMask()]
 })
 

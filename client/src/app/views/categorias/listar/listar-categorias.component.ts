@@ -14,7 +14,7 @@ import { Observable, tap } from 'rxjs';
   standalone: true,
   imports: [ RouterLink, NgForOf, NgIf, AsyncPipe, MatCardModule, MatButtonModule, MatIconModule, MatTooltipModule ],
   templateUrl: './listar-categorias.component.html',
-  styleUrl: './listar-categorias.component.scss'
+  styleUrl: '../styles/categorias.scss'
 })
 
 export class ListarCategoriasComponent implements OnInit {

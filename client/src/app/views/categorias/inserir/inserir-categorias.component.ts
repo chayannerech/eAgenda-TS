@@ -15,7 +15,7 @@ import { NgIf } from '@angular/common';
   standalone: true,
   imports: [ NgIf, RouterLink, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule ],
   templateUrl: './inserir-categorias.component.html',
-  styleUrl: './inserir-categorias.component.scss'
+  styleUrl: '../styles/categorias.scss'
 })
 
 export class InserirCategoriaComponent {

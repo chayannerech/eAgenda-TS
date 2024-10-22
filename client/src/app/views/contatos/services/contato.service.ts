@@ -14,8 +14,8 @@ export class ContatoService {
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
 
-  cadastrar(novaContato: InserirContato): Observable<ContatoInserido> {
-    return this.http.post<ContatoInserido>(this.url, novaContato, this.obterHeadersDeAutorizacao());
+  cadastrar(novoContato: InserirContato): Observable<ContatoInserido> {
+    return this.http.post<ContatoInserido>(this.url, novoContato, this.obterHeadersDeAutorizacao());
   }
 
   editar(id: number, ContatoEditada: EditarContato): Observable<ContatoEditado> {

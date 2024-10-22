@@ -1,5 +1,19 @@
 <main class="container-fluid p-5">
-  <h1 class="fs-2">Cadastrar Contato</h1>
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="fs-2 m-0">
+      <mat-icon class="app-icone-contatos">people</mat-icon>
+      Cadastrar contato
+    </h1>
+    <section class="d-flex justify-content-end">
+      <a
+        mat-button
+        class="app-botao-home"
+        [routerLink]="['/dashboard']"
+      >
+        <mat-icon class="app-icone-home">home</mat-icon>
+      </a>
+    </section>
+  </div>
   <hr>
 
   <div class="row g-3 mx-auto col-12 col-md-10 col-lg-8">

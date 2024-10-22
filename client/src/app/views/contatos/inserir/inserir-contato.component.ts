@@ -10,6 +10,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { InserirContato } from '../models/contato.models';
+import { ContatoService } from '../services/contato.service';
+import { toTitleCase } from '../../../app.component';
 
 @Component({
   selector: 'app-inserir-contato',
@@ -25,6 +28,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
     NgxMaskDirective
   ],
   templateUrl: './inserir-contato.component.html',
+  styleUrl: './inserir-contato.component.scss',
   providers: [provideNgxMask()]
 })
 
@@ -33,7 +37,7 @@ export class InserirContatoComponent {
 
   constructor(
     private router: Router,
-    private categoriaService: CategoriaService,
+    private contatoService: ContatoService,
     private notificacao: NotificacaoService
   ) {
     this.contatoForm = new FormGroup({
@@ -69,14 +73,29 @@ export class InserirContatoComponent {
   cadastrar() {
     if (this.contatoForm.invalid) return;
 
-    const novaCategoria: InserirCategoria = this.contatoForm.value;
+    const novoContato: InserirContato = this.contatoForm.value;
+    this.formatarContato(novoContato);
 
-    this.categoriaService.cadastrar(novaCategoria).subscribe((res) => {
+    this.contatoService.cadastrar(novoContato).subscribe((res) => {
       this.notificacao.sucesso(
-        `A categoria '${novaCategoria.titulo}' foi cadastrada com sucesso!`
+        `O contato '${toTitleCase(novoContato.nome)}' foi cadastrado com sucesso!`
       );
 
-      this.router.navigate(['/categorias']);
+      this.router.navigate(['/contatos']);
     });
+  }
+
+  private formatarContato(novoContato: InserirContato) {
+    novoContato.nome = toTitleCase(novoContato.nome);
+    novoContato.empresa = toTitleCase(novoContato.empresa);
+    novoContato.cargo = toTitleCase(novoContato.cargo);
+    novoContato.telefone = this.formatarTelefone(novoContato.telefone);
+  }
+
+  private formatarTelefone(telefone: string): string {
+    const ddd = telefone.slice(0, 2);
+    const parte1 = telefone.slice(2, 7);
+    const parte2 = telefone.slice(7, 11);
+    return `(${ddd}) ${parte1}-${parte2}`;
   }
 }

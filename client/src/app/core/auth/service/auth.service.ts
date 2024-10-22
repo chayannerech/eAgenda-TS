@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
-import { catchError, map, Observable, throwError } from "rxjs";
+import { map, Observable, throwError } from "rxjs";
 import { LoginUsuarioViewModel, RegistrarUsuarioViewModel, TokenViewModel } from "../models/auth.models";
 
 @Injectable()
@@ -18,15 +18,22 @@ export class AuthService {
       .pipe(map(this.processarDados));
   }
 
-  public entrar(usuarioLogin: LoginUsuarioViewModel): Observable<TokenViewModel> {
+  public login(usuarioLogin: LoginUsuarioViewModel): Observable<TokenViewModel> {
     const urlCompleto = `${this.apiUrl}/contas/autenticar`;
 
     return this.http
-      .post<TokenViewModel>(urlCompleto, usuarioLogin)
-      .pipe(
-        map(this.processarDados),
-        catchError(() => throwError(() => new Error('Falha na autenticação')))
-      );
+    .post<TokenViewModel>(urlCompleto, usuarioLogin)
+    .pipe(map(this.processarDados)
+    );
+  }
+
+  public logout() {
+    const urlCompleto = `${this.apiUrl}/contas/sair`;
+    return this.http.post(urlCompleto, {});
+  }
+
+  public validarExpiracaoDoToken(dataExpiracao: Date): boolean {
+    return dataExpiracao > new Date();
   }
 
   private processarDados(resposta: any): TokenViewModel {

@@ -1,0 +1,48 @@
+<main class="container-fluid app-container-categorias">
+  <h1 class="fs-2">Categorias</h1>
+  <hr>
+  <section
+    aria-label="Opções"
+    class="row justify-content-center justify-content-lg-start g-1"
+  >
+    <a
+      mat-button
+      class="col-sm-6 col-md-4 fs-6 py-4 mb-3 app-botao-cadastrar"
+      [routerLink]="['/categorias', 'inserir']"
+    >
+      <mat-icon>bookmark_add</mat-icon>
+      Cadastrar
+    </a>
+  </section>
+
+  <div *ngIf="categorias$ | async as categorias" class="row g-3 mt-2">
+    <div *ngFor="let cat of categorias" class="col-sm-6 col-md-4 col-xxl-3">
+      <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-categorias">
+        <mat-card-header>
+          <mat-card-title class="app-titulo-card">
+            {{ cat.titulo }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-footer class="d-flex justify-content-end p-3 mt-auto gap-1">
+          <a mat-icon-button
+            class="app-btn-editar"
+            [routerLink]="['/categorias', 'editar', cat.id]"
+            matTooltip="Editar {{ cat.titulo }}"
+          >
+            <mat-icon> edit </mat-icon>
+          </a>
+          <a mat-icon-button
+            class="app-btn-excluir"
+            [routerLink]="['/categorias', 'excluir', cat.id]"
+            matTooltip="Excluir {{ cat.titulo }}"
+          >
+            <mat-icon> delete </mat-icon>
+          </a>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+    <div *ngIf="categorias.length == 0" class="row g-3 mt-2">
+      <p class="text-center text-secondary">Ainda não existem categorias cadastradas :(</p>
+    </div>
+  </div>
+</main>

@@ -9,8 +9,8 @@ import { LocalStorageService } from '../../../core/auth/service/local-storage.se
   providedIn: 'root'
 })
 
-export class CategoriaService {
-  private readonly url = `${environment.apiUrl}/categorias`;
+export class ContatoService {
+  private readonly url = `${environment.apiUrl}/contatos`;
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
 

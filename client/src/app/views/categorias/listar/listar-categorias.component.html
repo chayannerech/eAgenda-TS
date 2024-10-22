@@ -1,13 +1,15 @@
 <main class="container-fluid app-container-categorias">
-  <h1 class="fs-2">Categorias</h1>
+    <h1 class="fs-2 m-0">
+      <mat-icon class="app-icone-categorias">bookmarks</mat-icon>
+      Categorias
+    </h1>
   <hr>
   <section
-    aria-label="Opções"
     class="row justify-content-center justify-content-lg-start g-1"
   >
     <a
       mat-button
-      class="col-sm-6 col-md-4 fs-6 py-4 mb-3 app-botao-cadastrar"
+      class="col-sm-6 col-md-4 fs-6 py-4 mb-3 app-botao-categorias"
       [routerLink]="['/categorias', 'inserir']"
     >
       <mat-icon>bookmark_add</mat-icon>
@@ -46,3 +48,14 @@
     </div>
   </div>
 </main>
+
+<section class="row justify-content-center justify-content-lg-start g-1">
+  <a
+    mat-button
+    class="col-sm-6 col-md-4 fs-6 py-4 my-4"
+    [routerLink]="['/dashboard']"
+  >
+    <mat-icon>keyboard_return</mat-icon>
+    Voltar
+  </a>
+</section>

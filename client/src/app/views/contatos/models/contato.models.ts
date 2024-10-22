@@ -13,7 +13,7 @@ export interface InserirContato {
   cargo: string;
   telefone: string;
 }
-export interface ContatoInserida {
+export interface ContatoInserido {
   id: number;
   nome: string;
   email: string;
@@ -28,7 +28,7 @@ export interface EditarContato {
   cargo: string;
   telefone: string;
 }
-export interface ContatoEditada {
+export interface ContatoEditado {
   id: number;
   nome: string;
   email: string;
@@ -45,4 +45,4 @@ export interface DetalhesContato {
   telefone: string;
 }
 
-export interface ContatoExcluida {}
+export interface ContatoExcluido {}

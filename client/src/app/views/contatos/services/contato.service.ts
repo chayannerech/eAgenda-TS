@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CategoriaEditada, CategoriaExcluida, CategoriaInserida, DetalhesCategoria, EditarCategoria, InserirCategoria, ListarCategorias } from '../models/categoria.models';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { LocalStorageService } from '../../../core/auth/service/local-storage.service';
+import { ContatoEditado, ContatoExcluido, ContatoInserido, DetalhesContato, EditarContato, InserirContato, ListarContatos } from '../models/contato.models';
 
 @Injectable({
   providedIn: 'root'
@@ -14,28 +14,28 @@ export class ContatoService {
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
 
-  cadastrar(novaCategoria: InserirCategoria): Observable<CategoriaInserida> {
-    return this.http.post<CategoriaInserida>(this.url, novaCategoria, this.obterHeadersDeAutorizacao());
+  cadastrar(novaContato: InserirContato): Observable<ContatoInserido> {
+    return this.http.post<ContatoInserido>(this.url, novaContato, this.obterHeadersDeAutorizacao());
   }
 
-  editar(id: number, categoriaEditada: EditarCategoria): Observable<CategoriaEditada> {
+  editar(id: number, ContatoEditada: EditarContato): Observable<ContatoEditado> {
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.put<CategoriaEditada>(urlCompleto, categoriaEditada, this.obterHeadersDeAutorizacao());
+    return this.http.put<ContatoEditado>(urlCompleto, ContatoEditada, this.obterHeadersDeAutorizacao());
   }
 
-  excluir(id: number): Observable<CategoriaExcluida> {
+  excluir(id: number): Observable<ContatoExcluido> {
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.delete<CategoriaExcluida>(urlCompleto, this.obterHeadersDeAutorizacao());
+    return this.http.delete<ContatoExcluido>(urlCompleto, this.obterHeadersDeAutorizacao());
   }
 
-  selecionarTodos(): Observable<ListarCategorias[]> {
+  selecionarTodos(): Observable<ListarContatos[]> {
     const urlCompleto = `${this.url}`;
-    return this.http.get<ListarCategorias[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
+    return this.http.get<ListarContatos[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }
 
-  selecionarPorId(id: number): Observable<DetalhesCategoria> {
+  selecionarPorId(id: number): Observable<DetalhesContato> {
     const urlCompleto = `${this.url}/visualizacao-completa/${id}`;
-    return this.http.get<DetalhesCategoria>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
+    return this.http.get<DetalhesContato>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }
 
   private obterHeadersDeAutorizacao() {

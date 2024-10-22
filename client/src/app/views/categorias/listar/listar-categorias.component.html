@@ -1,23 +1,23 @@
 <main class="container-fluid app-container-categorias">
   <h1 class="fs-2">Categorias</h1>
+  <hr>
   <section
     aria-label="Opções"
     class="row justify-content-center justify-content-lg-start g-1"
   >
     <a
-      mat-raised-button
-      class="col-md-6 col-lg-4 col-xxl-2 fs-6 py-4"
+      mat-button
+      class="col-sm-6 col-md-4 fs-6 py-4 mb-3 app-botao-cadastrar"
       [routerLink]="['/categorias', 'inserir']"
     >
       <mat-icon>bookmark_add</mat-icon>
       Cadastrar
     </a>
   </section>
-  <hr>
 
   <div *ngIf="categorias$ | async as categorias" class="row g-3 mt-2">
-    <div *ngFor="let cat of categorias" class="col-lg-4 col-xxl-3">
-      <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100">
+    <div *ngFor="let cat of categorias" class="col-sm-6 col-md-4 col-xxl-3">
+      <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-categorias">
         <mat-card-header>
           <mat-card-title class="app-titulo-card">
             {{ cat.titulo }}
@@ -40,6 +40,9 @@
           </a>
         </mat-card-footer>
       </mat-card>
+    </div>
+    <div *ngIf="categorias.length == 0" class="row g-3 mt-2">
+      <p class="text-center text-secondary">Ainda não existem categorias cadastradas :(</p>
     </div>
   </div>
 </main>

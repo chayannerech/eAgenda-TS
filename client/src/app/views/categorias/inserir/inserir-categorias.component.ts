@@ -44,7 +44,7 @@ export class InserirCategoriaComponent {
 
     this.categoriaService.cadastrar(novaCategoria).subscribe((res) => {
       this.notificacao.sucesso(
-        `A categoria ${res.titulo} foi cadastrada com sucesso!`
+        `A categoria '${novaCategoria.titulo}' foi cadastrada com sucesso!`
       );
 
       this.router.navigate(['/categorias']);

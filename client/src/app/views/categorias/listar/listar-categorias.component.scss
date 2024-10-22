@@ -1,13 +1,21 @@
 .app-container-categorias {
-  padding: 30px 50px;
+  padding: 50px;
+}
+
+.app-card-categorias {
+  background-color: #3d3d3d;
+}
+
+.app-botao-cadastrar {
+  border: 1px solid rgb(114, 114, 114);
 }
 
 .app-btn-editar {
-  background-color: #d7e3ff;
-  color: #3360bb;
+  color: #ffffff;
+  border: 1px solid rgb(39, 39, 39);
 }
 
 .app-btn-excluir {
-  background-color: #ffcdd5;
-  color: #8b5959;
+  color: #942626;
+  border: 1px solid rgb(39, 39, 39);
 }

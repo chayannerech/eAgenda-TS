@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CategoriaEditada, CategoriaExcluida, CategoriaInserida, DetalhesCategoria, EditarCategoria, InserirCategoria, ListarCategorias } from '../models/categoria.models';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { LocalStorageService } from '../../../core/auth/service/local-storage.service';
 
@@ -29,24 +29,23 @@ export class CategoriaService {
   }
 
   selecionarTodos(): Observable<ListarCategorias[]> {
-    const urlCompleto = `${this.url}?_expand=categoria`;
+    const urlCompleto = `${this.url}`;
     return this.http.get<ListarCategorias[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }
 
   selecionarPorId(id: number): Observable<DetalhesCategoria> {
-    const urlCompleto = `${this.url}/${id}`;
-    return this.http.get<DetalhesCategoria>(urlCompleto, this.obterHeadersDeAutorizacao());
+    const urlCompleto = `${this.url}/visualizacao-completa/${id}`;
+    return this.http.get<DetalhesCategoria>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }
 
   private obterHeadersDeAutorizacao() {
     const chave = this.localStorageService.obterTokenAutenticacao()?.chave ?? "";
 
     return {
-      method: 'GET',
-      headers: {
+      headers: new HttpHeaders( {
         accept: 'application/json',
         Authorization: `Bearer ${chave}`
-      }
+      })
     }
   }
 

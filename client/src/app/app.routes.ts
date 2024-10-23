@@ -7,6 +7,7 @@ import { UsuarioService } from './core/auth/service/usuario.service';
 import { inject } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { contatosRoutes } from './views/contatos/contatos.routes';
+import { compromissosRoutes } from './views/compromissos/compromissos.routes';
 
 const authGuard: CanMatchFn = (): Observable<boolean | UrlTree> => {
   const router = inject(Router);
@@ -42,4 +43,5 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canMatch:[authGuard]},
   { path: 'categorias', children: categoriasRoutes, canMatch:[authGuard]},
   { path: 'contatos', children: contatosRoutes, canMatch:[authGuard]},
+  { path: 'compromissos', children: compromissosRoutes, canMatch:[authGuard]},
 ];

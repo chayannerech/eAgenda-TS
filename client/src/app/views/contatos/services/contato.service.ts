@@ -18,12 +18,12 @@ export class ContatoService {
     return this.http.post<ContatoInserido>(this.url, novoContato, this.obterHeadersDeAutorizacao());
   }
 
-  editar(id: number, ContatoEditada: EditarContato): Observable<ContatoEditado> {
+  editar(id: string, ContatoEditada: EditarContato): Observable<ContatoEditado> {
     const urlCompleto = `${this.url}/${id}`;
     return this.http.put<ContatoEditado>(urlCompleto, ContatoEditada, this.obterHeadersDeAutorizacao());
   }
 
-  excluir(id: number): Observable<ContatoExcluido> {
+  excluir(id: string): Observable<ContatoExcluido> {
     const urlCompleto = `${this.url}/${id}`;
     return this.http.delete<ContatoExcluido>(urlCompleto, this.obterHeadersDeAutorizacao());
   }
@@ -33,7 +33,7 @@ export class ContatoService {
     return this.http.get<ListarContatos[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }
 
-  selecionarPorId(id: number): Observable<DetalhesContato> {
+  selecionarPorId(id: string): Observable<DetalhesContato> {
     const urlCompleto = `${this.url}/visualizacao-completa/${id}`;
     return this.http.get<DetalhesContato>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }

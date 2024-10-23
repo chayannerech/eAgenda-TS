@@ -18,12 +18,12 @@ export class CategoriaService {
     return this.http.post<CategoriaInserida>(this.url, novaCategoria, this.obterHeadersDeAutorizacao());
   }
 
-  editar(id: number, categoriaEditada: EditarCategoria): Observable<CategoriaEditada> {
+  editar(id: string, categoriaEditada: EditarCategoria): Observable<CategoriaEditada> {
     const urlCompleto = `${this.url}/${id}`;
     return this.http.put<CategoriaEditada>(urlCompleto, categoriaEditada, this.obterHeadersDeAutorizacao());
   }
 
-  excluir(id: number): Observable<CategoriaExcluida> {
+  excluir(id: string): Observable<CategoriaExcluida> {
     const urlCompleto = `${this.url}/${id}`;
     return this.http.delete<CategoriaExcluida>(urlCompleto, this.obterHeadersDeAutorizacao());
   }
@@ -33,7 +33,7 @@ export class CategoriaService {
     return this.http.get<ListarCategorias[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }
 
-  selecionarPorId(id: number): Observable<DetalhesCategoria> {
+  selecionarPorId(id: string): Observable<DetalhesCategoria> {
     const urlCompleto = `${this.url}/visualizacao-completa/${id}`;
     return this.http.get<DetalhesCategoria>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }

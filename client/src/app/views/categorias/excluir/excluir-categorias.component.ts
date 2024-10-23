@@ -17,7 +17,7 @@ import { toTitleCase } from '../../../app.component';
 })
 
 export class ExcluirCategoriaComponent implements OnInit {
-  id?: number;
+  id?: string;
   categoria$?: Observable<DetalhesCategoria>;
   nomeDaCategoria: string;
 

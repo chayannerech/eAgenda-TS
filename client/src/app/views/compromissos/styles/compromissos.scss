@@ -1,12 +1,12 @@
-.app-container-categorias {
+.app-container-compromissos {
   padding: 50px;
 }
 
-.app-card-categorias {
+.app-card-compromissos {
   background-color: #3d3d3d;
 }
 
-.app-botao-categorias {
+.app-botao-compromissos {
   border: 1px solid rgb(114, 114, 114);
 }
 
@@ -19,12 +19,12 @@
   padding: 0;
 }
 
-.app-icone-contatos {
+.app-icone-compromissos {
   width: 64px;
   height: 64px;
   display: inline-flex;
   justify-content: center;
-  margin-right: 15px;
+  margin: 0 10px;
   font-size: 30px;
   width: 25px;
   height: 26px;
@@ -46,4 +46,13 @@
 .app-btn-excluir {
   color: #942626;
   border: 1px solid rgb(39, 39, 39);
+}
+
+.app-input-forjado {
+  background-color: var(--mdc-filled-text-field-container-color, var(--mat-app-surface-variant));
+  padding: 9px 16px;
+  height: 56px;
+  border-bottom: 1px solid white;
+  border-radius: 4px 4px 0 0;
+  font-family: var(--mat-form-field-container-text-font, var(--mat-app-body-large-font));
 }

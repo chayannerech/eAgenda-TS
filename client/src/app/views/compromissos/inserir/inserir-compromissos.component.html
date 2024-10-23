@@ -1,0 +1,124 @@
+<main class="container-fluid p-5">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="fs-2 m-0">
+      <mat-icon class="app-icone-compromissos">checklist</mat-icon>
+      Cadastrar compromisso
+    </h1>
+    <section class="d-flex justify-content-end">
+      <a mat-button class="app-botao-home" [routerLink]="['/dashboard']">
+        <mat-icon class="app-icone-home">home</mat-icon>
+      </a>
+    </section>
+  </div>
+  <hr>
+
+  <div class="row g-3 mx-auto col-12 col-md-10 col-lg-8">
+    <form [formGroup]="compromissoForm" (ngSubmit)="cadastrar()">
+
+      <mat-form-field class="app-form-field" appearance="fill">
+        <mat-label>Assunto</mat-label>
+        <input formControlName="assunto" matInput placeholder="Ex: Não lavar o cachorro" />
+        <mat-icon matSuffix color="primary">subtitles</mat-icon>
+        <mat-error *ngIf="compromissoForm.get('assunto')!.invalid && compromissoForm.get('assunto')?.errors?.['required']">
+          O assunto é obrigatório!
+        </mat-error>
+        <mat-error *ngIf="compromissoForm.get('assunto')!.invalid && compromissoForm.get('assunto')?.errors?.['minlength']">
+          O assunto precisa conter ao menos 3 caracteres!
+        </mat-error>
+      </mat-form-field>
+
+      <div class="d-flex align-items-center mb-4 app-form-field">
+        <div class="app-input-forjado h-auto w-100">
+          <mat-label class="me-5 mt-2">Tipo de Local</mat-label>
+          <mat-radio-group formControlName="tipoLocal" aria-label="Tipo de Local" (change)="tipoDeLocalEscolhido($event)">
+            <mat-radio-button value = '1' class="me-4">Presencial</mat-radio-button>
+            <mat-radio-button value = '0' >Remoto</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+
+      <mat-form-field class="app-form-field" appearance="fill">
+        <mat-label>Local</mat-label>
+        <input formControlName="local" matInput placeholder="Ex: sala 104" />
+        <mat-icon matSuffix color="primary">place</mat-icon>
+        <mat-error *ngIf="compromissoForm.get('local')!.invalid && compromissoForm.get('local')?.errors?.['required']">
+          O local é obrigatório!
+        </mat-error>
+        <mat-error *ngIf="compromissoForm.get('local')!.invalid && compromissoForm.get('local')?.errors?.['minlength']">
+          O local precisa conter ao menos 3 caracteres!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="app-form-field" appearance="fill">
+        <mat-label>Link</mat-label>
+        <input formControlName="link" matInput placeholder="Ex: https://reuniao.com" />
+        <mat-icon matSuffix color="primary">link</mat-icon>
+        <mat-error *ngIf="link?.invalid && link?.errors?.['required']">
+          O link é obrigatório!
+        </mat-error>
+        <mat-error *ngIf="link?.invalid && link?.errors?.['pattern']">
+          O link precisa estar no formato de um URL padrão!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="app-form-field" appearance="fill">
+        <mat-label>Data</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="data" placeholder="Escolha uma data">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="compromissoForm.get('data')?.invalid && compromissoForm.get('data')?.errors?.['required']">
+          A data é obrigatória!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="app-form-field" appearance="fill">
+        <mat-label>Hora de Início</mat-label>
+        <input formControlName="horaInicio" matInput placeholder="Ex: 09:00" />
+        <mat-icon matSuffix color="primary">schedule</mat-icon>
+        <mat-error *ngIf="compromissoForm.get('horaInicio')?.invalid && compromissoForm.get('horaInicio')?.errors?.['required']">
+          A hora de início é obrigatória!
+        </mat-error>
+        <mat-error *ngIf="compromissoForm.get('horaInicio')?.invalid && compromissoForm.get('horaInicio')?.errors?.['pattern']">
+          Informe uma hora válida no formato HH:mm!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="app-form-field" appearance="fill">
+        <mat-label>Hora de Término</mat-label>
+        <input formControlName="horaTermino" matInput placeholder="Ex: 10:30" />
+        <mat-icon matSuffix color="primary">schedule</mat-icon>
+        <mat-error *ngIf="compromissoForm.get('horaTermino')?.invalid && compromissoForm.get('horaTermino')?.errors?.['required']">
+          A hora de término é obrigatória!
+        </mat-error>
+        <mat-error *ngIf="compromissoForm.get('horaTermino')?.invalid && compromissoForm.get('horaTermino')?.errors?.['pattern']">
+          Informe uma hora válida no formato HH:mm!
+        </mat-error>
+      </mat-form-field>
+
+      <div *ngIf="contatos$ | async as contatos">
+        <mat-form-field class="app-form-field" appearance="fill">
+          <mat-label>Contato</mat-label>
+          <mat-select formControlName="contatoId" placeholder="Selecione um contato">
+            <mat-option *ngFor="let contato of contatos" [value]="contato.id">
+              {{ contato.nome }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="compromissoForm.get('contatoId')?.invalid && compromissoForm.get('contatoId')?.errors?.['required']">
+            O contato é obrigatório!
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="row justify-content-center g-2 gap-2 mt-3">
+        <button type="submit" mat-flat-button class="col-sm-4 col-md-3">
+          <mat-icon matIconPrefix>check</mat-icon>
+          Confirmar
+        </button>
+        <a mat-stroked-button type="button" class="col-sm-4 col-md-3" routerLink="/compromissos">
+          <mat-icon matIconPrefix>keyboard_return</mat-icon>
+          Voltar
+        </a>
+      </div>
+    </form>
+  </div>
+</main>

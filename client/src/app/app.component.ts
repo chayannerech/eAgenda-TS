@@ -61,3 +61,11 @@ export function toTitleCase(nomeRecebido: string) {
 
   return nomeSeparado.join('');
 }
+
+export function formatarComponente(novoCompromisso: any) {
+  for (const key in novoCompromisso) {
+    if (typeof novoCompromisso[key as keyof any] === 'string') {
+      (novoCompromisso[key as keyof any] as string) = toTitleCase(novoCompromisso[key as keyof any]);
+    }
+  }
+}

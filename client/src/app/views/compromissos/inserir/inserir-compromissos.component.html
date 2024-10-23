@@ -31,8 +31,8 @@
         <div class="app-input-forjado h-auto w-100">
           <mat-label class="me-5 mt-2">Tipo de Local</mat-label>
           <mat-radio-group formControlName="tipoLocal" aria-label="Tipo de Local" (change)="tipoDeLocalEscolhido($event)">
-            <mat-radio-button value = 0 class="me-4">Presencial</mat-radio-button>
-            <mat-radio-button value = 1 >Remoto</mat-radio-button>
+            <mat-radio-button value = '1' class="me-4">Presencial</mat-radio-button>
+            <mat-radio-button value = '0' >Remoto</mat-radio-button>
           </mat-radio-group>
         </div>
       </div>
@@ -100,7 +100,7 @@
           <mat-label>Contato</mat-label>
           <mat-select formControlName="contatoId" placeholder="Selecione um contato">
             <mat-option *ngFor="let contato of contatos" [value]="contato.id">
-              {{ contato.id }}
+              {{ contato.nome }}
             </mat-option>
           </mat-select>
           <mat-error *ngIf="compromissoForm.get('contatoId')?.invalid && compromissoForm.get('contatoId')?.errors?.['required']">

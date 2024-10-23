@@ -58,7 +58,7 @@ export class InserirCompromissosComponent implements OnInit {
     this.compromissoForm = this.fb.group({
       assunto: ['', [ Validators.required, Validators.minLength(3) ]],
       local: ['', [ Validators.required, Validators.minLength(3) ]],
-      tipoLocal: ['0', [ Validators.required ]],
+      tipoLocal: ['1', [ Validators.required ]],
       link: ['', Validators.required],
       data: ['', Validators.required],
       horaInicio: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
@@ -69,7 +69,7 @@ export class InserirCompromissosComponent implements OnInit {
 
   ngOnInit(): void {
     this.contatos$ = this.contatoService.selecionarTodos();
-    this.tipoDeLocalEscolhido({ value: '0' });
+    this.tipoDeLocalEscolhido({ value: '1' });
 
     this.tipoLocal!.valueChanges.subscribe(value => {
       this.tipoDeLocalEscolhido(value);
@@ -90,7 +90,8 @@ export class InserirCompromissosComponent implements OnInit {
 
     const novoCompromisso: InserirCompromisso = this.compromissoForm.value;
     formatarComponente(novoCompromisso);
-    this.ajustarTipoDeLocal(novoCompromisso);
+
+    this.formatarTipoDeLocal(novoCompromisso);
 
     this.compromissoService.cadastrar(novoCompromisso).subscribe(() => {
       this.notificacao.sucesso(
@@ -101,18 +102,8 @@ export class InserirCompromissosComponent implements OnInit {
     });
   }
 
-  private ajustarTipoDeLocal(novoCompromisso: InserirCompromisso) {
-    if (novoCompromisso.tipoLocal == 0) {
-      novoCompromisso.link = "https://www.google.com.br/";
-      novoCompromisso.tipoLocal = 0;
-    } else {
-      novoCompromisso.local = "nulo";
-      novoCompromisso.tipoLocal = 1;
-    }
-  }
-
-  tipoDeLocalEscolhido(event: any) {
-    if (event.value === '0') {
+  public tipoDeLocalEscolhido(event: any) {
+    if (event.value === '1') {
       this.local!.enable();
       this.link!.disable();
 
@@ -130,5 +121,12 @@ export class InserirCompromissosComponent implements OnInit {
 
     this.local?.updateValueAndValidity();
     this.link?.updateValueAndValidity();
+  }
+
+  private formatarTipoDeLocal(novoCompromisso: InserirCompromisso) {
+    if (novoCompromisso.tipoLocal == 0)
+      novoCompromisso.tipoLocal = 0;
+    else
+      novoCompromisso.tipoLocal = 1;
   }
 }

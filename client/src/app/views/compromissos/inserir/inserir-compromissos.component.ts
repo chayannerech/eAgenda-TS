@@ -12,7 +12,7 @@ import { InserirCompromisso } from '../models/compromisso.models';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatOption, MatOptionModule } from '@angular/material/core';
-import { NgIf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
   imports: [
     RouterLink,
     NgIf,
+    NgForOf,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,

@@ -31,7 +31,7 @@ import { toTitleCase } from '../../../app.component';
 })
 
 export class EditarContatoComponent implements OnInit {
-  id?: number;
+  id?: string;
   contatoForm: FormGroup;
 
   constructor(
@@ -82,7 +82,7 @@ export class EditarContatoComponent implements OnInit {
     if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
     const contatoEditado: EditarContato = this.contatoForm.value;
-    this.formatarContato(contatoEditado);
+    this.formatarComponente(contatoEditado);
 
     this.contatoService.editar(this.id, contatoEditado).subscribe((res) => {
       this.notificacao.sucesso(
@@ -93,7 +93,7 @@ export class EditarContatoComponent implements OnInit {
     });
   }
 
-  private formatarContato(contatoEditado: InserirContato) {
+  private formatarComponente(contatoEditado: InserirContato) {
     contatoEditado.nome = toTitleCase(contatoEditado.nome);
     contatoEditado.empresa = toTitleCase(contatoEditado.empresa);
     contatoEditado.cargo = toTitleCase(contatoEditado.cargo);

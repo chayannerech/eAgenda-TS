@@ -18,7 +18,7 @@ import { DetalhesContato } from '../models/contato.models';
 })
 
 export class ExcluirContatoComponent {
-  id?: number;
+  id?: string;
   contato$?: Observable<DetalhesContato>;
   nomeDoContato: string;
 

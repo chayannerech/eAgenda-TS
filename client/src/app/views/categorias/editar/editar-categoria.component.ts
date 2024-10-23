@@ -17,7 +17,7 @@ import { NotificacaoService } from '../../../core/notificacao/notificacao.servic
   styleUrl: '../styles/categorias.scss',
 })
 export class EditarCategoriaComponent implements OnInit{
-  id?: number;
+  id?: string;
   categoriaForm: FormGroup;
 
   constructor (

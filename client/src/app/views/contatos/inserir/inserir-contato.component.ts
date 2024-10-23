@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { InserirContato } from '../models/contato.models';
 import { ContatoService } from '../services/contato.service';
-import { toTitleCase } from '../../../app.component';
+import { formatarComponente, toTitleCase } from '../../../app.component';
 
 @Component({
   selector: 'app-inserir-contato',
@@ -72,7 +72,8 @@ export class InserirContatoComponent {
     if (this.contatoForm.invalid) return;
 
     const novoContato: InserirContato = this.contatoForm.value;
-    this.formatarContato(novoContato);
+    formatarComponente(novoContato);
+    novoContato.telefone = this.formatarTelefone(novoContato.telefone);
 
     this.contatoService.cadastrar(novoContato).subscribe((res) => {
       this.notificacao.sucesso(
@@ -81,13 +82,6 @@ export class InserirContatoComponent {
 
       this.router.navigate(['/contatos']);
     });
-  }
-
-  private formatarContato(novoContato: InserirContato) {
-    novoContato.nome = toTitleCase(novoContato.nome);
-    novoContato.empresa = toTitleCase(novoContato.empresa);
-    novoContato.cargo = toTitleCase(novoContato.cargo);
-    novoContato.telefone = this.formatarTelefone(novoContato.telefone);
   }
 
   private formatarTelefone(telefone: string): string {

@@ -1,24 +1,24 @@
 
 export interface ListarCategorias {
-  id: number;
+  id: string;
   titulo: string;
 }
 export interface InserirCategoria {
   titulo: string;
 }
 export interface CategoriaInserida {
-  id: number;
+  id: string;
   titulo: string;
 }
 export interface EditarCategoria {
   titulo: string;
 }
 export interface CategoriaEditada {
-  id: number;
+  id: string;
   titulo: string;
 }
 export interface DetalhesCategoria {
-  id: number;
+  id: string;
   titulo: string;
 }
 

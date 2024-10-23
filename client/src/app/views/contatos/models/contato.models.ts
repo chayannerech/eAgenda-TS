@@ -1,5 +1,5 @@
 export interface ListarContatos {
-  id: number;
+  id: string;
   nome: string;
   email: string;
   empresa: string;
@@ -14,7 +14,7 @@ export interface InserirContato {
   telefone: string;
 }
 export interface ContatoInserido {
-  id: number;
+  id: string;
   nome: string;
   email: string;
   empresa: string;
@@ -29,7 +29,7 @@ export interface EditarContato {
   telefone: string;
 }
 export interface ContatoEditado {
-  id: number;
+  id: string;
   nome: string;
   email: string;
   empresa: string;
@@ -37,7 +37,7 @@ export interface ContatoEditado {
   telefone: string;
 }
 export interface DetalhesContato {
-  id: number;
+  id: string;
   nome: string;
   email: string;
   empresa: string;

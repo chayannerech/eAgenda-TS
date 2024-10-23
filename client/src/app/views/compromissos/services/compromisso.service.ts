@@ -18,12 +18,12 @@ export class CompromissoService {
     return this.http.post<CompromissoInserido>(this.url, novoCompromisso, this.obterHeadersDeAutorizacao());
   }
 
-  editar(id: number, CompromissoEditada: EditarCompromisso): Observable<CompromissoEditado> {
+  editar(id: string, CompromissoEditada: EditarCompromisso): Observable<CompromissoEditado> {
     const urlCompleto = `${this.url}/${id}`;
     return this.http.put<CompromissoEditado>(urlCompleto, CompromissoEditada, this.obterHeadersDeAutorizacao());
   }
 
-  excluir(id: number): Observable<CompromissoExcluido> {
+  excluir(id: string): Observable<CompromissoExcluido> {
     const urlCompleto = `${this.url}/${id}`;
     return this.http.delete<CompromissoExcluido>(urlCompleto, this.obterHeadersDeAutorizacao());
   }
@@ -33,7 +33,7 @@ export class CompromissoService {
     return this.http.get<ListarCompromissos[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }
 
-  selecionarPorId(id: number): Observable<DetalhesCompromisso> {
+  selecionarPorId(id: string): Observable<DetalhesCompromisso> {
     const urlCompleto = `${this.url}/visualizacao-completa/${id}`;
     return this.http.get<DetalhesCompromisso>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }

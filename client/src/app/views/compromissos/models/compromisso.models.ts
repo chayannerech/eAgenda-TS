@@ -1,65 +1,65 @@
 export interface ListarCompromissos {
-  id: number;
+  id: string;
   assunto: string;
-  data: Date;
+  data: string;
   horaInicio: string;
   horaTermino: string;
 }
 export interface InserirCompromisso {
   assunto: string;
   local: string;
-  tipoLocal: 0;
+  tipoLocal: number;
   link: string;
-  data: Date;
+  data: string;
   horaInicio: string;
   horaTermino: string;
-  contatoId: number
+  contatoId: string
 }
 export interface CompromissoInserido {
-  id: number;
+  id: string;
   assunto: string;
   local: string;
-  tipoLocal: 0;
+  tipoLocal: number;
   link: string;
-  data: Date;
+  data: string;
   horaInicio: string;
   horaTermino: string;
-  contatoId: number
+  contatoid: string
 }
 export interface EditarCompromisso {
   assunto: string;
   local: string;
-  tipoLocal: 0;
+  tipoLocal: number;
   link: string;
-  data: Date;
+  data: string;
   horaInicio: string;
   horaTermino: string;
-  contatoId: number
+  contatoid: string
 }
 export interface CompromissoEditado {
-  id: number;
+  id: string;
   assunto: string;
   local: string;
-  tipoLocal: 0;
+  tipoLocal: number;
   link: string;
-  data: Date;
+  data: string;
   horaInicio: string;
   horaTermino: string;
-  contatoId: number
+  contatoid: string
 }
 export interface DetalhesCompromisso {
-  id: number;
+  id: string;
   assunto: string;
   local: string;
-  tipoLocal: 0;
+  tipoLocal: number;
   link: string;
-  data: Date;
+  data: string;
   horaInicio: string;
   horaTermino: string;
   contato: ContatoEmCompromissoViewModel
 }
 export interface ContatoEmCompromissoViewModel {
-  id: number;
+  id: string;
   nome: string;
   empresa: string;
   cargo: string;

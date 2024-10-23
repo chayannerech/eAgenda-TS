@@ -17,7 +17,7 @@
 
       <mat-form-field class="app-form-field" appearance="fill">
         <mat-label>Assunto</mat-label>
-        <input formControlName="assunto" matInput placeholder="Ex: Ana Júlia" />
+        <input formControlName="assunto" matInput placeholder="Ex: Não lavar o cachorro" />
         <mat-icon matSuffix color="primary">subtitles</mat-icon>
         <mat-error *ngIf="compromissoForm.get('assunto')!.invalid && compromissoForm.get('assunto')?.errors?.['required']">
           O assunto é obrigatório!
@@ -30,16 +30,16 @@
       <div class="d-flex align-items-center mb-4 app-form-field">
         <div class="app-input-forjado h-auto w-100">
           <mat-label class="me-5 mt-2">Tipo de Local</mat-label>
-          <mat-radio-group formControlName="tipoLocal" aria-label="Tipo de Local" (change)="onTipoLocalChange($event)">
-            <mat-radio-button value="0" class="me-4">Presencial</mat-radio-button>
-            <mat-radio-button value="1">Remoto</mat-radio-button>
+          <mat-radio-group formControlName="tipoLocal" aria-label="Tipo de Local" (change)="tipoDeLocalEscolhido($event)">
+            <mat-radio-button value = 0 class="me-4">Presencial</mat-radio-button>
+            <mat-radio-button value = 1 >Remoto</mat-radio-button>
           </mat-radio-group>
-      </div>
+        </div>
       </div>
 
       <mat-form-field class="app-form-field" appearance="fill">
         <mat-label>Local</mat-label>
-        <input formControlName="local" matInput placeholder="Ex: ana@local.com" [disabled]="isLocalDisabled" />
+        <input formControlName="local" matInput placeholder="Ex: sala 104" />
         <mat-icon matSuffix color="primary">place</mat-icon>
         <mat-error *ngIf="compromissoForm.get('local')!.invalid && compromissoForm.get('local')?.errors?.['required']">
           O local é obrigatório!
@@ -51,13 +51,13 @@
 
       <mat-form-field class="app-form-field" appearance="fill">
         <mat-label>Link</mat-label>
-        <input formControlName="link" matInput placeholder="Ex: https://reuniao.com" [disabled]="isLinkDisabled" />
+        <input formControlName="link" matInput placeholder="Ex: https://reuniao.com" />
         <mat-icon matSuffix color="primary">link</mat-icon>
-        <mat-error *ngIf="compromissoForm.get('link')?.invalid && compromissoForm.get('link')?.errors?.['required']">
+        <mat-error *ngIf="link?.invalid && link?.errors?.['required']">
           O link é obrigatório!
         </mat-error>
-        <mat-error *ngIf="compromissoForm.get('link')?.invalid && compromissoForm.get('link')?.errors?.['minlength']">
-          O link precisa conter ao menos 3 caracteres!
+        <mat-error *ngIf="link?.invalid && link?.errors?.['pattern']">
+          O link precisa estar no formato de um URL padrão!
         </mat-error>
       </mat-form-field>
 
@@ -95,17 +95,19 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="app-form-field" appearance="fill">
-        <mat-label>Contato</mat-label>
-        <mat-select formControlName="contatoId">
-          <mat-option *ngFor="let contato of contatos" [value]="contato.id">
-            {{ contato.nome }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="compromissoForm.get('contatoId')?.invalid && compromissoForm.get('contatoId')?.errors?.['required']">
-          O contato é obrigatório!
-        </mat-error>
-      </mat-form-field>
+      <div *ngIf="contatos$ | async as contatos">
+        <mat-form-field class="app-form-field" appearance="fill">
+          <mat-label>Contato</mat-label>
+          <mat-select formControlName="contatoId" placeholder="Selecione um contato">
+            <mat-option *ngFor="let contato of contatos" [value]="contato.id">
+              {{ contato.id }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="compromissoForm.get('contatoId')?.invalid && compromissoForm.get('contatoId')?.errors?.['required']">
+            O contato é obrigatório!
+          </mat-error>
+        </mat-form-field>
+      </div>
 
       <div class="row justify-content-center g-2 gap-2 mt-3">
         <button type="submit" mat-flat-button class="col-sm-4 col-md-3">

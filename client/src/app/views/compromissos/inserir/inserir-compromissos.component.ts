@@ -1,8 +1,7 @@
-import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink, Router } from '@angular/router';
@@ -10,60 +9,67 @@ import { toTitleCase } from '../../../app.component';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { CompromissoService } from '../services/compromisso.service';
 import { InserirCompromisso } from '../models/compromisso.models';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, MatOption, MatOptionModule } from '@angular/material/core';
+import { NgIf } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-inserir-compromissos',
   standalone: true,
   imports: [
-    NgIf,
     RouterLink,
+    NgIf,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatError,
+    MatDatepickerModule,
+    MatSelectModule
   ],
   templateUrl: './inserir-compromissos.component.html',
   styleUrl: '../styles/compromissos.scss'
 })
 
-export class InserirCompromissosComponent {
+export class InserirCompromissosComponent implements OnInit {
   compromissoForm: FormGroup;
+  isLocalDisabled = false;
+  isLinkDisabled = true;
+
+  contatos = [
+    { id: 1, nome: 'Ana Júlia' },
+    { id: 2, nome: 'Bruno Silva' },
+    { id: 3, nome: 'Carlos Alberto' },
+  ];
 
   constructor(
     private router: Router,
+    private fb: FormBuilder,
     private compromissoService: CompromissoService,
     private notificacao: NotificacaoService
   ) {
-    this.compromissoForm = new FormGroup({
-      assunto: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      local: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      tipoLocal: new FormControl<0>(0, [
-        Validators.required,
-      ]),
-      link: new FormControl<string | null>(null
-      ),
-      data: new FormControl<Date | null>(null, [
-        Validators.required,
-      ]),
-      horaInicio: new FormControl<string>('', [
-        Validators.required,
-        Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/),
-      ]),
-      horaTermino: new FormControl<string>('', [
-        Validators.required,
-        Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/),
-      ]),
-      contatoId: new FormControl<number | null>(null, [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
+    this.compromissoForm = this.fb.group({
+      assunto: ['', [ Validators.required, Validators.minLength(3) ]],
+      local: ['', [ Validators.required, Validators.minLength(3) ]],
+      tipoLocal: ['0', [ Validators.required ]],
+      link: ['', Validators.required],
+      data: ['', [ Validators.required ]],
+      horaInicio: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
+      horaTermino: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
+      contatoId: [null, [ Validators.required, Validators.minLength(3) ]],
+    });
+  }
+
+  ngOnInit(): void {
+    this.onTipoLocalChange({ value: '0' });
+    this.compromissoForm.get('tipoLocal')?.valueChanges.subscribe(value => {
+      this.onTipoLocalChange(value);
     });
   }
 
@@ -89,6 +95,31 @@ export class InserirCompromissosComponent {
 
       this.router.navigate(['/Compromissos']);
     });
+  }
+
+  onTipoLocalChange(event: any) {
+    if (event.value === '0') {
+      this.isLocalDisabled = false;
+      this.isLinkDisabled = true;
+      this.local!.enable();
+      this.link!.disable();
+
+      this.local?.setValidators([Validators.required, Validators.minLength(3)]);
+      this.link?.clearValidators();
+      this.link?.setValue('');
+    } else {
+      this.isLocalDisabled = true;
+      this.isLinkDisabled = false;
+      this.local!.disable();
+      this.link!.enable();
+
+      this.link?.setValidators([Validators.required, Validators.minLength(3)]);
+      this.local?.clearValidators();
+      this.local?.setValue('');
+    }
+
+    this.local?.updateValueAndValidity();
+    this.link?.updateValueAndValidity();
   }
 
   private formatarCompromisso(novoCompromisso: InserirCompromisso) {

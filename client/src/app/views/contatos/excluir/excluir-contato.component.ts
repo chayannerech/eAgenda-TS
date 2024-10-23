@@ -6,7 +6,6 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { toTitleCase } from '../../../app.component';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { DetalhesCategoria } from '../../categorias/models/categoria.models';
 import { ContatoService } from '../services/contato.service';
 import { DetalhesContato } from '../models/contato.models';
 
@@ -36,7 +35,7 @@ export class ExcluirContatoComponent {
 
     if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
     this.contato$ = this.contatoService.selecionarPorId(this.id).pipe(
-      tap(categoria => this.nomeDoContato = categoria.nome))
+      tap(contato => this.nomeDoContato = contato.nome))
   }
 
   excluir() {
@@ -46,7 +45,7 @@ export class ExcluirContatoComponent {
       .excluir(this.id)
       .subscribe(() => {
         this.notificacao.sucesso(
-          `A categoria '${toTitleCase(this.nomeDoContato)}' foi excluída com sucesso!`
+          `A contato '${toTitleCase(this.nomeDoContato)}' foi excluída com sucesso!`
         );
 
         this.router.navigate(['/contatos']);

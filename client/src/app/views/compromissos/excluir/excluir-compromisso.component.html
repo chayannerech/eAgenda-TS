@@ -1,13 +1,13 @@
 <main class="container my-4">
   <div
-    *ngIf="contato$ | async as contato"
+    *ngIf="compromisso$ | async as compromisso"
     class="row justify-content-center g-3 mt-2"
   >
     <div class="col col-lg-8 col-xxl-6">
-      <h1 class="fs-2">Excluir contato</h1>
+      <h1 class="fs-2">Excluir compromisso</h1>
       <hr />
 
-      <p>Deseja realmente excluir o contato "{{ contato.nome }}"?</p>
+      <p>Deseja realmente excluir o compromisso "{{ compromisso.assunto }}"?</p>
 
       <div class="row justify-content-center g-2 gap-1 mt-5">
         <button
@@ -24,7 +24,7 @@
           mat-stroked-button
           class="col-md-3"
           type="button"
-          routerLink="/contatos"
+          routerLink="/compromissos"
         >
           <mat-icon>keyboard_return</mat-icon>
           Voltar

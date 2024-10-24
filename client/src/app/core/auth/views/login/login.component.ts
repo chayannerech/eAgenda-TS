@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
-import { LoginUsuarioViewModel } from '../../models/auth.models';
+import { LoginUsuarioViewModel, TokenViewModel } from '../../models/auth.models';
 import { AuthService } from '../../service/auth.service';
 import { UsuarioService } from '../../service/usuario.service';
 import { catchError, tap, throwError } from 'rxjs';
@@ -30,7 +30,7 @@ import { LocalStorageService } from '../../service/local-storage.service';
 
 export class LoginComponent {
   form: FormGroup;
-  erroLogin: boolean;
+  erroLogin: string;
 
   constructor(
     private fb: FormBuilder,
@@ -40,7 +40,7 @@ export class LoginComponent {
     private localStorageService: LocalStorageService,
     private notificacao: NotificacaoService
   ) {
-    this.erroLogin = false;
+    this.erroLogin = '';
     this.form = this.fb.group({
       login: ['', [ Validators.required ]],
       senha: ['', [ Validators.required ]],
@@ -52,26 +52,29 @@ export class LoginComponent {
 
   public entrar() {
     console.clear();
-
     if (this.form.invalid) return;
+
     const usuarioLogin: LoginUsuarioViewModel = this.form.value;
+    const observer = {
+      next: (resposta: TokenViewModel) => this.processarSucesso(resposta),
+      error: (erro: Error) => this.processarFalha(erro)
+    }
 
-    this.authService.login(usuarioLogin)
-    .pipe(catchError(() => {
-        this.erroLogin = true;
-        return throwError(() => Error('Login ou senha incorretos'));
-      })
-    )
-    .subscribe(resposta => {
-        this.erroLogin = false;
-        this.usuarioService.logarUsuario(resposta.usuario);
-        this.localStorageService.salvarTokenAutenticacao(resposta);
+    this.authService.login(usuarioLogin).subscribe(observer);
+  }
 
-        this.notificacao.sucesso(`O usuário ${resposta.usuario.nome} está conectado!`);
+  private processarSucesso(resposta: TokenViewModel) {
+    this.erroLogin = '';
+    this.usuarioService.logarUsuario(resposta.usuario);
+    this.localStorageService.salvarTokenAutenticacao(resposta);
+    this.notificacao.sucesso(`O usuário ${resposta.usuario.nome} está conectado!`);
 
-        this.router.navigate(['/dashboard']);
-      }
-    );
+    this.router.navigate(['/dashboard']);
+  }
+
+  private processarFalha(erro: Error) {
+    this.erroLogin = erro.message;
+    this.erroLogin = 'Login ou senha incorretos';
   }
 }
 

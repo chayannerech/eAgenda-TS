@@ -9,9 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
-import { RegistrarUsuarioViewModel } from '../../models/auth.models';
+import { RegistrarUsuarioViewModel, TokenViewModel } from '../../models/auth.models';
 import { UsuarioService } from '../../service/usuario.service';
 import { NotificacaoService } from '../../../notificacao/notificacao.service';
+import { formatarComponente, toTitleCase } from '../../../../app.component';
 
 @Component({
   selector: 'app-registro',
@@ -36,8 +37,6 @@ import { NotificacaoService } from '../../../notificacao/notificacao.service';
 
 export class RegistroComponent {
   form: FormGroup;
-  erroLogin: string | null;
-  erroEmail: string | null;
 
   constructor(
     private router: Router,
@@ -46,7 +45,6 @@ export class RegistroComponent {
     private usuarioService: UsuarioService,
     private notificacao: NotificacaoService
   ) {
-    this.erroLogin = this.erroEmail = null;
     this.form = this.formBuilder.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       login: ['', [Validators.required, Validators.minLength(3)]],
@@ -68,16 +66,25 @@ export class RegistroComponent {
     if (this.form.invalid) return;
 
     const registro: RegistrarUsuarioViewModel = this.form.value;
+    const observer = {
+      next: (resposta: TokenViewModel) => this.processarSucesso(resposta),
+      error: (erro: Error) => this.processarFalha(erro)
+    }
 
     this.authService.registrar(registro)
-      .subscribe(resposta => {
-        this.usuarioService.logarUsuario(resposta.usuario);
-        this.notificacao.sucesso(
-          `O usuário ${resposta.usuario} foi cadastrado com sucesso!`
-        );
+      .subscribe(observer);
+  }
 
-        this.router.navigate(['/dashboard'])
-      }
+  private processarSucesso(resposta: TokenViewModel) {
+    this.usuarioService.logarUsuario(resposta.usuario);
+    this.notificacao.sucesso(
+      `O usuário ${resposta.usuario} foi cadastrado com sucesso!`
     );
+
+    this.router.navigate(['/dashboard'])
+  }
+
+  private processarFalha(erro: Error) {
+    this.notificacao.erro(erro.message);
   }
 }

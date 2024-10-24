@@ -15,7 +15,10 @@ export class AuthService {
 
     return this.http
       .post<TokenViewModel>(urlCompleto, registro)
-      .pipe(map(this.processarDados));
+      .pipe(
+        map(this.processarDados),
+        catchError(this.processarFalha)
+      );
   }
 
   public login(usuarioLogin: LoginUsuarioViewModel): Observable<TokenViewModel> {

@@ -9,6 +9,7 @@
           <mat-label>Nome Completo</mat-label>
           <input
             formControlName="nome"
+            data-cy="nome"
             matInput
             autocomplete="name"
             placeholder="Ex: João Silva"
@@ -28,6 +29,7 @@
           <mat-label>Nome de Usuário</mat-label>
           <input
             formControlName="login"
+            data-cy="login"
             matInput
             autocomplete="username"
             placeholder="Ex: JoãoSilva12"
@@ -47,6 +49,7 @@
           <mat-label>Endereço de Email</mat-label>
           <input
             formControlName="email"
+            data-cy="email"
             matInput
             autocomplete="email"
             type="email"
@@ -67,6 +70,7 @@
           <mat-label>Senha</mat-label>
           <input
             formControlName="senha"
+            data-cy="senha"
             matInput
             autocomplete="new-password"
             type="password"
@@ -88,11 +92,11 @@
 
         <div class="row justify-content-center mt-5">
           <div class="col-sm-5 d-flex flex-column align-items-center gap-3">
-            <button type="submit" mat-flat-button class="w-100">
+            <button type="submit" data-cy="submit" mat-flat-button class="w-100">
               <mat-icon matIconPrefix>person_add</mat-icon>
               Registrar
             </button>
-            <a mat-button type="button" class="w-100 text-center" routerLink="/login">
+            <a mat-button type="button" data-cy="jaTemConta" class="w-100 text-center" routerLink="/login">
               <mat-icon matIconPrefix>login</mat-icon>
               Já tenho uma conta
             </a>

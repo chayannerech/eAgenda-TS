@@ -12,7 +12,6 @@ import { AuthService } from '../../service/auth.service';
 import { RegistrarUsuarioViewModel, TokenViewModel } from '../../models/auth.models';
 import { UsuarioService } from '../../service/usuario.service';
 import { NotificacaoService } from '../../../notificacao/notificacao.service';
-import { formatarComponente, toTitleCase } from '../../../../app.component';
 
 @Component({
   selector: 'app-registro',
@@ -52,8 +51,7 @@ export class RegistroComponent {
       senha: ['', [
         Validators.required,
         Validators.minLength(6),
-        Validators.pattern('^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$')
-      ]],
+        Validators.pattern('^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$')      ]],
     });
   }
 
@@ -78,7 +76,7 @@ export class RegistroComponent {
   private processarSucesso(resposta: TokenViewModel) {
     this.usuarioService.logarUsuario(resposta.usuario);
     this.notificacao.sucesso(
-      `O usuário ${resposta.usuario} foi cadastrado com sucesso!`
+      `O usuário ${resposta.usuario.nome} foi cadastrado com sucesso!`
     );
 
     this.router.navigate(['/dashboard'])

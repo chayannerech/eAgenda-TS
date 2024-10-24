@@ -9,6 +9,7 @@
           <mat-label>Nome de Usuário</mat-label>
           <input
             formControlName="login"
+            data-cy="login"
             matInput
             autocomplete="username"
             placeholder="Ex: JoaoSilva12"
@@ -23,6 +24,7 @@
         <mat-form-field class="w-100 mt-3" appearance="fill">  <mat-label>Senha</mat-label>
           <input
             formControlName="senha"
+            data-cy="senha"
             matInput
             type="password"
             autocomplete="current-password"
@@ -34,16 +36,16 @@
             </span>
           </mat-error>
         </mat-form-field>
-        <mat-error class="text-danger mt-0">
+        <mat-error data-cy="loginInvalido" class="text-danger mt-0">
           <span>{{erroLogin}}</span>
         </mat-error>
         <div class="row justify-content-center mt-5">
           <div class="col-sm-5 d-flex flex-column align-items-center gap-3">
-            <button type="submit" mat-flat-button class="w-100">
+            <button type="submit" data-cy="submit" mat-flat-button class="w-100">
               <mat-icon matIconPrefix>login</mat-icon>
               Login
             </button>
-            <a mat-button type="button" class="w-100 text-center" routerLink="/registro">
+            <a mat-button type="button" data-cy="registrar" class="w-100 text-center" routerLink="/registro">
               <mat-icon matIconPrefix>person_add</mat-icon>
               Não tenho uma conta
             </a>

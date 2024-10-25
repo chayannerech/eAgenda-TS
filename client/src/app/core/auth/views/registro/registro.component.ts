@@ -12,6 +12,7 @@ import { AuthService } from '../../service/auth.service';
 import { RegistrarUsuarioViewModel, TokenViewModel } from '../../models/auth.models';
 import { UsuarioService } from '../../service/usuario.service';
 import { NotificacaoService } from '../../../notificacao/notificacao.service';
+import { PartialObserver } from 'rxjs';
 
 @Component({
   selector: 'app-registro',
@@ -64,9 +65,9 @@ export class RegistroComponent {
     if (this.form.invalid) return;
 
     const registro: RegistrarUsuarioViewModel = this.form.value;
-    const observer = {
-      next: (resposta: TokenViewModel) => this.processarSucesso(resposta),
-      error: (erro: Error) => this.processarFalha(erro)
+    const observer: PartialObserver<TokenViewModel> = {
+      next: (resposta) => this.processarSucesso(resposta),
+      error: (erro) => this.processarFalha(erro)
     }
 
     this.authService.registrar(registro)

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { Observable, PartialObserver, tap } from 'rxjs';
 import { toTitleCase } from '../../../app.component';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { DetalhesCompromisso } from '../../compromissos/models/compromisso.models';
+import { CompromissoExcluidoViewModel, DetalhesCompromissoViewModel } from '../../compromissos/models/compromisso.models';
 import { CompromissoService } from '../../compromissos/services/compromisso.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,9 +18,8 @@ import { MatIconModule } from '@angular/material/icon';
 })
 
 export class ExcluirCompromissoComponent {
-  id?: string;
-  compromisso$?: Observable<DetalhesCompromisso>;
-  nomeDoCompromisso: string;
+  compromisso?: DetalhesCompromissoViewModel;
+  assuntoDoCompromisso: string;
 
   constructor (
     private route: ActivatedRoute,
@@ -28,28 +27,34 @@ export class ExcluirCompromissoComponent {
     private compromissoService: CompromissoService,
     private notificacao: NotificacaoService
   ) {
-    this.nomeDoCompromisso = "";
+    this.assuntoDoCompromisso = "";
   }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['id'];
-
-    if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
-    this.compromisso$ = this.compromissoService.selecionarPorId(this.id).pipe(
-      tap(compromisso => this.nomeDoCompromisso = compromisso.assunto))
+    this.compromisso = this.route.snapshot.data['compromisso'];
+    this.assuntoDoCompromisso = this.compromisso!.assunto;
   }
 
   excluir() {
-    if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
+    const id = this.route.snapshot.params['id'];
+    if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    this.compromissoService
-      .excluir(this.id)
-      .subscribe(() => {
-        this.notificacao.sucesso(
-          `O compromisso '${toTitleCase(this.nomeDoCompromisso)}' foi excluído com sucesso!`
-        );
+    const observer: PartialObserver<CompromissoExcluidoViewModel> = {
+      next: () => this.processarSucesso(),
+      error: (erro) => this.processarFalha(erro)
+    }
 
-        this.router.navigate(['/compromissos']);
-      });
+    this.compromissoService.excluir(id).subscribe(observer);
+  }
+
+  private processarSucesso() {
+    this.notificacao.sucesso(
+      `O contato '${this.assuntoDoCompromisso}' foi excluído com sucesso!`
+    );
+    this.router.navigate(['/compromissos']);
+  }
+
+  private processarFalha(erro: Error) {
+    this.notificacao.erro(erro.message);
   }
 }

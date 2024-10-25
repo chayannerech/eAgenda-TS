@@ -8,9 +8,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { InserirContato } from '../models/contato.models';
+import { ContatoInseridoViewModel, InserirContatoViewModel } from '../models/contato.models';
 import { ContatoService } from '../services/contato.service';
-import { formatarComponente, toTitleCase } from '../../../app.component';
+import { PartialObserver } from 'rxjs';
+import { toTitleCase } from '../../../app.component';
 
 @Component({
   selector: 'app-inserir-contato',
@@ -71,23 +72,23 @@ export class InserirContatoComponent {
   cadastrar() {
     if (this.contatoForm.invalid) return;
 
-    const novoContato: InserirContato = this.contatoForm.value;
-    formatarComponente(novoContato);
-    novoContato.telefone = this.formatarTelefone(novoContato.telefone);
+    const novoContato: InserirContatoViewModel = this.contatoForm.value;
+    const observer: PartialObserver<ContatoInseridoViewModel> = {
+      next: (novoContato) => this.processarSucesso(novoContato),
+      error: (erro) => this.processarFalha(erro)
+    }
 
-    this.contatoService.cadastrar(novoContato).subscribe((res) => {
-      this.notificacao.sucesso(
-        `O contato '${novoContato.nome}' foi cadastrado com sucesso!`
-      );
-
-      this.router.navigate(['/contatos']);
-    });
+    this.contatoService.cadastrar(novoContato).subscribe(observer);
   }
 
-  private formatarTelefone(telefone: string): string {
-    const ddd = telefone.slice(0, 2);
-    const parte1 = telefone.slice(2, 7);
-    const parte2 = telefone.slice(7, 11);
-    return `(${ddd}) ${parte1}-${parte2}`;
+  private processarSucesso(novoContato: ContatoInseridoViewModel) {
+    this.notificacao.sucesso(
+      `O contato '${novoContato.nome}' foi cadastrado com sucesso!`
+    );
+    this.router.navigate(['/contatos']);
+  }
+
+  private processarFalha(erro: Error) {
+    this.notificacao.erro(erro.message);
   }
 }

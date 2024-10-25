@@ -3,11 +3,10 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable, tap } from 'rxjs';
-import { toTitleCase } from '../../../app.component';
+import { PartialObserver } from 'rxjs';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { ContatoService } from '../services/contato.service';
-import { DetalhesContato } from '../models/contato.models';
+import { ContatoExcluidoViewModel, DetalhesContatoViewModel } from '../models/contato.models';
 
 @Component({
   selector: 'app-excluir-contato',
@@ -17,8 +16,7 @@ import { DetalhesContato } from '../models/contato.models';
 })
 
 export class ExcluirContatoComponent {
-  id?: string;
-  contato$?: Observable<DetalhesContato>;
+  contato?: DetalhesContatoViewModel;
   nomeDoContato: string;
 
   constructor (
@@ -31,24 +29,30 @@ export class ExcluirContatoComponent {
   }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['id'];
-
-    if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
-    this.contato$ = this.contatoService.selecionarPorId(this.id).pipe(
-      tap(contato => this.nomeDoContato = contato.nome))
+    this.contato = this.route.snapshot.data['contato'];
+    this.nomeDoContato = this.contato!.nome;
   }
 
   excluir() {
-    if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
+    const id = this.route.snapshot.params['id'];
+    if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    this.contatoService
-      .excluir(this.id)
-      .subscribe(() => {
-        this.notificacao.sucesso(
-          `A contato '${toTitleCase(this.nomeDoContato)}' foi excluída com sucesso!`
-        );
+    const observer: PartialObserver<ContatoExcluidoViewModel> = {
+      next: () => this.processarSucesso(),
+      error: (erro) => this.processarFalha(erro)
+    }
 
-        this.router.navigate(['/contatos']);
-      });
+    this.contatoService.excluir(id).subscribe(observer);
+  }
+
+  private processarSucesso() {
+    this.notificacao.sucesso(
+      `O contato '${this.nomeDoContato}' foi excluído com sucesso!`
+    );
+    this.router.navigate(['/contatos']);
+  }
+
+  private processarFalha(erro: Error) {
+    this.notificacao.erro(erro.message);
   }
 }

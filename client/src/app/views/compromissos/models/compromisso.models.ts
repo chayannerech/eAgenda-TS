@@ -1,11 +1,11 @@
-export interface ListarCompromissos {
+export interface ListarCompromissosViewModel {
   id: string;
   assunto: string;
   data: string;
   horaInicio: string;
   horaTermino: string;
 }
-export interface InserirCompromisso {
+export interface InserirCompromissoViewModel {
   assunto: string;
   local: string;
   tipoLocal: number;
@@ -15,7 +15,7 @@ export interface InserirCompromisso {
   horaTermino: string;
   contatoId: string
 }
-export interface CompromissoInserido {
+export interface CompromissoInseridoViewModel {
   id: string;
   assunto: string;
   local: string;
@@ -26,7 +26,7 @@ export interface CompromissoInserido {
   horaTermino: string;
   contatoid: string
 }
-export interface EditarCompromisso {
+export interface EditarCompromissoViewModel {
   assunto: string;
   local: string;
   tipoLocal: number;
@@ -36,7 +36,7 @@ export interface EditarCompromisso {
   horaTermino: string;
   contatoid: string
 }
-export interface CompromissoEditado {
+export interface CompromissoEditadoViewModel {
   id: string;
   assunto: string;
   local: string;
@@ -47,7 +47,7 @@ export interface CompromissoEditado {
   horaTermino: string;
   contatoid: string
 }
-export interface DetalhesCompromisso {
+export interface DetalhesCompromissoViewModel {
   id: string;
   assunto: string;
   local: string;
@@ -66,4 +66,4 @@ export interface ContatoEmCompromissoViewModel {
   telefone: string;
 }
 
-export interface CompromissoExcluido {}
+export interface CompromissoExcluidoViewModel {}

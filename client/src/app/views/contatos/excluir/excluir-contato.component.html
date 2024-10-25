@@ -1,13 +1,12 @@
 <main class="container my-4">
   <div
-    *ngIf="contato$ | async as contato"
     class="row justify-content-center g-3 mt-2"
   >
     <div class="col col-lg-8 col-xxl-6">
       <h1 class="fs-2">Excluir contato</h1>
       <hr />
 
-      <p>Deseja realmente excluir o contato "{{ contato.nome }}"?</p>
+      <p>Deseja realmente excluir o contato "{{ contato?.nome }}"?</p>
 
       <div class="row justify-content-center g-2 gap-1 mt-5">
         <button

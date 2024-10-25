@@ -10,12 +10,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { formatarComponente } from '../../../app.component';
+import { Observable, PartialObserver } from 'rxjs';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { ListarContatos } from '../../contatos/models/contato.models';
+import { ListarContatosViewModel } from '../../contatos/models/contato.models';
 import { ContatoService } from '../../contatos/services/contato.service';
-import { DetalhesCompromisso, EditarCompromisso, InserirCompromisso } from '../models/compromisso.models';
+import { CompromissoEditadoViewModel, DetalhesCompromissoViewModel, EditarCompromissoViewModel, InserirCompromissoViewModel } from '../models/compromisso.models';
 import { CompromissoService } from '../services/compromisso.service';
 
 @Component({
@@ -41,11 +40,10 @@ import { CompromissoService } from '../services/compromisso.service';
 })
 
 export class EditarCompromissosComponent {
-  id?: string;
   compromissoForm: FormGroup;
   localDesabilitado: boolean;
   linkDesabilitado: boolean;
-  contatos$?: Observable<ListarContatos[]>;
+  contatos$?: Observable<ListarContatosViewModel[]>;
 
   constructor(
     private route: ActivatedRoute,
@@ -70,12 +68,10 @@ export class EditarCompromissosComponent {
   }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['id'];
-
     this.contatos$ = this.contatoService.selecionarTodos();
 
-    if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
-    this.compromissoService.selecionarPorId(this.id).subscribe((res) => this.trazerValoresParaEdicao(res));
+    const compromisso = this.route.snapshot.data['compromisso'];
+    this.trazerValoresParaEdicao(compromisso);
   }
 
   get assunto() { return this.compromissoForm.get('assunto'); }
@@ -89,19 +85,17 @@ export class EditarCompromissosComponent {
 
   editar() {
     if (this.compromissoForm.invalid) return;
-    if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    const compromissoEditado: EditarCompromisso = this.compromissoForm.value;
-    formatarComponente(compromissoEditado);
-    this.ajustarTipoDeLocal(compromissoEditado);
+    const id = this.route.snapshot.params['id'];
+    if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    this.compromissoService.editar(this.id, compromissoEditado).subscribe(() => {
-      this.notificacao.sucesso(
-        `O Compromisso '${compromissoEditado.assunto}' foi cadastrado com sucesso!`
-      );
+    const compromissoEditado: EditarCompromissoViewModel = this.compromissoForm.value;
+    const observer: PartialObserver<CompromissoEditadoViewModel> = {
+      next: (compromissoEditado) => this.processarSucesso(compromissoEditado),
+      error: (erro) => this.processarFalha(erro)
+    }
 
-      this.router.navigate(['/compromissos']);
-    });
+    this.compromissoService.editar(id, compromissoEditado).subscribe(observer);
   }
 
   public tipoDeLocalEscolhido(event: any) {
@@ -127,24 +121,25 @@ export class EditarCompromissosComponent {
     this.link?.updateValueAndValidity();
   }
 
-  private ajustarTipoDeLocal(compromissoEditado: EditarCompromisso) {
-    if (compromissoEditado.tipoLocal == 0)
-      compromissoEditado.tipoLocal = 0;
-    else compromissoEditado.tipoLocal = 1;
-  }
-
-  private trazerValoresParaEdicao(compromissoSelecionado: DetalhesCompromisso) {
-    compromissoSelecionado.horaInicio = this.formatarHorario(compromissoSelecionado.horaInicio);
-    compromissoSelecionado.horaTermino = this.formatarHorario(compromissoSelecionado.horaTermino);
+  private trazerValoresParaEdicao(compromissoSelecionado: DetalhesCompromissoViewModel) {
+    compromissoSelecionado.horaInicio = this.compromissoService.formatarHorario(compromissoSelecionado.horaInicio);
+    compromissoSelecionado.horaTermino = this.compromissoService.formatarHorario(compromissoSelecionado.horaTermino);
 
     this.compromissoForm.patchValue(compromissoSelecionado);
 
     this.contatoId?.setValue(compromissoSelecionado.contato.id);
-
     this.tipoDeLocalEscolhido({value: compromissoSelecionado.tipoLocal});
   }
 
-  private formatarHorario(horario: string): string {
-    return horario.split('', 5).join('');
+  private processarSucesso(compromissoEditado: CompromissoEditadoViewModel) {
+    this.notificacao.sucesso(
+      `O Compromisso '${compromissoEditado.assunto}' foi cadastrado com sucesso!`
+    );
+
+    this.router.navigate(['/compromissos']);
+}
+
+  private processarFalha(erro: Error) {
+    this.notificacao.erro(erro.message);
   }
 }

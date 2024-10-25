@@ -6,14 +6,14 @@ export interface ListarContatosViewModel {
   cargo: string;
   telefone: string;
 }
-export interface InserirContato {
+export interface InserirContatoViewModel {
   nome: string;
   email: string;
   empresa: string;
   cargo: string;
   telefone: string;
 }
-export interface ContatoInserido {
+export interface ContatoInseridoViewModel {
   id: string;
   nome: string;
   email: string;
@@ -21,14 +21,14 @@ export interface ContatoInserido {
   cargo: string;
   telefone: string;
 }
-export interface EditarContato {
+export interface EditarContatoViewModel {
   nome: string;
   email: string;
   empresa: string;
   cargo: string;
   telefone: string;
 }
-export interface ContatoEditado {
+export interface ContatoEditadoViewModel {
   id: string;
   nome: string;
   email: string;
@@ -36,7 +36,7 @@ export interface ContatoEditado {
   cargo: string;
   telefone: string;
 }
-export interface DetalhesContato {
+export interface DetalhesContatoViewModel {
   id: string;
   nome: string;
   email: string;
@@ -45,4 +45,4 @@ export interface DetalhesContato {
   telefone: string;
 }
 
-export interface ContatoExcluido {}
+export interface ContatoExcluidoViewModel {}

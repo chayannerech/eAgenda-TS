@@ -11,12 +11,12 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { formatarComponente } from '../../../app.component';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { ListarContatosViewModel } from '../../contatos/models/contato.models';
 import { ContatoService } from '../../contatos/services/contato.service';
 import { DetalhesCompromisso, EditarCompromisso, InserirCompromisso } from '../models/compromisso.models';
 import { CompromissoService } from '../services/compromisso.service';
+import { toTitleCase } from '../../../app.component';
 
 @Component({
   selector: 'app-editar-compromissos',
@@ -92,7 +92,9 @@ export class EditarCompromissosComponent {
     if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
     const compromissoEditado: EditarCompromisso = this.compromissoForm.value;
-    formatarComponente(compromissoEditado);
+
+    toTitleCase(compromissoEditado.assunto);
+    toTitleCase(compromissoEditado.local ?? "");
     this.ajustarTipoDeLocal(compromissoEditado);
 
     this.compromissoService.editar(this.id, compromissoEditado).subscribe(() => {

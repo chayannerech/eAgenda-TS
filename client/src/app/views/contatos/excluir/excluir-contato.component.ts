@@ -3,11 +3,11 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { Observable, PartialObserver, tap } from 'rxjs';
 import { toTitleCase } from '../../../app.component';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { ContatoService } from '../services/contato.service';
-import { DetalhesContato } from '../models/contato.models';
+import { ContatoExcluidoViewModel, DetalhesContatoViewModel } from '../models/contato.models';
 
 @Component({
   selector: 'app-excluir-contato',
@@ -18,7 +18,7 @@ import { DetalhesContato } from '../models/contato.models';
 
 export class ExcluirContatoComponent {
   id?: string;
-  contato$?: Observable<DetalhesContato>;
+  contato$?: Observable<DetalhesContatoViewModel>;
   nomeDoContato: string;
 
   constructor (
@@ -41,14 +41,22 @@ export class ExcluirContatoComponent {
   excluir() {
     if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    this.contatoService
-      .excluir(this.id)
-      .subscribe(() => {
-        this.notificacao.sucesso(
-          `A contato '${toTitleCase(this.nomeDoContato)}' foi excluída com sucesso!`
-        );
+    const observer: PartialObserver<ContatoExcluidoViewModel> = {
+      next: () => this.processarSucesso(),
+      error: (erro) => this.processarFalha(erro)
+    }
 
-        this.router.navigate(['/contatos']);
-      });
+    this.contatoService.excluir(this.id).subscribe(observer);
+  }
+
+  private processarSucesso() {
+    this.notificacao.sucesso(
+      `O contato '${this.nomeDoContato}' foi excluído com sucesso!`
+    );
+    this.router.navigate(['/contatos']);
+  }
+
+  private processarFalha(erro: Error) {
+    this.notificacao.erro(erro.message);
   }
 }

@@ -5,7 +5,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink, Router } from '@angular/router';
-import { formatarComponente, toTitleCase } from '../../../app.component';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { CompromissoService } from '../services/compromisso.service';
 import { InserirCompromisso } from '../models/compromisso.models';
@@ -17,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ContatoService } from '../../contatos/services/contato.service';
 import { ListarContatosViewModel } from '../../contatos/models/contato.models';
 import { Observable, tap } from 'rxjs';
+import { toTitleCase } from '../../../app.component';
 
 @Component({
   selector: 'app-inserir-compromissos',
@@ -89,8 +89,8 @@ export class InserirCompromissosComponent implements OnInit {
     if (this.compromissoForm.invalid) return;
 
     const novoCompromisso: InserirCompromisso = this.compromissoForm.value;
-    formatarComponente(novoCompromisso);
-
+    toTitleCase(novoCompromisso.assunto);
+    toTitleCase(novoCompromisso.local ?? "");
     this.formatarTipoDeLocal(novoCompromisso);
 
     this.compromissoService.cadastrar(novoCompromisso).subscribe(() => {

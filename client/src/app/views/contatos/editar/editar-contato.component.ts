@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { DetalhesContato, EditarContato, InserirContato } from '../models/contato.models';
+import { ContatoEditadoViewModel, DetalhesContatoViewModel, EditarContatoViewModel, InserirContatoViewModel } from '../models/contato.models';
 import { ContatoService } from '../services/contato.service';
 import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { toTitleCase } from '../../../app.component';
+import { PartialObserver } from 'rxjs';
 
 @Component({
   selector: 'app-editar-contato',
@@ -81,38 +82,28 @@ export class EditarContatoComponent implements OnInit {
     if (this.contatoForm.invalid) return;
     if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    const contatoEditado: EditarContato = this.contatoForm.value;
-    this.formatarComponente(contatoEditado);
+    const contato: EditarContatoViewModel = this.contatoForm.value;
+    const observer: PartialObserver<ContatoEditadoViewModel> = {
+      next: (contato) => this.processarSucesso(contato),
+      error: (erro) => this.processarFalha(erro)
+    }
 
-    this.contatoService.editar(this.id, contatoEditado).subscribe((res) => {
-      this.notificacao.sucesso(
-        `O contato '${contatoEditado.nome}' foi editado com sucesso!`
-      );
-
-      this.router.navigate(['/contatos']);
-    });
+    this.contatoService.editar(this.id, contato).subscribe(observer);
   }
 
-  private formatarComponente(contatoEditado: InserirContato) {
-    contatoEditado.nome = toTitleCase(contatoEditado.nome);
-    contatoEditado.empresa = toTitleCase(contatoEditado.empresa);
-    contatoEditado.cargo = toTitleCase(contatoEditado.cargo);
-    contatoEditado.telefone = this.formatarTelefone(contatoEditado.telefone);
-  }
-
-  private formatarTelefone(telefone: string): string {
-    const ddd = telefone.slice(0, 2);
-    const parte1 = telefone.slice(2, 7);
-    const parte2 = telefone.slice(7, 11);
-    return `(${ddd}) ${parte1}-${parte2}`;
-  }
-
-  private removerFormatacaoTelefone(telefone: string): string {
-    return telefone.replace(/\D/g, '');
-  }
-
-  private trazerValoresParaEdicao(contatoSelecionado: DetalhesContato) {
-    contatoSelecionado.telefone = this.removerFormatacaoTelefone(contatoSelecionado.telefone);
+  private trazerValoresParaEdicao(contatoSelecionado: DetalhesContatoViewModel) {
+    contatoSelecionado.telefone = this.contatoService.removerFormatacaoTelefone(contatoSelecionado.telefone);
     this.contatoForm.patchValue(contatoSelecionado);
+  }
+
+  private processarSucesso(novoContato: ContatoEditadoViewModel) {
+    this.notificacao.sucesso(
+      `O contato '${novoContato.nome}' foi editado com sucesso!`
+    );
+    this.router.navigate(['/contatos']);
+  }
+
+  private processarFalha(erro: Error) {
+    this.notificacao.erro(erro.message);
   }
 }

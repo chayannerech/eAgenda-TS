@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ShellComponent } from "./core/shell/shell.component";
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { UsuarioTokenViewModel } from './core/auth/models/auth.models';
 import { AsyncPipe } from '@angular/common';
 import { UsuarioService } from './core/auth/service/usuario.service';
@@ -59,13 +59,14 @@ export function toTitleCase(nomeRecebido: string) {
   const primeiraLetra = nomeSeparado[0].toUpperCase();
   nomeSeparado[0] = primeiraLetra;
 
-  return nomeSeparado.join('');
+  return nomeRecebido = nomeSeparado.join('');
 }
 
-export function formatarComponente(novoCompromisso: any) {
-  for (const key in novoCompromisso) {
-    if (typeof novoCompromisso[key as keyof any] === 'string') {
-      (novoCompromisso[key as keyof any] as string) = toTitleCase(novoCompromisso[key as keyof any]);
-    }
-  }
+export function processarDados(resposta: any) {
+  if (resposta.sucesso) return resposta.dados;
+  throw new Error("Erro ao mapear dados requisitados");
+}
+
+export function processarFalha(resposta: any) {
+  return throwError(() => new Error(resposta.error.erros[0]));
 }

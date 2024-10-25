@@ -9,7 +9,7 @@ import { Router, RouterLink } from '@angular/router';
 import { LoginUsuarioViewModel, TokenViewModel } from '../../models/auth.models';
 import { AuthService } from '../../service/auth.service';
 import { UsuarioService } from '../../service/usuario.service';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, PartialObserver, tap, throwError } from 'rxjs';
 import { NotificacaoService } from '../../../notificacao/notificacao.service';
 import { LocalStorageService } from '../../service/local-storage.service';
 
@@ -55,9 +55,9 @@ export class LoginComponent {
     if (this.form.invalid) return;
 
     const usuarioLogin: LoginUsuarioViewModel = this.form.value;
-    const observer = {
-      next: (resposta: TokenViewModel) => this.processarSucesso(resposta),
-      error: (erro: Error) => this.processarFalha(erro)
+    const observer: PartialObserver<TokenViewModel> = {
+      next: (resposta) => this.processarSucesso(resposta),
+      error: (erro) => this.processarFalha(erro)
     }
 
     this.authService.login(usuarioLogin).subscribe(observer);

@@ -3,6 +3,7 @@ import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { catchError, map, Observable, throwError } from "rxjs";
 import { LoginUsuarioViewModel, RegistrarUsuarioViewModel, TokenViewModel } from "../models/auth.models";
+import { processarDados, processarFalha } from "../../../app.component";
 
 @Injectable()
 export class AuthService {
@@ -15,10 +16,7 @@ export class AuthService {
 
     return this.http
       .post<TokenViewModel>(urlCompleto, registro)
-      .pipe(
-        map(this.processarDados),
-        catchError(this.processarFalha)
-      );
+      .pipe(map(processarDados), catchError(processarFalha));
   }
 
   public login(usuarioLogin: LoginUsuarioViewModel): Observable<TokenViewModel> {
@@ -26,10 +24,7 @@ export class AuthService {
 
     return this.http
     .post<TokenViewModel>(urlCompleto, usuarioLogin)
-    .pipe (
-      map(this.processarDados),
-      catchError(this.processarFalha)
-    );
+    .pipe (map(processarDados), catchError(processarFalha));
   }
 
   public logout() {
@@ -39,14 +34,5 @@ export class AuthService {
 
   public validarExpiracaoDoToken(dataExpiracao: Date): boolean {
     return dataExpiracao > new Date();
-  }
-
-  private processarDados(resposta: any): TokenViewModel {
-    if (resposta.sucesso) return resposta.dados;
-    throw new Error('Erro ao mapear token do usuário');
-  }
-
-  private processarFalha(resposta: any) {
-    return throwError(() => new Error(resposta.error.erros[0]));
   }
 }

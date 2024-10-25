@@ -8,9 +8,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { InserirContato } from '../models/contato.models';
+import { ContatoInseridoViewModel, InserirContatoViewModel } from '../models/contato.models';
 import { ContatoService } from '../services/contato.service';
-import { formatarComponente, toTitleCase } from '../../../app.component';
+import { PartialObserver } from 'rxjs';
+import { toTitleCase } from '../../../app.component';
 
 @Component({
   selector: 'app-inserir-contato',
@@ -71,17 +72,20 @@ export class InserirContatoComponent {
   cadastrar() {
     if (this.contatoForm.invalid) return;
 
-    const novoContato: InserirContato = this.contatoForm.value;
-    formatarComponente(novoContato);
+    const novoContato: InserirContatoViewModel = this.contatoForm.value;
+    const observer: PartialObserver<ContatoInseridoViewModel> = {
+      next: (novoContato) => this.processarSucesso(novoContato),
+      error: (erro) => this.processarFalha(erro)
+    }
+
+    this.contatoService.cadastrar(novoContato).subscribe(observer);
+  }
+
+  private formatarContato(novoContato: InserirContatoViewModel) {
+    novoContato.nome = toTitleCase(novoContato.nome);
+    novoContato.empresa = toTitleCase(novoContato.empresa);
+    novoContato.cargo = toTitleCase(novoContato.cargo);
     novoContato.telefone = this.formatarTelefone(novoContato.telefone);
-
-    this.contatoService.cadastrar(novoContato).subscribe((res) => {
-      this.notificacao.sucesso(
-        `O contato '${novoContato.nome}' foi cadastrado com sucesso!`
-      );
-
-      this.router.navigate(['/contatos']);
-    });
   }
 
   private formatarTelefone(telefone: string): string {
@@ -89,5 +93,16 @@ export class InserirContatoComponent {
     const parte1 = telefone.slice(2, 7);
     const parte2 = telefone.slice(7, 11);
     return `(${ddd}) ${parte1}-${parte2}`;
+  }
+
+  private processarSucesso(novoContato: ContatoInseridoViewModel) {
+    this.notificacao.sucesso(
+      `O contato '${novoContato.nome}' foi cadastrado com sucesso!`
+    );
+    this.router.navigate(['/contatos']);
+  }
+
+  private processarFalha(erro: Error) {
+    this.notificacao.erro(erro.message);
   }
 }

@@ -81,20 +81,6 @@ export class InserirContatoComponent {
     this.contatoService.cadastrar(novoContato).subscribe(observer);
   }
 
-  private formatarContato(novoContato: InserirContatoViewModel) {
-    novoContato.nome = toTitleCase(novoContato.nome);
-    novoContato.empresa = toTitleCase(novoContato.empresa);
-    novoContato.cargo = toTitleCase(novoContato.cargo);
-    novoContato.telefone = this.formatarTelefone(novoContato.telefone);
-  }
-
-  private formatarTelefone(telefone: string): string {
-    const ddd = telefone.slice(0, 2);
-    const parte1 = telefone.slice(2, 7);
-    const parte2 = telefone.slice(7, 11);
-    return `(${ddd}) ${parte1}-${parte2}`;
-  }
-
   private processarSucesso(novoContato: ContatoInseridoViewModel) {
     this.notificacao.sucesso(
       `O contato '${novoContato.nome}' foi cadastrado com sucesso!`

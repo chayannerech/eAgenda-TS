@@ -19,7 +19,7 @@ export class ContatoService {
     this.formatarContato(novoContato);
 
     return this.http
-      .post<ContatoInseridoViewModel>(this.url, novoContato, this.obterHeadersDeAutorizacao())
+      .post<ContatoInseridoViewModel>(this.url, novoContato)
       .pipe(map(processarDados), catchError(processarFalha));
   }
 
@@ -28,7 +28,7 @@ export class ContatoService {
     this.formatarContato(contatoEditado)
 
     return this.http
-      .put<ContatoEditadoViewModel>(urlCompleto, contatoEditado, this.obterHeadersDeAutorizacao())
+      .put<ContatoEditadoViewModel>(urlCompleto, contatoEditado)
       .pipe(map(processarDados), catchError(processarFalha));
   }
 
@@ -36,20 +36,20 @@ export class ContatoService {
     const urlCompleto = `${this.url}/${id}`;
 
     return this.http
-      .delete<ContatoExcluidoViewModel>(urlCompleto, this.obterHeadersDeAutorizacao())
+      .delete<ContatoExcluidoViewModel>(urlCompleto)
       .pipe(map(processarDados), catchError(processarFalha));
   }
 
   selecionarTodos(): Observable<ListarContatosViewModel[]> {
     return this.http
-      .get<ListarContatosViewModel[]>(this.url, this.obterHeadersDeAutorizacao())
+      .get<ListarContatosViewModel[]>(this.url)
       .pipe(map(processarDados), catchError(processarFalha));
   }
 
   selecionarPorId(id: string): Observable<DetalhesContatoViewModel> {
     const urlCompleto = `${this.url}/visualizacao-completa/${id}`;
     return this.http
-    .get<DetalhesContatoViewModel>(urlCompleto, this.obterHeadersDeAutorizacao())
+    .get<DetalhesContatoViewModel>(urlCompleto)
     .pipe(map(processarDados), catchError(processarFalha));
   }
 
@@ -62,17 +62,6 @@ export class ContatoService {
 
   removerFormatacaoTelefone(telefone: string): string {
     return telefone.replace(/\D/g, '');
-  }
-
-  private obterHeadersDeAutorizacao() {
-    const chave = this.localStorageService.obterTokenAutenticacao()?.chave ?? "";
-
-    return {
-      headers: new HttpHeaders( {
-        accept: 'application/json',
-        Authorization: `Bearer ${chave}`
-      })
-    }
   }
 
   private formatarTelefone(telefone: string): string {

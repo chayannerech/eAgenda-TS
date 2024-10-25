@@ -4,25 +4,31 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
-import { ContatoService } from '../services/contato.service';
-import { ListarContatos } from '../models/contato.models';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ListarContatosViewModel } from '../models/contato.models';
 
 @Component({
   selector: 'app-listar-contato',
   standalone: true,
-  imports: [ RouterLink, NgForOf, NgIf, AsyncPipe, MatCardModule, MatButtonModule, MatIconModule, MatTooltipModule ],
+  imports: [
+    NgIf,
+    NgForOf,
+    RouterLink,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule
+  ],
   templateUrl: './listar-contato.component.html',
   styleUrl: '../styles/contatos.scss'
 })
 
 export class ListarContatosComponent {
-  contatos$?: Observable<ListarContatos[]>;
+  contatos?: ListarContatosViewModel[] = [];
 
-  constructor( private contatoService: ContatoService ) {}
+  constructor( private route: ActivatedRoute ) {}
 
   ngOnInit(): void {
-    this.contatos$ = this.contatoService.selecionarTodos();
+    this.contatos = this.route.snapshot.data['contatos'];
   }
 }

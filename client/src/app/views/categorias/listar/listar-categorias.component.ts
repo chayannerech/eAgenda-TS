@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ListarCategorias } from '../models/categoria.models';
-import { RouterLink } from '@angular/router';
+import { ListarCategoriasViewModel } from '../models/categoria.models';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CategoriaService } from '../services/categoria.service';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-listagem-categorias',
@@ -18,11 +18,11 @@ import { Observable, tap } from 'rxjs';
 })
 
 export class ListarCategoriasComponent implements OnInit {
-  categorias$?: Observable<ListarCategorias[]>;
+  categorias?: ListarCategoriasViewModel[];
 
-  constructor( private categoriaService: CategoriaService ) {}
+  constructor( private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.categorias$ = this.categoriaService.selecionarTodos();
+    this.categorias = this.route.snapshot.data['categorias'];
   }
 }

@@ -1,4 +1,4 @@
-export interface ListarContatos {
+export interface ListarContatosViewModel {
   id: string;
   nome: string;
   email: string;

@@ -1,5 +1,5 @@
 
-export interface ListarCategorias {
+export interface ListarCategoriasViewModel {
   id: string;
   titulo: string;
 }

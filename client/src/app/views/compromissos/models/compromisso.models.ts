@@ -1,4 +1,4 @@
-export interface ListarCompromissos {
+export interface ListarCompromissosViewModel {
   id: string;
   assunto: string;
   data: string;

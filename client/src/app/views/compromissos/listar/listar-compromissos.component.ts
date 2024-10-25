@@ -4,10 +4,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CompromissoService } from '../services/compromisso.service';
-import { ListarCompromissos } from '../models/compromisso.models';
+import { ListarCompromissosViewModel } from '../models/compromisso.models';
 
 @Component({
   selector: 'app-listar-compromissos',
@@ -18,11 +18,11 @@ import { ListarCompromissos } from '../models/compromisso.models';
 })
 
 export class ListarCompromissosComponent {
-  compromissos$?: Observable<ListarCompromissos[]>;
+  compromissos?: ListarCompromissosViewModel[];
 
-  constructor( private compromissoService: CompromissoService ) {}
+  constructor( private route: ActivatedRoute ) {}
 
   ngOnInit(): void {
-    this.compromissos$ = this.compromissoService.selecionarTodos();
+    this.compromissos = this.route.snapshot.data['compromissos'];
   }
 }

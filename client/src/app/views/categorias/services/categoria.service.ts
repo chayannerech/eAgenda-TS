@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CategoriaEditada, CategoriaExcluida, CategoriaInserida, DetalhesCategoria, EditarCategoria, InserirCategoria, ListarCategorias } from '../models/categoria.models';
+import { CategoriaEditada, CategoriaExcluida, CategoriaInserida, DetalhesCategoria, EditarCategoria, InserirCategoria, ListarCategoriasViewModel } from '../models/categoria.models';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { LocalStorageService } from '../../../core/auth/service/local-storage.service';
@@ -28,9 +28,9 @@ export class CategoriaService {
     return this.http.delete<CategoriaExcluida>(urlCompleto, this.obterHeadersDeAutorizacao());
   }
 
-  selecionarTodos(): Observable<ListarCategorias[]> {
+  selecionarTodos(): Observable<ListarCategoriasViewModel[]> {
     const urlCompleto = `${this.url}`;
-    return this.http.get<ListarCategorias[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
+    return this.http.get<ListarCategoriasViewModel[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }
 
   selecionarPorId(id: string): Observable<DetalhesCategoria> {

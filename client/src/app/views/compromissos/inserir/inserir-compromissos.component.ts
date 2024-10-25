@@ -11,11 +11,11 @@ import { CompromissoService } from '../services/compromisso.service';
 import { InserirCompromisso } from '../models/compromisso.models';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule, MatOption, MatOptionModule } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { ContatoService } from '../../contatos/services/contato.service';
-import { ListarContatos } from '../../contatos/models/contato.models';
+import { ListarContatosViewModel } from '../../contatos/models/contato.models';
 import { Observable, tap } from 'rxjs';
 
 @Component({
@@ -44,7 +44,7 @@ export class InserirCompromissosComponent implements OnInit {
   compromissoForm: FormGroup;
   localDesabilitado: boolean;
   linkDesabilitado: boolean;
-  contatos$?: Observable<ListarContatos[]>;
+  contatos$?: Observable<ListarContatosViewModel[]>;
 
   constructor(
     private router: Router,

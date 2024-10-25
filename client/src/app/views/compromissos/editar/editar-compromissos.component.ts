@@ -13,7 +13,7 @@ import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { formatarComponente } from '../../../app.component';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { ListarContatos } from '../../contatos/models/contato.models';
+import { ListarContatosViewModel } from '../../contatos/models/contato.models';
 import { ContatoService } from '../../contatos/services/contato.service';
 import { DetalhesCompromisso, EditarCompromisso, InserirCompromisso } from '../models/compromisso.models';
 import { CompromissoService } from '../services/compromisso.service';
@@ -45,7 +45,7 @@ export class EditarCompromissosComponent {
   compromissoForm: FormGroup;
   localDesabilitado: boolean;
   linkDesabilitado: boolean;
-  contatos$?: Observable<ListarContatos[]>;
+  contatos$?: Observable<ListarContatosViewModel[]>;
 
   constructor(
     private route: ActivatedRoute,

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { LocalStorageService } from '../../../core/auth/service/local-storage.service';
-import { CompromissoEditado, CompromissoExcluido, CompromissoInserido, DetalhesCompromisso, EditarCompromisso, InserirCompromisso, ListarCompromissos } from '../models/compromisso.models';
+import { CompromissoEditado, CompromissoExcluido, CompromissoInserido, DetalhesCompromisso, EditarCompromisso, InserirCompromisso, ListarCompromissosViewModel } from '../models/compromisso.models';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +28,9 @@ export class CompromissoService {
     return this.http.delete<CompromissoExcluido>(urlCompleto, this.obterHeadersDeAutorizacao());
   }
 
-  selecionarTodos(): Observable<ListarCompromissos[]> {
+  selecionarTodos(): Observable<ListarCompromissosViewModel[]> {
     const urlCompleto = `${this.url}`;
-    return this.http.get<ListarCompromissos[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
+    return this.http.get<ListarCompromissosViewModel[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
   }
 
   selecionarPorId(id: string): Observable<DetalhesCompromisso> {

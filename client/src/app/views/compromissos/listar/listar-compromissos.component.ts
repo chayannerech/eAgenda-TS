@@ -5,8 +5,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
-import { CompromissoService } from '../services/compromisso.service';
 import { ListarCompromissosViewModel } from '../models/compromisso.models';
 
 @Component({

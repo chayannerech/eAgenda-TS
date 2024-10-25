@@ -3,23 +3,23 @@ export interface ListarCategoriasViewModel {
   id: string;
   titulo: string;
 }
-export interface InserirCategoria {
+export interface InserirCategoriaViewModel {
   titulo: string;
 }
-export interface CategoriaInserida {
+export interface CategoriaInseridaViewModel {
   id: string;
   titulo: string;
 }
-export interface EditarCategoria {
+export interface EditarCategoriaViewModel {
   titulo: string;
 }
-export interface CategoriaEditada {
+export interface CategoriaEditadaViewModel {
   id: string;
   titulo: string;
 }
-export interface DetalhesCategoria {
+export interface DetalhesCategoriaViewModel {
   id: string;
   titulo: string;
 }
 
-export interface CategoriaExcluida {}
+export interface CategoriaExcluidaViewModel {}

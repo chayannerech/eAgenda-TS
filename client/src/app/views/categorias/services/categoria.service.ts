@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CategoriaEditada, CategoriaExcluida, CategoriaInserida, DetalhesCategoria, EditarCategoria, InserirCategoria, ListarCategoriasViewModel } from '../models/categoria.models';
-import { map, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { CategoriaEditadaViewModel, CategoriaExcluidaViewModel, CategoriaInseridaViewModel, DetalhesCategoriaViewModel, EditarCategoriaViewModel, InserirCategoriaViewModel, ListarCategoriasViewModel } from '../models/categoria.models';
+import { catchError, map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { LocalStorageService } from '../../../core/auth/service/local-storage.service';
+import { processarDados, processarFalha, toTitleCase } from '../../../app.component';
 
 @Injectable({
   providedIn: 'root'
@@ -14,43 +15,29 @@ export class CategoriaService {
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
 
-  cadastrar(novaCategoria: InserirCategoria): Observable<CategoriaInserida> {
-    return this.http.post<CategoriaInserida>(this.url, novaCategoria, this.obterHeadersDeAutorizacao());
+  cadastrar(novaCategoria: InserirCategoriaViewModel): Observable<CategoriaInseridaViewModel> {
+    novaCategoria.titulo = toTitleCase(novaCategoria.titulo);
+    return this.http.post<CategoriaInseridaViewModel>(this.url, novaCategoria).pipe(map(processarDados), catchError(processarFalha));
   }
 
-  editar(id: string, categoriaEditada: EditarCategoria): Observable<CategoriaEditada> {
+  editar(id: string, categoriaEditada: EditarCategoriaViewModel): Observable<CategoriaEditadaViewModel> {
+    categoriaEditada.titulo = toTitleCase(categoriaEditada.titulo);
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.put<CategoriaEditada>(urlCompleto, categoriaEditada, this.obterHeadersDeAutorizacao());
+    return this.http.put<CategoriaEditadaViewModel>(urlCompleto, categoriaEditada).pipe(map(processarDados), catchError(processarFalha));
   }
 
-  excluir(id: string): Observable<CategoriaExcluida> {
+  excluir(id: string): Observable<CategoriaExcluidaViewModel> {
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.delete<CategoriaExcluida>(urlCompleto, this.obterHeadersDeAutorizacao());
+    return this.http.delete<CategoriaExcluidaViewModel>(urlCompleto).pipe(map(processarDados), catchError(processarFalha));
   }
 
   selecionarTodos(): Observable<ListarCategoriasViewModel[]> {
     const urlCompleto = `${this.url}`;
-    return this.http.get<ListarCategoriasViewModel[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
+    return this.http.get<ListarCategoriasViewModel[]>(urlCompleto).pipe(map(processarDados), catchError(processarFalha));
   }
 
-  selecionarPorId(id: string): Observable<DetalhesCategoria> {
+  selecionarPorId(id: string): Observable<DetalhesCategoriaViewModel> {
     const urlCompleto = `${this.url}/visualizacao-completa/${id}`;
-    return this.http.get<DetalhesCategoria>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
-  }
-
-  private obterHeadersDeAutorizacao() {
-    const chave = this.localStorageService.obterTokenAutenticacao()?.chave ?? "";
-
-    return {
-      headers: new HttpHeaders( {
-        accept: 'application/json',
-        Authorization: `Bearer ${chave}`
-      })
-    }
-  }
-
-  private processarDados(resposta: any) {
-    if (resposta.sucesso) return resposta.dados;
-    throw new Error();
+    return this.http.get<DetalhesCategoriaViewModel>(urlCompleto).pipe(map(processarDados), catchError(processarFalha));
   }
 }

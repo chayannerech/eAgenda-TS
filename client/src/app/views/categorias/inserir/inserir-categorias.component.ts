@@ -5,10 +5,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
-import { InserirCategoria } from '../models/categoria.models';
+import { CategoriaInseridaViewModel, InserirCategoriaViewModel } from '../models/categoria.models';
 import { CategoriaService } from '../services/categoria.service';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { NgIf } from '@angular/common';
+import { PartialObserver } from 'rxjs';
 
 @Component({
   selector: 'app-inserir-categorias',
@@ -41,14 +42,24 @@ export class InserirCategoriaComponent {
   cadastrar() {
     if (this.categoriaForm.invalid) return;
 
-    const novaCategoria: InserirCategoria = this.categoriaForm.value;
+    const novaCategoria: InserirCategoriaViewModel = this.categoriaForm.value;
+    const observer: PartialObserver<CategoriaInseridaViewModel> = {
+      next: (novaCategoria) => this.processarSucesso(novaCategoria),
+      error: (erro) => this.processarFalha(erro)
+    }
 
-    this.categoriaService.cadastrar(novaCategoria).subscribe((res) => {
-      this.notificacao.sucesso(
-        `A categoria '${novaCategoria.titulo}' foi cadastrada com sucesso!`
-      );
+    this.categoriaService.cadastrar(novaCategoria).subscribe(observer);
+  }
 
-      this.router.navigate(['/categorias']);
-    });
+  private processarSucesso(novaCategoria: CategoriaInseridaViewModel) {
+    this.notificacao.sucesso(
+      `A categoria '${novaCategoria.titulo}' foi cadastrada com sucesso!`
+    );
+
+    this.router.navigate(['/categorias']);
+  }
+
+  private processarFalha(erro: Error) {
+    this.notificacao.erro(erro.message);
   }
 }

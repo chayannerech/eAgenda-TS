@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable, tap } from 'rxjs';
-import { DetalhesCategoria } from '../models/categoria.models';
+import { Observable, PartialObserver, tap } from 'rxjs';
+import { CategoriaExcluidaViewModel, DetalhesCategoriaViewModel } from '../models/categoria.models';
 import { CategoriaService } from '../services/categoria.service';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { toTitleCase } from '../../../app.component';
@@ -18,8 +18,8 @@ import { toTitleCase } from '../../../app.component';
 
 export class ExcluirCategoriaComponent implements OnInit {
   id?: string;
-  categoria$?: Observable<DetalhesCategoria>;
-  nomeDaCategoria: string;
+  categoria?: DetalhesCategoriaViewModel;
+  tituloDaCategoria: string;
 
   constructor (
     private route: ActivatedRoute,
@@ -27,28 +27,36 @@ export class ExcluirCategoriaComponent implements OnInit {
     private categoriaService: CategoriaService,
     private notificacao: NotificacaoService
   ) {
-    this.nomeDaCategoria = "";
+    this.tituloDaCategoria = "";
   }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['id'];
-
-    if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
-    this.categoria$ = this.categoriaService.selecionarPorId(this.id).pipe(
-      tap(categoria => this.nomeDaCategoria = categoria.titulo))
+    this.categoria = this.route.snapshot.data['categoria'];
+    this.tituloDaCategoria = this.categoria!.titulo;
   }
 
   excluir() {
-    if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
+      const id = this.route.snapshot.params['id'];
+      if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    this.categoriaService
-      .excluir(this.id)
-      .subscribe(() => {
-        this.notificacao.sucesso(
-          `A categoria '${toTitleCase(this.nomeDaCategoria)}' foi excluída com sucesso!`
-        );
+      const observer: PartialObserver<CategoriaExcluidaViewModel> = {
+        next: () => this.processarSucesso(),
+        error: (erro) => this.processarFalha(erro)
+      }
 
-        this.router.navigate(['/categorias']);
-      });
+      this.categoriaService.excluir(id).subscribe(observer);
+
+  }
+
+  private processarSucesso() {
+    this.notificacao.sucesso(
+      `A categoria '${this.tituloDaCategoria}' foi excluída com sucesso!`
+    );
+
+    this.router.navigate(['/categorias']);
+  }
+
+  private processarFalha(erro: Error) {
+    this.notificacao.erro(erro.message);
   }
 }

@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterLink, Router } from '@angular/router';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { CompromissoService } from '../services/compromisso.service';
-import { InserirCompromisso } from '../models/compromisso.models';
+import { CompromissoInseridoViewModel, InserirCompromissoViewModel } from '../models/compromisso.models';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -15,8 +15,7 @@ import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { ContatoService } from '../../contatos/services/contato.service';
 import { ListarContatosViewModel } from '../../contatos/models/contato.models';
-import { Observable, tap } from 'rxjs';
-import { toTitleCase } from '../../../app.component';
+import { Observable, PartialObserver } from 'rxjs';
 
 @Component({
   selector: 'app-inserir-compromissos',
@@ -70,10 +69,6 @@ export class InserirCompromissosComponent implements OnInit {
   ngOnInit(): void {
     this.contatos$ = this.contatoService.selecionarTodos();
     this.tipoDeLocalEscolhido({ value: '1' });
-
-    this.tipoLocal!.valueChanges.subscribe(value => {
-      this.tipoDeLocalEscolhido(value);
-    });
   }
 
   get assunto() { return this.compromissoForm.get('assunto'); }
@@ -88,18 +83,13 @@ export class InserirCompromissosComponent implements OnInit {
   cadastrar() {
     if (this.compromissoForm.invalid) return;
 
-    const novoCompromisso: InserirCompromisso = this.compromissoForm.value;
-    toTitleCase(novoCompromisso.assunto);
-    toTitleCase(novoCompromisso.local ?? "");
-    this.formatarTipoDeLocal(novoCompromisso);
+    const novoCompromisso: InserirCompromissoViewModel = this.compromissoForm.value;
+    const observer: PartialObserver<CompromissoInseridoViewModel> = {
+      next: (novoCompromisso) => this.processarSucesso(novoCompromisso),
+      error: (erro) => this.processarFalha(erro)
+    }
 
-    this.compromissoService.cadastrar(novoCompromisso).subscribe(() => {
-      this.notificacao.sucesso(
-        `O Compromisso '${novoCompromisso.assunto}' foi cadastrado com sucesso!`
-      );
-
-      this.router.navigate(['/compromissos']);
-    });
+    this.compromissoService.cadastrar(novoCompromisso).subscribe(observer);
   }
 
   public tipoDeLocalEscolhido(event: any) {
@@ -118,15 +108,17 @@ export class InserirCompromissosComponent implements OnInit {
       this.local?.clearValidators();
       this.local?.setValue('');
     }
-
-    this.local?.updateValueAndValidity();
-    this.link?.updateValueAndValidity();
   }
 
-  private formatarTipoDeLocal(novoCompromisso: InserirCompromisso) {
-    if (novoCompromisso.tipoLocal == 0)
-      novoCompromisso.tipoLocal = 0;
-    else
-      novoCompromisso.tipoLocal = 1;
+  private processarSucesso(novoCompromisso: CompromissoInseridoViewModel) {
+    this.notificacao.sucesso(
+      `O Compromisso '${novoCompromisso.assunto}' foi cadastrado com sucesso!`
+    );
+
+    this.router.navigate(['/compromissos']);
+}
+
+  private processarFalha(erro: Error) {
+    this.notificacao.erro(erro.message);
   }
 }

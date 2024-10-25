@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError, map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { LocalStorageService } from '../../../core/auth/service/local-storage.service';
-import { CompromissoEditado, CompromissoExcluido, CompromissoInserido, DetalhesCompromisso, EditarCompromisso, InserirCompromisso, ListarCompromissosViewModel } from '../models/compromisso.models';
+import { CompromissoEditadoViewModel, CompromissoExcluidoViewModel, CompromissoInseridoViewModel, DetalhesCompromissoViewModel, EditarCompromissoViewModel, InserirCompromissoViewModel, ListarCompromissosViewModel } from '../models/compromisso.models';
+import { processarDados, processarFalha, toTitleCase } from '../../../app.component';
 
 @Injectable({
   providedIn: 'root'
@@ -14,43 +15,59 @@ export class CompromissoService {
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
 
-  cadastrar(novoCompromisso: InserirCompromisso): Observable<CompromissoInserido> {
-    return this.http.post<CompromissoInserido>(this.url, novoCompromisso, this.obterHeadersDeAutorizacao());
+  cadastrar(novoCompromisso: InserirCompromissoViewModel): Observable<CompromissoInseridoViewModel> {
+    this.formatarCompromisso(novoCompromisso);
+    this.formatarTipoDeLocal(novoCompromisso);
+
+    return this.http
+      .post<CompromissoInseridoViewModel>(this.url, novoCompromisso)
+      .pipe(map(processarDados), catchError(processarFalha));
   }
 
-  editar(id: string, CompromissoEditada: EditarCompromisso): Observable<CompromissoEditado> {
+  editar(id: string, compromissoEditado: EditarCompromissoViewModel): Observable<CompromissoEditadoViewModel> {
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.put<CompromissoEditado>(urlCompleto, CompromissoEditada, this.obterHeadersDeAutorizacao());
+    this.formatarCompromisso(compromissoEditado);
+    this.formatarTipoDeLocal(compromissoEditado);
+
+    return this.http
+    .put<CompromissoEditadoViewModel>(urlCompleto, compromissoEditado)
+    .pipe(map(processarDados), catchError(processarFalha));
   }
 
-  excluir(id: string): Observable<CompromissoExcluido> {
+  excluir(id: string): Observable<CompromissoExcluidoViewModel> {
     const urlCompleto = `${this.url}/${id}`;
-    return this.http.delete<CompromissoExcluido>(urlCompleto, this.obterHeadersDeAutorizacao());
+    return this.http
+      .delete<CompromissoExcluidoViewModel>(urlCompleto)
+      .pipe(map(processarDados), catchError(processarFalha));
   }
 
   selecionarTodos(): Observable<ListarCompromissosViewModel[]> {
     const urlCompleto = `${this.url}`;
-    return this.http.get<ListarCompromissosViewModel[]>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
+    return this.http
+      .get<ListarCompromissosViewModel[]>(urlCompleto)
+      .pipe(map(processarDados), catchError(processarFalha));
   }
 
-  selecionarPorId(id: string): Observable<DetalhesCompromisso> {
+  selecionarPorId(id: string): Observable<DetalhesCompromissoViewModel> {
     const urlCompleto = `${this.url}/visualizacao-completa/${id}`;
-    return this.http.get<DetalhesCompromisso>(urlCompleto, this.obterHeadersDeAutorizacao()).pipe(map(this.processarDados));
+    return this.http
+      .get<DetalhesCompromissoViewModel>(urlCompleto)
+      .pipe(map(processarDados), catchError(processarFalha));
   }
 
-  private obterHeadersDeAutorizacao() {
-    const chave = this.localStorageService.obterTokenAutenticacao()?.chave ?? "";
-
-    return {
-      headers: new HttpHeaders( {
-        accept: 'application/json',
-        Authorization: `Bearer ${chave}`
-      })
-    }
+  formatarHorario(horario: string): string {
+    return horario.split('', 5).join('');
   }
 
-  private processarDados(resposta: any) {
-    if (resposta.sucesso) return resposta.dados;
-    throw new Error();
+  private formatarCompromisso(compromisso: any) {
+    compromisso.assunto = toTitleCase(compromisso.assunto);
+    if (compromisso.local)
+      compromisso.local = toTitleCase(compromisso.local);
+  }
+
+  private formatarTipoDeLocal(compromisso: any) {
+    if (compromisso.tipoLocal == 0) compromisso.tipoLocal = 0;
+    else
+      compromisso.tipoLocal = 1;
   }
 }

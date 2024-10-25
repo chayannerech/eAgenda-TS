@@ -10,7 +10,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { toTitleCase } from '../../../app.component';
 import { PartialObserver } from 'rxjs';
 
 @Component({
@@ -32,7 +31,6 @@ import { PartialObserver } from 'rxjs';
 })
 
 export class EditarContatoComponent implements OnInit {
-  id?: string;
   contatoForm: FormGroup;
 
   constructor(
@@ -66,10 +64,8 @@ export class EditarContatoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['id'];
-
-    if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
-    this.contatoService.selecionarPorId(this.id).subscribe((res) => this.trazerValoresParaEdicao(res));
+    const contato = this.route.snapshot.data['contato'];
+    this.trazerValoresParaEdicao(contato);
   }
 
   get nome() { return this.contatoForm.get('nome'); }
@@ -80,7 +76,9 @@ export class EditarContatoComponent implements OnInit {
 
   editar() {
     if (this.contatoForm.invalid) return;
-    if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
+
+    const id = this.route.snapshot.params['id'];
+    if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
     const contato: EditarContatoViewModel = this.contatoForm.value;
     const observer: PartialObserver<ContatoEditadoViewModel> = {
@@ -88,7 +86,7 @@ export class EditarContatoComponent implements OnInit {
       error: (erro) => this.processarFalha(erro)
     }
 
-    this.contatoService.editar(this.id, contato).subscribe(observer);
+    this.contatoService.editar(id, contato).subscribe(observer);
   }
 
   private trazerValoresParaEdicao(contatoSelecionado: DetalhesContatoViewModel) {

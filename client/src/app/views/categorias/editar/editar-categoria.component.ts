@@ -6,8 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CategoriaService } from '../services/categoria.service';
-import { DetalhesCategoria, EditarCategoria } from '../models/categoria.models';
+import { CategoriaEditadaViewModel, EditarCategoriaViewModel } from '../models/categoria.models';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
+import { PartialObserver } from 'rxjs/internal/types';
 
 @Component({
   selector: 'app-editar-categorias',
@@ -16,8 +17,8 @@ import { NotificacaoService } from '../../../core/notificacao/notificacao.servic
   templateUrl: './editar-categoria.component.html',
   styleUrl: '../styles/categorias.scss',
 })
+
 export class EditarCategoriaComponent implements OnInit{
-  id?: string;
   categoriaForm: FormGroup;
 
   constructor (
@@ -35,32 +36,36 @@ export class EditarCategoriaComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['id'];
-
-    if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
-    this.categoriaService.selecionarPorId(this.id).subscribe((res) => this.trazerValoresParaEdicao(res));
+    const categoria = this.route.snapshot.data['categoria'];
+    this.categoriaForm.patchValue(categoria);
   }
 
-  get titulo() {
-    return this.categoriaForm.get('titulo');
-  }
+  get titulo() { return this.categoriaForm.get('titulo');}
 
   editar() {
     if (this.categoriaForm.invalid) return;
-    if (!this.id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    const categoriaEditada: EditarCategoria = this.categoriaForm.value;
+    const id = this.route.snapshot.params['id'];
+    if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    this.categoriaService.editar(this.id, categoriaEditada).subscribe((res) => {
-      this.notificacao.sucesso(
-        `A categoria ${res.titulo} foi editada com sucesso!`
-      );
+    const categoriaEditada: EditarCategoriaViewModel = this.categoriaForm.value;
+    const observer: PartialObserver<CategoriaEditadaViewModel> = {
+      next: (categoria) => this.processarSucesso(categoria),
+      error: (erro) => this.processarFalha(erro)
+    }
 
-      this.router.navigate(['/categorias']);
-    });
+    this.categoriaService.editar(id, categoriaEditada).subscribe(observer);
   }
 
-  private trazerValoresParaEdicao(categoriaSelecionada: DetalhesCategoria) {
-    this.categoriaForm.patchValue(categoriaSelecionada);
+  private processarSucesso(categoriaEditada: CategoriaEditadaViewModel) {
+    this.notificacao.sucesso(
+      `A categoria ${categoriaEditada.titulo} foi editada com sucesso!`
+    );
+
+    this.router.navigate(['/categorias']);
+  }
+
+  private processarFalha(erro: Error) {
+    this.notificacao.erro(erro.message);
   }
 }

@@ -26,3 +26,11 @@
   margin: 0;
   z-index: 0;
 }
+
+.app-input-forjado {
+  background-color: var(--mdc-filled-text-field-container-color, var(--mat-app-surface-variant));
+  padding: 7px 16px;
+  border-bottom: 1px solid white;
+  border-radius: 4px 4px 0 0;
+  font-family: var(--mat-form-field-container-text-font, var(--mat-app-body-large-font));
+}

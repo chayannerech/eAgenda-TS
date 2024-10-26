@@ -8,13 +8,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { ContatoInseridoViewModel, InserirContatoViewModel } from '../models/contato.models';
-import { ContatoService } from '../services/contato.service';
 import { PartialObserver } from 'rxjs';
-import { toTitleCase } from '../../../app.component';
+import { InserirTarefaViewModel, TarefaInseridaViewModel } from '../models/tarefa.models';
+import { TarefaService } from '../services/tarefa.service';
+import { MatRadioModule } from '@angular/material/radio';
 
 @Component({
-  selector: 'app-inserir-contato',
+  selector: 'app-inserir-tarefa',
   standalone: true,
   imports: [
     NgIf,
@@ -24,35 +24,34 @@ import { toTitleCase } from '../../../app.component';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    NgxMaskDirective
+    NgxMaskDirective,
+    MatRadioModule
   ],
-  templateUrl: './inserir-contato.component.html',
-  styleUrl: '../styles/contatos.scss',
+
+  templateUrl: './inserir-tarefa.component.html',
+  styleUrl: '../styles/tarefas.scss',
   providers: [provideNgxMask()]
 })
 
-export class InserirContatoComponent {
-  contatoForm: FormGroup;
+export class InserirTarefaComponent {
+  tarefaForm: FormGroup;
 
   constructor(
     private router: Router,
-    private contatoService: ContatoService,
+    private tarefaService: TarefaService,
     private notificacao: NotificacaoService
   ) {
-    this.contatoForm = new FormGroup({
-      nome: new FormControl<string>('', [
+    this.tarefaForm = new FormGroup({
+      titulo: new FormControl<string>('', [
         Validators.required,
         Validators.minLength(3),
       ]),
-      email: new FormControl<string>('', [
-        Validators.required,
-        Validators.email,
-      ]),
+      prioridade: new FormControl<string>('0'),
       empresa: new FormControl<string>('', [
         Validators.required,
         Validators.minLength(3),
       ]),
-      cargo: new FormControl<string>('', [
+      itens: new FormControl<string>('', [
         Validators.required,
         Validators.minLength(3),
       ]),
@@ -63,29 +62,29 @@ export class InserirContatoComponent {
     });
   }
 
-  get nome() { return this.contatoForm.get('nome'); }
-  get email() { return this.contatoForm.get('email'); }
-  get empresa() { return this.contatoForm.get('empresa'); }
-  get cargo() { return this.contatoForm.get('cargo'); }
-  get telefone() { return this.contatoForm.get('telefone'); }
+  get titulo() { return this.tarefaForm.get('titulo'); }
+  get prioridade() { return this.tarefaForm.get('prioridade'); }
+  get empresa() { return this.tarefaForm.get('empresa'); }
+  get itens() { return this.tarefaForm.get('itens'); }
+  get telefone() { return this.tarefaForm.get('telefone'); }
 
   cadastrar() {
-    if (this.contatoForm.invalid) return;
+    if (this.tarefaForm.invalid) return;
 
-    const novoContato: InserirContatoViewModel = this.contatoForm.value;
-    const observer: PartialObserver<ContatoInseridoViewModel> = {
-      next: (novoContato) => this.processarSucesso(novoContato),
+    const novoTarefa: InserirTarefaViewModel = this.tarefaForm.value;
+    const observer: PartialObserver<TarefaInseridaViewModel> = {
+      next: (novoTarefa) => this.processarSucesso(novoTarefa),
       error: (erro) => this.processarFalha(erro)
     }
 
-    this.contatoService.cadastrar(novoContato).subscribe(observer);
+    this.tarefaService.cadastrar(novoTarefa).subscribe(observer);
   }
 
-  private processarSucesso(novoContato: ContatoInseridoViewModel) {
+  private processarSucesso(novoTarefa: TarefaInseridaViewModel) {
     this.notificacao.sucesso(
-      `O contato '${novoContato.nome}' foi cadastrado com sucesso!`
+      `O tarefa '${novoTarefa.titulo}' foi cadastrado com sucesso!`
     );
-    this.router.navigate(['/contatos']);
+    this.router.navigate(['/tarefas']);
   }
 
   private processarFalha(erro: Error) {

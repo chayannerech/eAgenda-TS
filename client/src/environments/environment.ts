@@ -1,5 +1,4 @@
 export const environment = {
   production: true,
   apiUrl: 'https://localhost:4300/api',
-  apiKey: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YmY3YTYxNC1lYWEyLTRjNmYtMTJhNC0wOGRjZjBhYTMzZWUiLCJlbWFpbCI6InBlZHJpbmhvQGdtYWlsLmNvbSIsInVuaXF1ZV9uYW1lIjoicGVkcmluaG8iLCJnaXZlbl9uYW1lIjoicGVkcmluaG8iLCJuYmYiOjE3Mjk0ODQ2MTIsImV4cCI6MTcyOTkxNjYxMiwiaWF0IjoxNzI5NDg0NjEyLCJpc3MiOiJlQWdlbmRhIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdCJ9.1Mi5861b-MVkb-kY04LnJ-qOQfqlQ3LMxeljCKeH-Js'
 };

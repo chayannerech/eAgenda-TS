@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { LocalStorageService } from '../../../core/auth/service/local-storage.service';
 import { ContatoEditadoViewModel, ContatoExcluidoViewModel, ContatoInseridoViewModel, DetalhesContatoViewModel, EditarContatoViewModel, InserirContatoViewModel, ListarContatosViewModel } from '../models/contato.models';

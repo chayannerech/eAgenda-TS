@@ -7,17 +7,18 @@ describe('Processo de Registro do Usuário', () => {
     cy.contains('Registro de Usuário')
   });
 
-  // it('Deve registrar o usuário corretamente e redirecionar para o dashboard', () => {
-  //   cy.get('[data-cy=nome]').type('Teste de registro');
-  //   cy.get('[data-cy=login]').type('testeRegistro');
-  //   cy.get('[data-cy=email]').type('testeRegistro@dominio.com');
-  //   cy.get('[data-cy=senha]').type('Che!698319');
-  //   cy.get('[data-cy=submit]').click();
-  //   cy.wait(1000);
+  it('Deve registrar o usuário corretamente e redirecionar para o dashboard', () => {
+    cy.limparDados();
+    cy.get('[data-cy=nome]').type('Teste de registro');
+    cy.get('[data-cy=login]').type('testeRegistro');
+    cy.get('[data-cy=email]').type('testeRegistro@dominio.com');
+    cy.get('[data-cy=senha]').type('Che!698319');
+    cy.get('[data-cy=submit]').click();
+    cy.wait(1000);
 
-  //   cy.contains('Painel de Controle');
-  //   cy.url().should('contains', '/dashboard');
-  // })
+    cy.contains('Painel de Controle');
+    cy.url().should('contains', '/dashboard');
+  })
 
   it('Deve mostrar erro de campos vazios', () => {
     cy.get('[data-cy=submit]').click();
@@ -80,24 +81,24 @@ describe('Processo de Registro do Usuário', () => {
 
   it('Deve mostrar erro de login repetido', () => {
     cy.get('[data-cy=nome]').type('Teste de registro');
-    cy.get('[data-cy=login]').type('testeLogin');
+    cy.get('[data-cy=login]').type('testeRegistro');
+    cy.get('[data-cy=email]').type('testeRegistro11@dominio.com');
+    cy.get('[data-cy=senha]').type('Abc!123');
+    cy.get('[data-cy=submit]').click();
+    cy.wait(1000);
+
+    cy.contains("Login 'testeRegistro' já está sendo utilizado");
+  })
+
+  it('Deve mostrar erro de email repetido', () => {
+    cy.get('[data-cy=nome]').type('Teste de registro');
+    cy.get('[data-cy=login]').type('testeRegistro11');
     cy.get('[data-cy=email]').type('testeRegistro@dominio.com');
     cy.get('[data-cy=senha]').type('Abc!123');
     cy.get('[data-cy=submit]').click();
     cy.wait(1000);
 
-    cy.contains("Login 'testeLogin' já está sendo utilizado");
-  })
-
-  it('Deve mostrar erro de email repetido', () => {
-    cy.get('[data-cy=nome]').type('Teste de registro');
-    cy.get('[data-cy=login]').type('testeRegistro1');
-    cy.get('[data-cy=email]').type('testeLogin@dominio.com');
-    cy.get('[data-cy=senha]').type('Abc!123');
-    cy.get('[data-cy=submit]').click();
-    cy.wait(1000);
-
-    cy.contains("Email 'testeLogin@dominio.com' já está sendo utilizado");
+    cy.contains("Email 'testeRegistro@dominio.com' já está sendo utilizado");
   })
 
   it('Deve redirecionar à pagina de login de usuário', () => {

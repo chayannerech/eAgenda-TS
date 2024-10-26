@@ -1,0 +1,28 @@
+.app-container-tarefas {
+  padding: 50px;
+}
+
+.app-card-tarefas {
+  background-color: #3d3d3d;
+}
+
+.app-botao-tarefas {
+  border: 1px solid rgb(114, 114, 114);
+}
+
+.app-icone-tarefas {
+  display: inline-flex;
+  justify-content: center;
+  margin-right: 10px;
+  font-size: 30px;
+  width: 28px;
+  height: 27px;
+}
+
+.app-icone-home {
+  font-size: 35px;
+  width: 35px;
+  height: 35px;
+  margin: 0;
+  z-index: 0;
+}

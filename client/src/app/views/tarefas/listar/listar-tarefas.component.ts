@@ -24,11 +24,11 @@ import { ListarTarefasViewModel } from '../models/tarefa.models';
 })
 
 export class ListarTarefasComponent {
-  tarefass?: ListarTarefasViewModel[] = [];
+  tarefas?: ListarTarefasViewModel[] = [];
 
   constructor( private route: ActivatedRoute ) {}
 
   ngOnInit(): void {
-    this.tarefass = this.route.snapshot.data['tarefas'];
+    this.tarefas = this.route.snapshot.data['tarefas'];
   }
 }

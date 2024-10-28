@@ -9,8 +9,8 @@
   >
     <mat-toolbar>
       <span class="d-flex align-items-center gap-2">
-      <mat-icon>note_alt</mat-icon>
-      e-Agenda
+        e-Agenda
+        <mat-icon>edit_note</mat-icon>
       </span>
     </mat-toolbar>
 
@@ -59,17 +59,15 @@
       >
         <mat-icon aria-label="Ícone ativador da barra lateral">menu</mat-icon>
       </button>
-
       <span *ngIf="usuarioAutenticado" class="d-flex align-items-center gap-3 ms-auto">
         <span>Seja bem-vindo(a), {{ usuarioAutenticado.nome }}!</span>
       </span>
-
       <span
         *ngIf="isHandset$ | async"
-        class="d-flex align-items-center gap-2 ms-auto"
+        class="d-none d-md-flex align-items-center gap-2 ms-auto"
       >
-        <mat-icon>note_alt</mat-icon>
-        e-Agenda
+      e-Agenda
+      <mat-icon>edit_note</mat-icon>
       </span>
     </mat-toolbar>
     <ng-content></ng-content>

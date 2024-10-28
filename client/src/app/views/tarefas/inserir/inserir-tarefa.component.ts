@@ -128,7 +128,13 @@ export class InserirTarefaComponent {
 
     let novaTarefa: InserirTarefaViewModel = this.tarefaForm.value;
     novaTarefa.itens = this.itensTarefa;
-    novaTarefa.prioridade = 1;
+    if (novaTarefa.prioridade == 0)
+      novaTarefa.prioridade = 0;
+    else if (novaTarefa.prioridade == 1)
+      novaTarefa.prioridade = 1;
+    else
+      novaTarefa.prioridade = 2;
+
     const observer: PartialObserver<TarefaInseridaViewModel> = {
       next: (novaTarefa) => this.processarSucesso(novaTarefa),
       error: (erro) => this.processarFalha(erro)

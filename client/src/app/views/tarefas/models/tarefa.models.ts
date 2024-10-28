@@ -27,22 +27,21 @@ export interface TarefaEditadaViewModel {
   prioridade: number;
   itens: ItemTarefaViewModel;
 }
+export interface DetalhesTarefaViewModel {
+  id: string;
+  titulo: string;
+  dataConclusao: string;
+  prioridade: string;
+  quantidadedeItens: number;
+  percentualConcluido: number;
+  itens: ItemTarefaViewModel[]
+}
+
 export interface ItemTarefaViewModel {
   id: string;
   titulo: string;
   status: number;
   concluido: boolean;
-}
-export interface DetalhesTarefaViewModel {
-  id: string;
-  titulo: string;
-  dataCriacao: string;
-  dataConclusao: string;
-  quantidadedeItens: number;
-  percentualConcluido: number;
-  prioridade: string;
-  situacao: string;
-  itens: ItensTarefaDetalhesViewModel
 }
 export interface ItensTarefaDetalhesViewModel {
   titulo: string;

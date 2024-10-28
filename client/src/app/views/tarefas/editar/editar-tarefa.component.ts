@@ -2,106 +2,186 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { ContatoEditadoViewModel, DetalhesContatoViewModel, EditarContatoViewModel, InserirContatoViewModel } from '../models/contato.models';
-import { ContatoService } from '../services/contato.service';
-import { NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { PartialObserver } from 'rxjs';
+import { DetalhesTarefaViewModel, InserirTarefaViewModel, ItemTarefaViewModel, TarefaInseridaViewModel } from '../models/tarefa.models';
+import { TarefaService } from '../services/tarefa.service';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
-  selector: 'app-editar-contato',
+  selector: 'app-inserir-tarefa',
   standalone: true,
   imports: [
     NgIf,
+    NgFor,
+    NgClass,
     RouterLink,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    NgxMaskDirective
-  ],
-  templateUrl: './editar-contato.component.html',
-  styleUrl: '../styles/contatos.scss',
-  providers: [provideNgxMask()]
+    MatRadioModule,
+    MatExpansionModule,
+],
+
+  templateUrl: './editar-tarefa.component.html',
+  styleUrl: '../styles/tarefas.scss',
 })
 
-export class EditarContatoComponent implements OnInit {
-  contatoForm: FormGroup;
+export class EditarTarefaComponent implements OnInit {
+  tarefaForm: FormGroup;
+  itemForm: FormGroup;
+  itensTarefa: ItemTarefaViewModel[];
+
+  cadastrandoItem: boolean;
+  mostrandoItens: boolean;
+  editandoItem: boolean;
+  excluindoItem: boolean;
+  itemEmEdicao: ItemTarefaViewModel | undefined;
+  itemEmExclusao: ItemTarefaViewModel | undefined;
+  iconeSanfona: string;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private contatoService: ContatoService,
+    private tarefaService: TarefaService,
     private notificacao: NotificacaoService
   ) {
-    this.contatoForm = new FormGroup({
-      nome: new FormControl<string>('', [
+    this.cadastrandoItem = this.editandoItem = this.excluindoItem = this.mostrandoItens = false;
+    this.itensTarefa = [];
+    this.iconeSanfona = 'arrow_drop_down';
+    this.tarefaForm = new FormGroup({
+      titulo: new FormControl<string>('', [
         Validators.required,
         Validators.minLength(3),
       ]),
-      email: new FormControl<string>('', [
-        Validators.required,
-        Validators.email,
-      ]),
-      empresa: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      cargo: new FormControl<string>('', [
+      prioridade: new FormControl<string>('0'),
+    });
+    this.itemForm = new FormGroup({
+      titulo: new FormControl<string>('', [
         Validators.required,
         Validators.minLength(3),
-      ]),
-      telefone: new FormControl<string>('', [
-        Validators.required,
-        Validators.pattern('^\\d{11}$'),
       ]),
     });
   }
 
   ngOnInit(): void {
-    const contato = this.route.snapshot.data['contato'];
-    this.trazerValoresParaEdicao(contato);
+    const tarefa = this.route.snapshot.data['tarefa'];
+    this.trazerValoresParaEdicao(tarefa);
   }
 
-  get nome() { return this.contatoForm.get('nome'); }
-  get email() { return this.contatoForm.get('email'); }
-  get empresa() { return this.contatoForm.get('empresa'); }
-  get cargo() { return this.contatoForm.get('cargo'); }
-  get telefone() { return this.contatoForm.get('telefone'); }
+  get titulo() { return this.tarefaForm.get('titulo'); }
+  get prioridade() { return this.tarefaForm.get('prioridade'); }
+  get empresa() { return this.tarefaForm.get('empresa'); }
+  get tituloTarefa() { return this.itemForm.get('titulo'); }
 
-  editar() {
-    if (this.contatoForm.invalid) return;
+  alterarIconeSanfona(): void {
+    this.iconeSanfona = this.iconeSanfona == 'arrow_drop_down' ? 'arrow_drop_up' : 'arrow_drop_down';
+  }
 
-    const id = this.route.snapshot.params['id'];
-    if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
+  inserirItens() {
+    if (this.itemForm.invalid) return;
 
-    const contato: EditarContatoViewModel = this.contatoForm.value;
-    const observer: PartialObserver<ContatoEditadoViewModel> = {
-      next: (contato) => this.processarSucesso(contato),
+    const novoItem: ItemTarefaViewModel = this.itemForm.value;
+    novoItem.id = this.gerarUUID();
+    novoItem.concluido = false;
+    novoItem.status = 0;
+
+    this.itensTarefa.push(novoItem);
+    this.cadastrandoItem = false;
+    this.tituloTarefa?.reset();
+    console.log(novoItem);
+  }
+
+  cancelarItem() {
+    this.cadastrandoItem = this.editandoItem = false;
+    this.tituloTarefa?.reset();
+  }
+
+  abrirEdicaoDeItem(id: string) {
+    if (!id) return;
+
+    this.itemEmEdicao = this.selecionarItemPorId(id);
+
+    this.titulo?.setValue(this.itemEmEdicao!.titulo);
+    this.editandoItem = true;
+    this.cadastrandoItem = false;
+  }
+
+  editarItem() {
+    if (this.itemForm.invalid) return;
+
+    const itemEditado = this.selecionarItemPorId(this.itemEmEdicao!.id);
+    itemEditado!.titulo = this.itemForm.value.titulo;
+
+    this.editandoItem = false;
+    this.tituloTarefa?.reset();
+  }
+
+  excluirItem(id: string) {
+    this.itensTarefa = this.itensTarefa.filter(item => item.id != id);
+    this.excluindoItem = false;
+  }
+
+  cadastrar() {
+    if (this.tarefaForm.invalid) return;
+
+    let novaTarefa: InserirTarefaViewModel = this.tarefaForm.value;
+    novaTarefa.itens = this.itensTarefa;
+    novaTarefa.prioridade = 1;
+    const observer: PartialObserver<TarefaInseridaViewModel> = {
+      next: (novaTarefa) => this.processarSucesso(novaTarefa),
       error: (erro) => this.processarFalha(erro)
     }
 
-    this.contatoService.editar(id, contato).subscribe(observer);
+    console.log(novaTarefa);
+
+    this.tarefaService.cadastrar(novaTarefa).subscribe(observer);
   }
 
-  private trazerValoresParaEdicao(contatoSelecionado: DetalhesContatoViewModel) {
-    contatoSelecionado.telefone = this.contatoService.removerFormatacaoTelefone(contatoSelecionado.telefone);
-    this.contatoForm.patchValue(contatoSelecionado);
-  }
-
-  private processarSucesso(novoContato: ContatoEditadoViewModel) {
+  private processarSucesso(novaTarefa: TarefaInseridaViewModel) {
     this.notificacao.sucesso(
-      `O contato '${novoContato.nome}' foi editado com sucesso!`
+      `A tarefa '${novaTarefa.titulo}' foi cadastrada com sucesso!`
     );
-    this.router.navigate(['/contatos']);
+    this.router.navigate(['/tarefas']);
   }
 
   private processarFalha(erro: Error) {
     this.notificacao.erro(erro.message);
+  }
+
+  private selecionarItemPorId(id: string) : ItemTarefaViewModel | undefined{
+    for(let item of this.itensTarefa)
+      if (item.id == id)
+        return item;
+    return;
+  }
+
+  private gerarUUID(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (caractere) => {
+      const random = (Math.random() * 16) | 0;
+      const valor = caractere === 'x' ? random : (random & 0x3) | 0x8;
+      return valor.toString(16);
+    });
+  }
+
+  private trazerValoresParaEdicao(tarefaSelecionada: DetalhesTarefaViewModel) {
+    this.itensTarefa = tarefaSelecionada.itens;
+    this.tarefaForm.patchValue(tarefaSelecionada);
+
+    if (tarefaSelecionada.prioridade == 'Normal')
+      this.prioridade?.setValue('1');
+    else if (tarefaSelecionada.prioridade == 'Baixinha')
+      this.prioridade?.setValue('0');
+    else
+      this.prioridade?.setValue('2');
+
+    console.log(tarefaSelecionada);
   }
 }

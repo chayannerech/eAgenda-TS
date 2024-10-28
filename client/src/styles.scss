@@ -38,8 +38,10 @@ mat-error {
   margin-top: 15px;
 }
 
-.app-container-form {
-  width: 70%;
+@media (min-width: 768px) {
+  .app-container-form {
+    width: 70%;
+  }
 }
 
 .app-input-forjado {

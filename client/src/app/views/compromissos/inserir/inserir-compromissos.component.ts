@@ -62,7 +62,7 @@ export class InserirCompromissosComponent implements OnInit {
       data: ['', Validators.required],
       horaInicio: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
       horaTermino: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
-      contatoId: ['', [ Validators.required, Validators.minLength(3) ]],
+      contatoId: ['', [ Validators.required ]],
     });
   }
 

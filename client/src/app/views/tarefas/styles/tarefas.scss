@@ -1,26 +1,26 @@
-.app-container-tarefas {
-  padding: 50px;
-}
 
-.app-card-tarefas {
-  background-color: #3d3d3d;
-}
-
-.app-botao-tarefas {
+.app-botao-cadastrar {
   border: 1px solid rgb(114, 114, 114);
 }
 
+.app-titulo-responsivo {
+  font: 1.5rem / 1.8rem Roboto, sans-serif;
+  margin: 0;
+}
+
+.app-card-componentes {
+  background-color: #3d3d3d;
+}
+
 .app-icone-tarefas {
-  display: inline-flex;
   justify-content: center;
   margin-right: 10px;
-  font-size: 30px;
+  font-size: 29px;
   width: 28px;
   height: 27px;
 }
 
 .app-botao-home {
-  width: 64px;
   height: 64px;
   display: inline-flex;
   justify-content: center;
@@ -29,9 +29,9 @@
 }
 
 .app-icone-home {
-  font-size: 35px;
-  width: 35px;
-  height: 35px;
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
   margin: 0;
   z-index: 0;
 }
@@ -42,16 +42,53 @@
   border-bottom: 1px solid white;
   border-radius: 4px 4px 0 0;
   font-family: var(--mat-form-field-container-text-font, var(--mat-app-body-large-font));
+  margin-top: 35px;
 }
 
 .mat-expansion-panel-header-description {
   flex-grow: 0;
 }
 
+.app-listagem-itens {
+  margin: 0 auto;
+  width: 95%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  background-color: rgba(117, 117, 117, 0.185);
+  border-radius: 4px 4px 0 0;
+  font-size: 16px;
+  border-bottom: 1px solid white;
+  justify-content: space-between;
+}
+
+.app-concluido {
+  margin: 0;
+  background-color: rgb(60, 167, 60);
+  border-radius: 25px;
+  padding: 0 5px;
+  font-size: 13px;
+}
+
+.app-pendente {
+  margin: 0;
+  border: 1px solid rgb(252, 255, 90);
+  background-color: rgba(255, 255, 0, 0.158);
+  border-radius: 25px;
+  padding: 0 5px;
+  font-size: 13px;
+}
+
 .mat-expansion-panel-header {
   padding: 0;
 }
 
+.app-nao-ha-itens {
+  text-align: center;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.63);
+}
 
 .app-btn-editar {
   color: #ffffff;
@@ -61,4 +98,26 @@
 .app-btn-excluir {
   color: #942626;
   border: 1px solid rgb(39, 39, 39);
+}
+
+@media (min-width: 576px) {
+  .app-titulo-responsivo {
+    font-size: 1.8em;
+  }
+
+    .app-icone-home {
+    font-size: 35px;
+    width: 35px;
+    height: 35px;
+    margin: 0;
+    z-index: 0;
+  }
+
+  mat-form-field {
+    font-size: inherit;
+  }
+
+  mat-label {
+    font-size: inherit;
+  }
 }

@@ -38,12 +38,6 @@ mat-error {
   margin-top: 15px;
 }
 
-@media (min-width: 768px) {
-  .app-container-form {
-    width: 70%;
-  }
-}
-
 .app-input-forjado {
   background-color: var(--mdc-filled-text-field-container-color, var(--mat-app-surface-variant));
   padding: 8px 16px;
@@ -52,4 +46,12 @@ mat-error {
   border-radius: 4px 4px 0 0;
   font-family: var(--mat-form-field-container-text-font, var(--mat-app-body-large-font));
   margin-bottom: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+  .app-container-form {
+    width: 70%;
+  }
 }

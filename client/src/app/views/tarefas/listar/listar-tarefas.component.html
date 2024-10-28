@@ -1,7 +1,7 @@
-<main class="container-fluid app-container-tarefas">
+<main class="container-fluid app-container-componente">
   <div class="d-flex justify-content-between align-items-center">
-    <h1 class="fs-2 m-0">
-      <mat-icon class="app-icone-tarefas">task_alt</mat-icon>
+    <h1 class="app-titulo-responsivo m-0">
+      <mat-icon class="app-icone-tarefas d-none d-sm-inline-flex">task_alt</mat-icon>
       Tarefas
     </h1>
     <section class="d-flex justify-content-end">
@@ -18,7 +18,7 @@
   <section class="row justify-content-center g-1">
     <a
       mat-button
-      class="col-sm-6 col-md-4 col-xl-3 fs-6 py-4 mb-3 app-botao-tarefas"
+      class="col-sm-6 col-md-4 col-xl-3 fs-6 py-4 mb-3 app-botao-cadastrar"
       [routerLink]="['/tarefas', 'inserir']"
     >
       <mat-icon>bookmark_add</mat-icon>
@@ -28,7 +28,7 @@
 
   <div class="row g-3 mt-2">
     <div *ngFor="let tarefa of tarefas" class="col-sm-6 col-md-4 col-xxl-3">
-      <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-tarefas">
+      <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-componentes">
         <mat-card-header>
           <mat-card-title class="app-titulo-card">
             {{ tarefa.titulo }}

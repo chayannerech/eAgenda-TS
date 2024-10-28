@@ -1,19 +1,17 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { PartialObserver } from 'rxjs';
 import { InserirTarefaViewModel, ItemTarefaViewModel, TarefaInseridaViewModel } from '../models/tarefa.models';
 import { TarefaService } from '../services/tarefa.service';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-inserir-tarefa',
@@ -21,60 +19,51 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   imports: [
     NgIf,
     NgFor,
+    NgClass,
     RouterLink,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    NgxMaskDirective,
     MatRadioModule,
     MatExpansionModule,
-    MatCheckboxModule,
-    FormsModule
-  ],
+],
 
   templateUrl: './inserir-tarefa.component.html',
   styleUrl: '../styles/tarefas.scss',
-  providers: [provideNgxMask()]
 })
 
 export class InserirTarefaComponent {
   tarefaForm: FormGroup;
   itemForm: FormGroup;
-  cadastrandoItem: boolean;
   itensTarefa: ItemTarefaViewModel[];
-  idItem: number;
+
+  cadastrandoItem: boolean;
+  mostrandoItens: boolean;
+  editandoItem: boolean;
+  excluindoItem: boolean;
+  itemEmEdicao: ItemTarefaViewModel | undefined;
+  itemEmExclusao: ItemTarefaViewModel | undefined;
+  iconeSanfona: string;
 
   constructor(
     private router: Router,
     private tarefaService: TarefaService,
     private notificacao: NotificacaoService
   ) {
-    this.cadastrandoItem = false;
+    this.cadastrandoItem = this.editandoItem = this.excluindoItem = this.mostrandoItens = false;
     this.itensTarefa = [];
-    this.idItem = 0;
+    this.iconeSanfona = 'arrow_drop_down';
     this.tarefaForm = new FormGroup({
       titulo: new FormControl<string>('', [
         Validators.required,
         Validators.minLength(3),
       ]),
       prioridade: new FormControl<string>('0'),
-      empresa: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      itens: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      telefone: new FormControl<string>('', [
-        Validators.required,
-        Validators.pattern('^\\d{11}$'),
-      ]),
     });
     this.itemForm = new FormGroup({
-      tituloTarefa: new FormControl<string>('', [
+      titulo: new FormControl<string>('', [
         Validators.required,
         Validators.minLength(3),
       ]),
@@ -84,35 +73,68 @@ export class InserirTarefaComponent {
   get titulo() { return this.tarefaForm.get('titulo'); }
   get prioridade() { return this.tarefaForm.get('prioridade'); }
   get empresa() { return this.tarefaForm.get('empresa'); }
-  get itens() { return this.tarefaForm.get('itens'); }
-  get tituloTarefa() { return this.itemForm.get('tituloTarefa'); }
+  get tituloTarefa() { return this.itemForm.get('titulo'); }
+
+  alterarIconeSanfona(): void {
+    this.iconeSanfona = this.iconeSanfona == 'arrow_drop_down' ? 'arrow_drop_up' : 'arrow_drop_down';
+  }
 
   inserirItens() {
     if (this.itemForm.invalid) return;
 
-    this.idItem++;
     const novoItem: ItemTarefaViewModel = this.itemForm.value;
-    novoItem.id = this.idItem;
+    novoItem.id = this.gerarUUID();
+    novoItem.concluido = false;
     novoItem.status = 0;
 
     this.itensTarefa.push(novoItem);
     this.cadastrandoItem = false;
     this.tituloTarefa?.reset();
+    console.log(novoItem);
   }
 
   cancelarItem() {
-    this.cadastrandoItem = false;
+    this.cadastrandoItem = this.editandoItem = false;
     this.tituloTarefa?.reset();
+  }
+
+  abrirEdicaoDeItem(id: string) {
+    if (!id) return;
+
+    this.itemEmEdicao = this.selecionarItemPorId(id);
+
+    this.titulo?.setValue(this.itemEmEdicao!.titulo);
+    this.editandoItem = true;
+    this.cadastrandoItem = false;
+  }
+
+  editarItem() {
+    if (this.itemForm.invalid) return;
+
+    const itemEditado = this.selecionarItemPorId(this.itemEmEdicao!.id);
+    itemEditado!.titulo = this.itemForm.value.titulo;
+
+    this.editandoItem = false;
+    this.tituloTarefa?.reset();
+  }
+
+  excluirItem(id: string) {
+    this.itensTarefa = this.itensTarefa.filter(item => item.id != id);
+    this.excluindoItem = false;
   }
 
   cadastrar() {
     if (this.tarefaForm.invalid) return;
 
-    const novaTarefa: InserirTarefaViewModel = this.tarefaForm.value;
+    let novaTarefa: InserirTarefaViewModel = this.tarefaForm.value;
+    novaTarefa.itens = this.itensTarefa;
+    novaTarefa.prioridade = 1;
     const observer: PartialObserver<TarefaInseridaViewModel> = {
       next: (novaTarefa) => this.processarSucesso(novaTarefa),
       error: (erro) => this.processarFalha(erro)
     }
+
+    console.log(novaTarefa);
 
     this.tarefaService.cadastrar(novaTarefa).subscribe(observer);
   }
@@ -126,5 +148,20 @@ export class InserirTarefaComponent {
 
   private processarFalha(erro: Error) {
     this.notificacao.erro(erro.message);
+  }
+
+  private selecionarItemPorId(id: string) : ItemTarefaViewModel | undefined{
+    for(let item of this.itensTarefa)
+      if (item.id == id)
+        return item;
+    return;
+  }
+
+  private gerarUUID(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (caractere) => {
+      const random = (Math.random() * 16) | 0;
+      const valor = caractere === 'x' ? random : (random & 0x3) | 0x8;
+      return valor.toString(16);
+    });
   }
 }

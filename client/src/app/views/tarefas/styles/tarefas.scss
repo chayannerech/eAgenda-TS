@@ -20,23 +20,7 @@
   height: 27px;
 }
 
-.app-botao-home {
-  height: 64px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-}
-
-.app-icone-home {
-  font-size: 30px;
-  width: 30px;
-  height: 30px;
-  margin: 0;
-  z-index: 0;
-}
-
-.app-input-forjado-itens {
+.app-input-sanfona {
   background-color: var(--mdc-filled-text-field-container-color, var(--mat-app-surface-variant));
   padding: 4px 16px;
   border-bottom: 1px solid white;
@@ -58,9 +42,18 @@
   padding: 0 10px;
   background-color: rgba(117, 117, 117, 0.185);
   border-radius: 4px 4px 0 0;
-  font-size: 16px;
+  font-size: 15px;
   border-bottom: 1px solid white;
   justify-content: space-between;
+}
+
+.app-excluir-itens {
+  margin-bottom: 48px;
+  margin-right: 9.6px;
+  margin-left: 9.6px;
+  margin-top: 28.8px;
+  margin-bottom: 28.8px;
+  text-decoration: none;
 }
 
 .app-concluido {
@@ -69,6 +62,35 @@
   border-radius: 25px;
   padding: 0 5px;
   font-size: 13px;
+}
+
+.app-confirmar-exclusao {
+  margin: 0;
+  display: inline;
+  position: relative;
+  background-color: rgb(167, 60, 60);
+  border-radius: 25px;
+  padding: 2px 6px;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+}
+
+.app-cancelar-exclusao {
+  margin: 0;
+  display: inline;
+  position: relative;
+  border-radius: 25px;
+  padding: 2px 6px;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+}
+
+.app-listar-item-em-edicao {
+  background-color: rgb(134, 0, 0);
 }
 
 .app-pendente {
@@ -100,24 +122,24 @@
   border: 1px solid rgb(39, 39, 39);
 }
 
-@media (min-width: 576px) {
-  .app-titulo-responsivo {
-    font-size: 1.8em;
-  }
+.app-botao-item-editar {
+  font-size: 18px;
+  width: 18px;
+  height: 16px;
+  margin: 0;
+}
 
-    .app-icone-home {
-    font-size: 35px;
-    width: 35px;
-    height: 35px;
-    margin: 0;
-    z-index: 0;
-  }
+::ng-deep .disable-hover.mat-icon-button:hover {
+  background-color: transparent !important;
+  color: inherit !important;
+  cursor: default !important;
+  box-shadow: none !important;
+}
 
-  mat-form-field {
-    font-size: inherit;
-  }
-
-  mat-label {
-    font-size: inherit;
-  }
+.app-botao-item-excluir {
+  font-size: 18px;
+  width: 18px;
+  height: 16px;
+  margin: 0;
+  color: #ff6060;
 }

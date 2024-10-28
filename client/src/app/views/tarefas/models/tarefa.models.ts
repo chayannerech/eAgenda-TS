@@ -8,13 +8,13 @@ export interface ListarTarefasViewModel {
 export interface InserirTarefaViewModel {
   titulo: string;
   prioridade: number;
-  itens: ItemTarefaViewModel;
+  itens: ItemTarefaViewModel[];
 }
 export interface TarefaInseridaViewModel {
   id: string;
   titulo: string;
   prioridade: number;
-  itens: ItemTarefaViewModel;
+  itens: ItemTarefaViewModel[];
 }
 export interface EditarTarefaViewModel {
   titulo: string;
@@ -28,8 +28,8 @@ export interface TarefaEditadaViewModel {
   itens: ItemTarefaViewModel;
 }
 export interface ItemTarefaViewModel {
-  id: number;
-  tituloTarefa: string;
+  id: string;
+  titulo: string;
   status: number;
   concluido: boolean;
 }

@@ -10,24 +10,24 @@ import { DetalhesTarefaViewModel, EditarTarefaViewModel, InserirTarefaViewModel,
 })
 
 export class TarefaService {
-  private readonly url = `${environment.apiUrl}/contatos`;
+  private readonly url = `${environment.apiUrl}/tarefas`;
 
   constructor(private http: HttpClient) { }
 
-  cadastrar(novoTarefa: InserirTarefaViewModel): Observable<TarefaInseridaViewModel> {
-    this.formatarTarefa(novoTarefa);
+  cadastrar(novaTarefa: InserirTarefaViewModel): Observable<TarefaInseridaViewModel> {
+    novaTarefa.titulo = toTitleCase(novaTarefa.titulo);
 
     return this.http
-      .post<TarefaInseridaViewModel>(this.url, novoTarefa)
+      .post<TarefaInseridaViewModel>(this.url, novaTarefa)
       .pipe(map(processarDados), catchError(processarFalha));
   }
 
-  editar(id: string, contatoEditado: EditarTarefaViewModel): Observable<TarefaEditadaViewModel> {
+  editar(id: string, tarefaEditada: EditarTarefaViewModel): Observable<TarefaEditadaViewModel> {
     const urlCompleto = `${this.url}/${id}`;
-    this.formatarTarefa(contatoEditado)
+    tarefaEditada.titulo = toTitleCase(tarefaEditada.titulo);
 
     return this.http
-      .put<TarefaEditadaViewModel>(urlCompleto, contatoEditado)
+      .put<TarefaEditadaViewModel>(urlCompleto, tarefaEditada)
       .pipe(map(processarDados), catchError(processarFalha));
   }
 
@@ -50,23 +50,5 @@ export class TarefaService {
     return this.http
     .get<DetalhesTarefaViewModel>(urlCompleto)
     .pipe(map(processarDados), catchError(processarFalha));
-  }
-
-  formatarTarefa(contato: any) {
-    contato.nome = toTitleCase(contato.nome);
-    contato.empresa = toTitleCase(contato.empresa);
-    contato.cargo = toTitleCase(contato.cargo);
-    contato.telefone = this.formatarTelefone(contato.telefone);
-  }
-
-  removerFormatacaoTelefone(telefone: string): string {
-    return telefone.replace(/\D/g, '');
-  }
-
-  private formatarTelefone(telefone: string): string {
-    const ddd = telefone.slice(0, 2);
-    const parte1 = telefone.slice(2, 7);
-    const parte2 = telefone.slice(7, 11);
-    return `(${ddd}) ${parte1}-${parte2}`;
   }
 }

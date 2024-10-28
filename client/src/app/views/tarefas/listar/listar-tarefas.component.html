@@ -1,18 +1,12 @@
 <main class="container-fluid app-container-componente">
   <div class="d-flex justify-content-between align-items-center">
-    <h1 class="app-titulo-responsivo m-0">
+    <h1 class="app-titulo-responsivo">
       <mat-icon class="app-icone-tarefas d-none d-sm-inline-flex">task_alt</mat-icon>
       Tarefas
     </h1>
-    <section class="d-flex justify-content-end">
-      <a
-        mat-button
-        class="app-botao-home"
-        [routerLink]="['/dashboard']"
-      >
-        <mat-icon class="app-icone-home">home</mat-icon>
-      </a>
-    </section>
+    <a mat-icon-button style="width: 60px; height: 60px" [routerLink]="['/dashboard']">
+      <mat-icon style="color: #ffabf3; font-size: 35px; width: 40px; height: auto; margin-top: 3px;">home</mat-icon>
+    </a>
   </div>
   <hr>
   <section class="row justify-content-center g-1">

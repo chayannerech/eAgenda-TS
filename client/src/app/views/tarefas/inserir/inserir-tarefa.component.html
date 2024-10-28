@@ -4,21 +4,16 @@
       <mat-icon class="app-icone-tarefas d-none d-sm-inline-flex">task_alt</mat-icon>
       Cadastrar tarefa
     </h1>
-    <section class="d-flex justify-content-end">
-      <a
-        mat-button
-        class="app-botao-home"
-        [routerLink]="['/dashboard']"
-      >
-        <mat-icon class="app-icone-home">home</mat-icon>
-      </a>
-    </section>
+    <a mat-icon-button style="width: 60px; height: 60px" [routerLink]="['/dashboard']">
+      <mat-icon style="color: #ffabf3; font-size: 35px; width: 40px; height: auto; margin-top: 3px;">home</mat-icon>
+    </a>
   </div>
   <hr>
 
-  <div class="row g-3 mx-auto col-12 col-md-10 col-lg-8 app-container-form">
+  <div class="app-container-form">
     <form [formGroup]="tarefaForm" (submit)="cadastrar()">
-      <mat-form-field class="app-form-field" appearance="fill">
+      <!--#region Título-->
+      <mat-form-field class="app-form-field">
         <mat-label>Título</mat-label>
         <input formControlName="titulo" matInput placeholder="Ex: Não lavar o cachorro" />
         <mat-icon matSuffix color="primary">subtitles</mat-icon>
@@ -29,10 +24,12 @@
           O titulo precisa conter ao menos 3 caracteres!
         </mat-error>
       </mat-form-field>
+      <!--#endregion -->
 
-      <div class="app-input-forjado d-md-flex app-form-field">
-        <mat-label class="me-5">Prioridade*</mat-label>
-        <div class="align-items-center">
+      <!--#region Prioridade-->
+      <div class="app-input-forjado d-md-flex">
+        <mat-label>Prioridade*</mat-label>
+        <div>
           <mat-radio-group formControlName="prioridade">
             <mat-radio-button value="0" class="me-4">Baixa</mat-radio-button>
             <mat-radio-button value="1" class="me-4">Média</mat-radio-button>
@@ -40,37 +37,52 @@
           </mat-radio-group>
         </div>
       </div>
+      <!--#endregion -->
 
-      <mat-expansion-panel hideToggle class="app-input-forjado-itens">
+      <!--#region Itens-->
+      <mat-expansion-panel hideToggle class="app-input-sanfona" (click)="alterarIconeSanfona()">
         <mat-expansion-panel-header (click)="cadastrandoItem = false">
           <mat-panel-title> Itens </mat-panel-title>
-          <mat-panel-description>
-            <mat-icon>arrow_drop_down</mat-icon>
-          </mat-panel-description>
+          <mat-icon>{{iconeSanfona}}</mat-icon>
         </mat-expansion-panel-header>
         <p *ngIf="itensTarefa.length == 0 && !cadastrandoItem" class="app-nao-ha-itens">Ainda não existem itens para essa tarefa</p>
-        <section *ngFor="let iten of itensTarefa" class="app-listagem-itens">
-          <p class="m-0">{{iten.tituloTarefa}}</p>
-          <section>
-            <a mat-icon-button>
-              <mat-icon style="font-size: 18px; width: 18px; height: auto; margin: 0;"> edit </mat-icon>
-            </a>
-            <a mat-icon-button matTooltip="Excluir">
-              <mat-icon style="color:red; font-size: 18px; width: 18px; height: auto; margin: 0;"> delete </mat-icon>
-            </a>
-          </section>
-          <!-- <p *ngIf="iten.concluido" class="app-concluido">concluído</p>
-          <p *ngIf="!iten.concluido" class="app-pendente">pendente</p> -->
-        </section>
+
+        <!--#region Listando os itens-->
+        <div *ngIf="!editandoItem">
+          <div *ngFor="let item of itensTarefa" class="app-listagem-itens">
+            <p class="m-0 py-2">{{item.titulo}}</p>
+            <section>
+              <div *ngIf="item != itemEmExclusao">
+                <a mat-icon-button matTooltip="Editar item" (click)="abrirEdicaoDeItem(item.id)">
+                  <mat-icon class="app-botao-item-editar"> edit</mat-icon>
+                </a>
+                <a mat-icon-button matTooltip="Excluir item" (click)="excluindoItem = true; itemEmExclusao = item">
+                  <mat-icon class="app-botao-item-excluir"> delete </mat-icon>
+                </a>
+              </div>
+              <div *ngIf="item == itemEmExclusao">
+                <a class="app-excluir-itens" (click)="excluirItem(item.id)">
+                  <p class="app-confirmar-exclusao">confirmar exclusão</p>
+                </a>
+                <a class="mb-5 mx-1 text-decoration-none my-3" (click)="itemEmExclusao = undefined">
+                  <p class="app-cancelar-exclusao">cancelar</p>
+                </a>
+              </div>
+            </section>
+          </div>
+        </div>
+        <!--#endregion-->
+
+        <!--#region Cadastrando um item-->
         <form *ngIf="cadastrandoItem" [formGroup]="itemForm" (submit)="inserirItens()" style="width: 95%; margin: 0 auto;">
           <mat-form-field class="app-form-field" appearance="fill">
             <mat-label style="font-size: 15px;">Título do item</mat-label>
-            <input formControlName="tituloTarefa" style="font-size: 15px;" matInput placeholder="Ex: Comprar o shampoo" />
+            <input formControlName="titulo" style="font-size: 15px;" matInput placeholder="Ex: Comprar o shampoo" />
             <mat-icon matSuffix color="primary">subtitles</mat-icon>
-            <mat-error *ngIf="tituloTarefa?.invalid && (tituloTarefa?.errors)!['required']">
+            <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['required']">
               O titulo é obrigatório!
             </mat-error>
-            <mat-error *ngIf="tituloTarefa?.invalid && (tituloTarefa?.errors)!['minlength']">
+            <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['minlength']">
               O titulo precisa conter ao menos 3 caracteres!
             </mat-error>
           </mat-form-field>
@@ -85,13 +97,42 @@
             </button>
           </section>
         </form>
-        <section *ngIf="!cadastrandoItem" class="row justify-content-center mt-2">
-          <a mat-button (click)="cadastrandoItem = true">
+        <!--#endregion-->
+
+        <!--#region Editando um item-->
+        <form *ngIf="editandoItem" [formGroup]="itemForm" (submit)="editarItem()" style="width: 95%; margin: 0 auto;">
+          <mat-form-field class="app-form-field" appearance="fill">
+            <mat-label style="font-size: 15px;">Título do item</mat-label>
+            <input formControlName="titulo" style="font-size: 15px;" matInput placeholder="Ex: Comprar o shampoo" />
+            <mat-icon matSuffix color="primary">subtitles</mat-icon>
+            <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['required']">
+              O titulo é obrigatório!
+            </mat-error>
+            <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['minlength']">
+              O titulo precisa conter ao menos 3 caracteres!
+            </mat-error>
+          </mat-form-field>
+          <section class="row justify-content-center mt-2">
+            <a class="col" mat-button type="submit" (click)="cancelarItem()">
+              <mat-icon >close</mat-icon>
+              Cancelar
+            </a>
+            <button class="col" mat-button type="submit">
+              <mat-icon >edit</mat-icon>
+              Concluir edição
+            </button>
+          </section>
+        </form>
+        <!--#endregion-->
+
+        <section *ngIf="!cadastrandoItem && !editandoItem" class="row justify-content-center mt-2">
+          <a mat-button (click)="cadastrandoItem = true; excluindoItem = false">
             <mat-icon >add</mat-icon>
-            Inserir
+            Inserir item
           </a>
         </section>
       </mat-expansion-panel>
+      <!--#endregion-->
 
       <div class="row justify-content-center g-2 gap-2 mt-5">
         <button type="submit" mat-flat-button class="col-sm-4 col-md-3">

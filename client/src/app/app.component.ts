@@ -68,5 +68,6 @@ export function processarDados(resposta: any) {
 }
 
 export function processarFalha(resposta: any) {
+  console.log(resposta);
   return throwError(() => new Error(resposta.error.erros[0]));
 }

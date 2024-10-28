@@ -141,7 +141,7 @@ export class InserirTarefaComponent {
 
   private processarSucesso(novaTarefa: TarefaInseridaViewModel) {
     this.notificacao.sucesso(
-      `O tarefa '${novaTarefa.titulo}' foi cadastrado com sucesso!`
+      `A tarefa '${novaTarefa.titulo}' foi cadastrada com sucesso!`
     );
     this.router.navigate(['/tarefas']);
   }

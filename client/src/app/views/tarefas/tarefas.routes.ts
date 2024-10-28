@@ -4,6 +4,7 @@ import { TarefaService } from "./services/tarefa.service";
 import { ListarTarefasViewModel, DetalhesTarefaViewModel } from "./models/tarefa.models";
 import { ListarTarefasComponent } from "./listar/listar-tarefas.component";
 import { InserirTarefaComponent } from "./inserir/inserir-tarefa.component";
+import { ExcluirTarefaComponent } from "./excluir/excluir-tarefa.component";
 
 const listarTarefasResolver: ResolveFn<ListarTarefasViewModel[]> = () => {
   return inject(TarefaService).selecionarTodos();
@@ -19,5 +20,5 @@ export const tarefasRoutes: Routes = [
   { path: 'listar', component: ListarTarefasComponent, resolve: { tarefas: listarTarefasResolver }},
   { path: 'inserir', component: InserirTarefaComponent},
   //{ path: 'editar/:id', component: EditarTarefaComponent, resolve: { tarefa: detalhesTarefaResolver }},
-  //{ path: 'excluir/:id', component: ExcluirTarefaComponent, resolve: { tarefa: detalhesTarefaResolver }}
+  { path: 'excluir/:id', component: ExcluirTarefaComponent, resolve: { tarefa: detalhesTarefaResolver }}
 ]

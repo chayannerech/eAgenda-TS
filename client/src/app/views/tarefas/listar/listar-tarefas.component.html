@@ -29,9 +29,9 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content style="font-size: 12px;">
-          <p class="m-0">{{ tarefa.dataCriacao }}</p>
-          <p class="m-0">{{ tarefa.prioridade }}</p>
-          <p class="m-0 mt-3">Empresa: {{ tarefa.situacao }}</p>
+          <p>Criação: {{ mostrarData(tarefa.dataCriacao) }}</p>
+          <p class="m-0 mt-4">Prioridade: {{ tarefa.prioridade }}</p>
+          <p class="m-0">Status: {{ tarefa.situacao }}</p>
         </mat-card-content>
         <mat-card-footer class="d-flex justify-content-end p-3 mt-auto gap-1">
           <a mat-icon-button

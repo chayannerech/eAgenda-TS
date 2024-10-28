@@ -5,51 +5,51 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PartialObserver } from 'rxjs';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { ContatoService } from '../services/contato.service';
-import { ContatoExcluidoViewModel, DetalhesContatoViewModel } from '../models/contato.models';
+import { DetalhesTarefaViewModel, TarefaExcluidaViewModel } from '../models/tarefa.models';
+import { TarefaService } from '../services/tarefa.service';
 
 @Component({
-  selector: 'app-excluir-contato',
+  selector: 'app-excluir-tarefa',
   standalone: true,
   imports: [ NgIf, RouterLink, AsyncPipe, MatButtonModule, MatIconModule ],
-  templateUrl: './excluir-contato.component.html'
+  templateUrl: './excluir-tarefa.component.html'
 })
 
-export class ExcluirContatoComponent {
-  contato?: DetalhesContatoViewModel;
-  nomeDoContato: string;
+export class ExcluirTarefaComponent {
+  tarefa?: DetalhesTarefaViewModel;
+  nomeDotarefa: string;
 
   constructor (
     private route: ActivatedRoute,
     private router: Router,
-    private contatoService: ContatoService,
+    private tarefaService: TarefaService,
     private notificacao: NotificacaoService
   ) {
-    this.nomeDoContato = "";
+    this.nomeDotarefa = "";
   }
 
   ngOnInit(): void {
-    this.contato = this.route.snapshot.data['contato'];
-    this.nomeDoContato = this.contato!.nome;
+    this.tarefa = this.route.snapshot.data['tarefa'];
+    this.nomeDotarefa = this.tarefa!.titulo;
   }
 
   excluir() {
     const id = this.route.snapshot.params['id'];
     if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    const observer: PartialObserver<ContatoExcluidoViewModel> = {
+    const observer: PartialObserver<TarefaExcluidaViewModel> = {
       next: () => this.processarSucesso(),
       error: (erro) => this.processarFalha(erro)
     }
 
-    this.contatoService.excluir(id).subscribe(observer);
+    this.tarefaService.excluir(id).subscribe(observer);
   }
 
   private processarSucesso() {
     this.notificacao.sucesso(
-      `O contato '${this.nomeDoContato}' foi excluído com sucesso!`
+      `A tarefa '${this.nomeDotarefa}' foi excluída com sucesso!`
     );
-    this.router.navigate(['/contatos']);
+    this.router.navigate(['/tarefas']);
   }
 
   private processarFalha(erro: Error) {

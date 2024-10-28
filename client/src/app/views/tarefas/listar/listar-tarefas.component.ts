@@ -31,4 +31,13 @@ export class ListarTarefasComponent {
   ngOnInit(): void {
     this.tarefas = this.route.snapshot.data['tarefas'];
   }
+
+  mostrarData(data: string): string {
+    const shortDate = new Date(data)
+    return shortDate.toLocaleDateString('pt-PT', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  }
 }

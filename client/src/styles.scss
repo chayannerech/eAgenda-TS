@@ -29,26 +29,25 @@ mat-error {
   --mat-snack-bar-button-color: #ffffff;
 }
 
+.app-container-componente {
+  padding: 50px;
+}
+
 .app-form-field {
   width: 100%;
   margin-top: 15px;
 }
 
-.app-botao-home {
-  width: 64px;
-  height: 64px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
+.app-container-form {
+  width: 70%;
 }
 
-.app-btn-editar {
-  color: #ffffff;
-  border: 1px solid rgb(39, 39, 39);
-}
-
-.app-btn-excluir {
-  color: #942626;
-  border: 1px solid rgb(39, 39, 39);
+.app-input-forjado {
+  background-color: var(--mdc-filled-text-field-container-color, var(--mat-app-surface-variant));
+  padding: 8px 16px;
+  padding-right: 40px;
+  border-bottom: 1px solid white;
+  border-radius: 4px 4px 0 0;
+  font-family: var(--mat-form-field-container-text-font, var(--mat-app-body-large-font));
+  margin-bottom: 20px;
 }

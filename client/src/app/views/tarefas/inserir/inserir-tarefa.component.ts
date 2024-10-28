@@ -12,6 +12,7 @@ import { PartialObserver } from 'rxjs';
 import { InserirTarefaViewModel, TarefaInseridaViewModel } from '../models/tarefa.models';
 import { TarefaService } from '../services/tarefa.service';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-inserir-tarefa',
@@ -25,7 +26,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatIconModule,
     MatButtonModule,
     NgxMaskDirective,
-    MatRadioModule
+    MatRadioModule,
+    MatExpansionModule
   ],
 
   templateUrl: './inserir-tarefa.component.html',

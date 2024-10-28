@@ -11,6 +11,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { LinkNavegacao } from './models/link-navegacao.model';
 import { UsuarioTokenViewModel } from '../auth/models/auth.models';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-shell',
@@ -26,6 +27,7 @@ import { UsuarioTokenViewModel } from '../auth/models/auth.models';
     MatSidenavModule,
     MatListModule,
     MatIconModule,
+    MatExpansionModule
   ],
   templateUrl: './shell.component.html',
   styleUrl: './shell.component.scss',
@@ -68,6 +70,11 @@ export class ShellComponent {
       titulo: 'Categorias',
       icone: 'bookmarks',
       rota: '/categorias',
+    },
+    {
+      titulo: 'Tarefas',
+      icone: 'task_alt',
+      rota: '/tarefas',
     },
   ];
 

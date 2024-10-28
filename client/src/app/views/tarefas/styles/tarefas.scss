@@ -19,6 +19,15 @@
   height: 27px;
 }
 
+.app-botao-home {
+  width: 64px;
+  height: 64px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
 .app-icone-home {
   font-size: 35px;
   width: 35px;
@@ -27,10 +36,29 @@
   z-index: 0;
 }
 
-.app-input-forjado {
+.app-input-forjado-itens {
   background-color: var(--mdc-filled-text-field-container-color, var(--mat-app-surface-variant));
-  padding: 7px 16px;
+  padding: 4px 16px;
   border-bottom: 1px solid white;
   border-radius: 4px 4px 0 0;
   font-family: var(--mat-form-field-container-text-font, var(--mat-app-body-large-font));
+}
+
+.mat-expansion-panel-header-description {
+  flex-grow: 0;
+}
+
+.mat-expansion-panel-header {
+  padding: 0;
+}
+
+
+.app-btn-editar {
+  color: #ffffff;
+  border: 1px solid rgb(39, 39, 39);
+}
+
+.app-btn-excluir {
+  color: #942626;
+  border: 1px solid rgb(39, 39, 39);
 }

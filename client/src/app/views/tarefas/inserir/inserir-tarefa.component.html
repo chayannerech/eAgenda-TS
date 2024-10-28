@@ -30,17 +30,17 @@
         </mat-error>
       </mat-form-field>
 
-      <div class="d-flex align-items-center mb-4 app-form-field">
-        <div class="app-input-forjado h-auto w-100">
-          <mat-label class="me-5 mt-2">Prioridade*</mat-label>
+      <div class="app-input-forjado d-md-flex align-items-center app-form-field justify-content-between">
+        <mat-label class="me-5">Prioridade*</mat-label>
+        <div class="align-items-center">
           <mat-radio-group formControlName="prioridade">
-            <mat-radio-button value = '0' class="me-5">Baixa</mat-radio-button>
-            <mat-radio-button value = '1' class="me-5">Média</mat-radio-button>
-            <mat-radio-button value = '2'>Alta</mat-radio-button>
+            <mat-radio-button value="0" class="me-4">Baixa</mat-radio-button>
+            <mat-radio-button value="1" class="me-4">Média</mat-radio-button>
+            <mat-radio-button value="2">Alta</mat-radio-button>
           </mat-radio-group>
         </div>
       </div>
-
+<!--
       <mat-form-field class="app-form-field" appearance="fill">
         <mat-label>Itens</mat-label>
         <input formControlName="itens" matInput placeholder="Ex: Presidente" />
@@ -51,21 +51,19 @@
         <mat-error *ngIf="itens?.invalid && (itens?.errors)!['minlength']">
           O itens precisa conter ao menos 3 caracteres!
         </mat-error>
-      </mat-form-field>
+      </mat-form-field> -->
 
-      <mat-form-field class="app-form-field" appearance="fill">
-        <mat-label>Telefone</mat-label>
-        <input formControlName="telefone" matInput mask="(00) 00000-0000" placeholder="Ex: (22) 99999-9999" />
-        <mat-icon matSuffix color="primary">subtitles</mat-icon>
-        <mat-error *ngIf="telefone?.invalid && (telefone?.errors)!['required']">
-          O telefone é obrigatório!
-        </mat-error>
-        <mat-error *ngIf="telefone?.invalid && (telefone?.errors)!['pattern']">
-          O telefone precisa conter 11 dígitos!
-        </mat-error>
-      </mat-form-field>
+      <mat-expansion-panel hideToggle class="app-input-forjado-itens" style="margin-top: 35px;">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Itens </mat-panel-title>
+          <mat-panel-description>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>This is the primary content of the panel.</p>
+      </mat-expansion-panel>
 
-      <div class="row justify-content-center g-2 gap-2 mt-3">
+      <div class="row justify-content-center g-2 gap-2 mt-5">
         <button type="submit" mat-flat-button class="col-sm-4 col-md-3">
           <mat-icon matIconPrefix>check</mat-icon>
           Confirmar

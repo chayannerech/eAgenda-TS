@@ -1,57 +1,62 @@
-.app-container-compromissos {
-  padding: 50px;
-}
-
-.app-card-compromissos {
-  background-color: #3d3d3d;
-}
-
-.app-botao-compromissos {
+.app-botao-cadastrar {
   border: 1px solid rgb(114, 114, 114);
 }
 
+.app-titulo-responsivo {
+  font-size: 20px;
+}
+
 .app-botao-home {
-  width: 64px;
-  height: 64px;
+  width: 34px;
+  height: 34px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
   padding: 0;
 }
 
-.app-icone-compromissos {
-  width: 64px;
-  height: 64px;
-  display: inline-flex;
-  justify-content: center;
-  margin: 0 10px;
-  font-size: 30px;
-  width: 25px;
-  height: 26px;
-}
-
 .app-icone-home {
-  font-size: 35px;
-  width: 35px;
-  height: 35px;
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
   margin: 0;
   z-index: 0;
 }
 
-.app-btn-editar {
-  color: #ffffff;
-  border: 1px solid rgb(39, 39, 39);
+.app-icone-compromissos {
+  justify-content: center;
+  margin: 0 10px;
+  font-size: 28px;
+  width: 25px;
+  height: 25px;
 }
 
-.app-btn-excluir {
-  color: #942626;
-  border: 1px solid rgb(39, 39, 39);
+mat-form-field {
+  font-size: 14px;
 }
 
-.app-input-forjado {
-  background-color: var(--mdc-filled-text-field-container-color, var(--mat-app-surface-variant));
-  padding: 7px 16px;
-  border-bottom: 1px solid white;
-  border-radius: 4px 4px 0 0;
-  font-family: var(--mat-form-field-container-text-font, var(--mat-app-body-large-font));
+mat-label {
+  font-size: 15px;
+}
+
+@media (min-width: 576px) {
+  .app-titulo-responsivo {
+    font-size: 1.5em;
+  }
+
+    .app-icone-home {
+    font-size: 35px;
+    width: 35px;
+    height: 35px;
+    margin: 0;
+    z-index: 0;
+  }
+
+  mat-form-field {
+    font-size: inherit;
+  }
+
+  mat-label {
+    font-size: inherit;
+  }
 }

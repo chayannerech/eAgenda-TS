@@ -41,109 +41,44 @@
 
       <!--#region Itens-->
       <mat-expansion-panel hideToggle class="app-input-sanfona">
-        <mat-expansion-panel-header (click)="cadastrandoItem = false; alterarIconeSanfona()">
+        <mat-expansion-panel-header (click)="alterarIconeSanfona()">
           <mat-panel-title> Itens </mat-panel-title>
           <mat-icon>{{iconeSanfona}}</mat-icon>
         </mat-expansion-panel-header>
-        <p *ngIf="itensTarefa.length == 0 && !cadastrandoItem" class="app-nao-ha-itens">Ainda não existem itens para essa tarefa</p>
-
-        <!--#region Listando os itens-->
-        <div *ngIf="!editandoItem">
+        <div class="mb-4">
           <div *ngFor="let item of itensTarefa" class="app-listagem-itens">
             <div class="my-2">
               <p *ngIf="item.concluido" class="app-concluido">concluído</p>
               <p *ngIf="!item.concluido" class="app-pendente">pendente</p>
               <p class="d-inline my-2">{{item.titulo}}</p>
             </div>
-            <section>
-              <div *ngIf="item != itemEmExclusao">
-                <a *ngIf="!item.concluido" mat-icon-button (click)="abrirEdicaoDeItem(item.id)">
-                  <mat-icon class="app-btn-editar-item">edit</mat-icon>
-                </a>
-                <a *ngIf="!item.concluido" mat-icon-button (click)="excluindoItem = true; itemEmExclusao = item">
-                  <mat-icon class="app-botao-item-excluir">delete </mat-icon>
-                </a>
-                <a mat-icon-button (click)="concluirItem(item.id)">
-                  <mat-icon *ngIf="!item.concluido" class="app-btn-concluir-item">done_outline</mat-icon>
-                  <mat-icon *ngIf="item.concluido" class="app-btn-desconcluir-item">history</mat-icon>
-                </a>
-              </div>
-              <div *ngIf="item == itemEmExclusao">
-                <a class="app-excluir-itens" (click)="excluirItem(item.id)">
-                  <p class="app-confirmar-exclusao">confirmar exclusão</p>
-                </a>
-                <a class="mb-5 mx-1 text-decoration-none my-3" (click)="itemEmExclusao = undefined">
-                  <p class="app-cancelar-exclusao">cancelar</p>
-                </a>
-              </div>
-            </section>
+            <div>
+              <a mat-icon-button (click)="concluirItem(item.id)">
+                <mat-icon *ngIf="!item.concluido" class="app-btn-concluir-item">done_outline</mat-icon>
+                <mat-icon *ngIf="item.concluido">history</mat-icon>
+              </a>
+            </div>
           </div>
         </div>
-        <!--#endregion-->
-
-        <!--#region Cadastrando um item-->
-        <form *ngIf="cadastrandoItem" [formGroup]="itemForm" (submit)="inserirItens()" style="width: 95%; margin: 0 auto;">
-          <mat-form-field class="app-form-field" appearance="fill">
-            <mat-label style="font-size: 15px;">Título do item</mat-label>
-            <input formControlName="titulo" style="font-size: 15px;" matInput placeholder="Ex: Comprar o shampoo" />
-            <mat-icon matSuffix color="primary">subtitles</mat-icon>
-            <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['required']">
-              O titulo é obrigatório!
-            </mat-error>
-            <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['minlength']">
-              O titulo precisa conter ao menos 3 caracteres!
-            </mat-error>
-          </mat-form-field>
-          <section class="row justify-content-center mt-2">
-            <a class="col" mat-button type="submit" (click)="cancelarItem()">
-              <mat-icon >close</mat-icon>
-              Cancelar
-            </a>
-            <button class="col" mat-button type="submit">
-              <mat-icon >add</mat-icon>
-              Inserir
-            </button>
-          </section>
-        </form>
-        <!--#endregion-->
-
-        <!--#region Editando um item-->
-        <form *ngIf="editandoItem" [formGroup]="itemForm" (submit)="editarItem()" style="width: 95%; margin: 0 auto;">
-          <mat-form-field class="app-form-field" appearance="fill">
-            <mat-label style="font-size: 15px;">Título do item</mat-label>
-            <input formControlName="titulo" style="font-size: 15px;" matInput placeholder="Ex: Comprar o shampoo" />
-            <mat-icon matSuffix color="primary">subtitles</mat-icon>
-            <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['required']">
-              O titulo é obrigatório!
-            </mat-error>
-            <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['minlength']">
-              O titulo precisa conter ao menos 3 caracteres!
-            </mat-error>
-          </mat-form-field>
-          <section class="row justify-content-center mt-2">
-            <a class="col" mat-button type="submit" (click)="cancelarItem()">
-              <mat-icon >close</mat-icon>
-              Cancelar
-            </a>
-            <button class="col" mat-button type="submit">
-              <mat-icon >edit</mat-icon>
-              Concluir edição
-            </button>
-          </section>
-        </form>
-        <!--#endregion-->
-
-        <section *ngIf="!cadastrandoItem && !editandoItem" class="row justify-content-center mt-2">
-          <a mat-button (click)="cadastrandoItem = true; excluindoItem = false">
-            <mat-icon >add</mat-icon>
-            Inserir item
-          </a>
-        </section>
       </mat-expansion-panel>
-      <mat-error class="app-erro-sem-itens" *ngIf="erroSemItens">
-        Insira ao menos um item!
-      </mat-error>
       <!--#endregion-->
+
+      <div>
+        <p class="m-0 mt-5 mx-3 mb-2" style="font-family: sans-serif;">Percentual de conclusão:</p>
+        <h6
+        class="fs-6 text-center"
+        style="border: 1px solid black; border-radius: 25px;"
+        [ngStyle]="{
+          background:
+            porcentagemConclusao <= 25 ? 'linear-gradient(90deg, #ff4343 ' + porcentagemConclusao + '%, #e0e0e0 ' + porcentagemConclusao + '%)' :
+            porcentagemConclusao <= 50 ? 'linear-gradient(90deg, #ffde4c ' + porcentagemConclusao + '%, #e0e0e0 ' + porcentagemConclusao + '%)' :
+            porcentagemConclusao <= 75 ? 'linear-gradient(90deg, #d6ff42 ' + porcentagemConclusao + '%, #e0e0e0 ' + porcentagemConclusao + '%)' :
+            'linear-gradient(90deg, #71ff2f ' + porcentagemConclusao + '%, #e0e0e0 ' + porcentagemConclusao + '%)',
+          color: 'black',
+        }">
+        {{ porcentagemConclusao }}%
+        </h6>
+      </div>
 
       <div class="row justify-content-center g-2 gap-2 mt-5">
         <button type="submit" mat-flat-button class="col-sm-4 col-md-3">

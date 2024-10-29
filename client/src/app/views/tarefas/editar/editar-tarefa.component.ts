@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,6 +20,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     NgIf,
     NgFor,
     NgClass,
+    NgStyle,
     RouterLink,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -38,15 +39,8 @@ export class EditarTarefaComponent implements OnInit {
   tarefaForm: FormGroup;
   itemForm: FormGroup;
   itensTarefa: ItemTarefaViewModel[];
-  erroSemItens: boolean;
-
-  cadastrandoItem: boolean;
-  mostrandoItens: boolean;
-  editandoItem: boolean;
-  excluindoItem: boolean;
-  itemEmEdicao: ItemTarefaViewModel | undefined;
-  itemEmExclusao: ItemTarefaViewModel | undefined;
   iconeSanfona: string;
+  porcentagemConclusao: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,8 +48,8 @@ export class EditarTarefaComponent implements OnInit {
     private tarefaService: TarefaService,
     private notificacao: NotificacaoService
   ) {
-    this.erroSemItens = this.cadastrandoItem = this.editandoItem = this.excluindoItem = this.mostrandoItens = false;
     this.iconeSanfona = 'arrow_drop_down';
+    this.porcentagemConclusao = 0;
     this.itensTarefa = [];
     this.tarefaForm = new FormGroup({
       titulo: new FormControl<string>('', [
@@ -87,54 +81,15 @@ export class EditarTarefaComponent implements OnInit {
     this.iconeSanfona = this.iconeSanfona == 'arrow_drop_down' ? 'arrow_drop_up' : 'arrow_drop_down';
   }
 
-  inserirItens() {
-    if (this.itemForm.invalid) return;
-
-    const novoItem: ItemTarefaViewModel = this.itemForm.value;
-    novoItem.id = this.gerarUUID();
-    novoItem.concluido = false;
-    novoItem.status = 0;
-
-    this.itensTarefa.push(novoItem);
-    this.cadastrandoItem = false;
-    this.tituloTarefa?.reset();
-  }
-
-  cancelarItem() {
-    this.cadastrandoItem = this.editandoItem = false;
-    this.tituloTarefa?.reset();
-  }
-
-  abrirEdicaoDeItem(id: string) {
-    this.itemEmEdicao = this.selecionarItemPorId(id);
-
-    this.tituloTarefa?.setValue(this.itemEmEdicao!.titulo);
-    this.editandoItem = true;
-    this.cadastrandoItem = false;
-  }
-
-  editarItem() {
-    if (this.itemForm.invalid) return;
-
-    const itemEditado = this.selecionarItemPorId(this.itemEmEdicao!.id);
-    itemEditado!.titulo = this.itemForm.value.titulo;
-
-    this.editandoItem = false;
-    this.tituloTarefa?.reset();
-  }
-
-  excluirItem(id: string) {
-    this.itensTarefa = this.itensTarefa.filter(item => item.id != id);
-    this.excluindoItem = false;
-  }
-
   concluirItem(id: string) {
     const itemConcluido = this.selecionarItemPorId(id);
     itemConcluido!.concluido = !itemConcluido!.concluido;
+
+    this.calcularPorcentagem(this.route.snapshot.data['tarefa']);
   }
 
   editar() {
-    if (this.validarFormulario()) return;
+    if (this.tarefaForm.invalid) return;
 
     const id = this.route.snapshot.params['id'];
     if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
@@ -168,17 +123,10 @@ export class EditarTarefaComponent implements OnInit {
     return;
   }
 
-  private gerarUUID(): string {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (caractere) => {
-      const random = (Math.random() * 16) | 0;
-      const valor = caractere === 'x' ? random : (random & 0x3) | 0x8;
-      return valor.toString(16);
-    });
-  }
-
   private trazerValoresParaEdicao(tarefaSelecionada: DetalhesTarefaViewModel) {
     this.itensTarefa = tarefaSelecionada.itens;
     this.tarefaForm.patchValue(tarefaSelecionada);
+    this.calcularPorcentagem(tarefaSelecionada);
 
     if (tarefaSelecionada.prioridade == 'Normal')
       this.prioridade?.setValue('1');
@@ -188,16 +136,12 @@ export class EditarTarefaComponent implements OnInit {
       this.prioridade?.setValue('2');
   }
 
-  private validarFormulario(): boolean {
-    if (this.tarefaForm.invalid) {
-      if (this.itensTarefa.length == 0)
-        this.erroSemItens = true;
-      return true;
-    }
-    if (this.itensTarefa.length == 0) {
-      this.erroSemItens = true;
-      return true;
-    }
-    return false;
+  private calcularPorcentagem(tarefa: DetalhesTarefaViewModel) {
+    const itensConcluidos = this.itensTarefa.filter(i => i.concluido);
+    const porcentagem = itensConcluidos.length * 100 / this.itensTarefa.length;
+    this.porcentagemConclusao = porcentagem;
+
+    porcentagem == 100 ? tarefa.dataConclusao = new Date().toString() : tarefa.dataConclusao = '';
+    console.log(tarefa);
   }
 }

@@ -4,7 +4,7 @@
     {
         public VisualizarTarefaViewModel()
         {
-            Itens = new List<VisualizarItemTarefaViewModel>();
+            Itens = new List<ItemTarefaViewModel>();
         }
 
         public Guid Id { get; set; }
@@ -23,6 +23,6 @@
 
         public string Situacao { get; set; }
 
-        public List<VisualizarItemTarefaViewModel> Itens { get; set; }
+        public List<ItemTarefaViewModel> Itens { get; set; }
     }
 }

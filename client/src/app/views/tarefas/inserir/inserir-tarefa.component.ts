@@ -38,6 +38,7 @@ export class InserirTarefaComponent {
   tarefaForm: FormGroup;
   itemForm: FormGroup;
   itensTarefa: ItemTarefaViewModel[];
+  erroSemItens: boolean;
 
   cadastrandoItem: boolean;
   mostrandoItens: boolean;
@@ -52,7 +53,7 @@ export class InserirTarefaComponent {
     private tarefaService: TarefaService,
     private notificacao: NotificacaoService
   ) {
-    this.cadastrandoItem = this.editandoItem = this.excluindoItem = this.mostrandoItens = false;
+    this.erroSemItens = this.cadastrandoItem = this.editandoItem = this.excluindoItem = this.mostrandoItens = false;
     this.itensTarefa = [];
     this.iconeSanfona = 'arrow_drop_down';
     this.tarefaForm = new FormGroup({
@@ -90,7 +91,6 @@ export class InserirTarefaComponent {
     this.itensTarefa.push(novoItem);
     this.cadastrandoItem = false;
     this.tituloTarefa?.reset();
-    console.log(novoItem);
   }
 
   cancelarItem() {
@@ -103,7 +103,7 @@ export class InserirTarefaComponent {
 
     this.itemEmEdicao = this.selecionarItemPorId(id);
 
-    this.titulo?.setValue(this.itemEmEdicao!.titulo);
+    this.tituloTarefa?.setValue(this.itemEmEdicao!.titulo);
     this.editandoItem = true;
     this.cadastrandoItem = false;
   }
@@ -124,23 +124,15 @@ export class InserirTarefaComponent {
   }
 
   cadastrar() {
-    if (this.tarefaForm.invalid) return;
+    if (this.validarFormulario()) return;
 
-    let novaTarefa: InserirTarefaViewModel = this.tarefaForm.value;
+    const novaTarefa: InserirTarefaViewModel = this.tarefaForm.value;
     novaTarefa.itens = this.itensTarefa;
-    if (novaTarefa.prioridade == 0)
-      novaTarefa.prioridade = 0;
-    else if (novaTarefa.prioridade == 1)
-      novaTarefa.prioridade = 1;
-    else
-      novaTarefa.prioridade = 2;
 
     const observer: PartialObserver<TarefaInseridaViewModel> = {
       next: (novaTarefa) => this.processarSucesso(novaTarefa),
       error: (erro) => this.processarFalha(erro)
     }
-
-    console.log(novaTarefa);
 
     this.tarefaService.cadastrar(novaTarefa).subscribe(observer);
   }
@@ -169,5 +161,18 @@ export class InserirTarefaComponent {
       const valor = caractere === 'x' ? random : (random & 0x3) | 0x8;
       return valor.toString(16);
     });
+  }
+
+  private validarFormulario(): boolean {
+    if (this.tarefaForm.invalid) {
+      if (this.itensTarefa.length == 0)
+        this.erroSemItens = true;
+      return true;
+    }
+    if (this.itensTarefa.length == 0) {
+      this.erroSemItens = true;
+      return true;
+    }
+    return false;
   }
 }

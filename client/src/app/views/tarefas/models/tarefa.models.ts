@@ -17,15 +17,16 @@ export interface TarefaInseridaViewModel {
   itens: ItemTarefaViewModel[];
 }
 export interface EditarTarefaViewModel {
+  id: string;
   titulo: string;
   prioridade: number;
-  itens: ItemTarefaViewModel;
+  itens: ItemTarefaViewModel[];
 }
 export interface TarefaEditadaViewModel {
   id: string;
   titulo: string;
   prioridade: number;
-  itens: ItemTarefaViewModel;
+  itens: ItemTarefaViewModel[];
 }
 export interface DetalhesTarefaViewModel {
   id: string;
@@ -42,10 +43,6 @@ export interface ItemTarefaViewModel {
   titulo: string;
   status: number;
   concluido: boolean;
-}
-export interface ItensTarefaDetalhesViewModel {
-  titulo: string;
-  situacao: string;
 }
 
 export interface TarefaExcluidaViewModel {}

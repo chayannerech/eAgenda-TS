@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { PartialObserver } from 'rxjs';
-import { DetalhesTarefaViewModel, InserirTarefaViewModel, ItemTarefaViewModel, TarefaInseridaViewModel } from '../models/tarefa.models';
+import { DetalhesTarefaViewModel, EditarTarefaViewModel, InserirTarefaViewModel, ItemTarefaViewModel, TarefaEditadaViewModel, TarefaInseridaViewModel } from '../models/tarefa.models';
 import { TarefaService } from '../services/tarefa.service';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -38,6 +38,7 @@ export class EditarTarefaComponent implements OnInit {
   tarefaForm: FormGroup;
   itemForm: FormGroup;
   itensTarefa: ItemTarefaViewModel[];
+  erroSemItens: boolean;
 
   cadastrandoItem: boolean;
   mostrandoItens: boolean;
@@ -53,9 +54,9 @@ export class EditarTarefaComponent implements OnInit {
     private tarefaService: TarefaService,
     private notificacao: NotificacaoService
   ) {
-    this.cadastrandoItem = this.editandoItem = this.excluindoItem = this.mostrandoItens = false;
-    this.itensTarefa = [];
+    this.erroSemItens = this.cadastrandoItem = this.editandoItem = this.excluindoItem = this.mostrandoItens = false;
     this.iconeSanfona = 'arrow_drop_down';
+    this.itensTarefa = [];
     this.tarefaForm = new FormGroup({
       titulo: new FormControl<string>('', [
         Validators.required,
@@ -73,6 +74,7 @@ export class EditarTarefaComponent implements OnInit {
 
   ngOnInit(): void {
     const tarefa = this.route.snapshot.data['tarefa'];
+    this.itensTarefa = tarefa.itens;
     this.trazerValoresParaEdicao(tarefa);
   }
 
@@ -96,7 +98,6 @@ export class EditarTarefaComponent implements OnInit {
     this.itensTarefa.push(novoItem);
     this.cadastrandoItem = false;
     this.tituloTarefa?.reset();
-    console.log(novoItem);
   }
 
   cancelarItem() {
@@ -105,11 +106,9 @@ export class EditarTarefaComponent implements OnInit {
   }
 
   abrirEdicaoDeItem(id: string) {
-    if (!id) return;
-
     this.itemEmEdicao = this.selecionarItemPorId(id);
 
-    this.titulo?.setValue(this.itemEmEdicao!.titulo);
+    this.tituloTarefa?.setValue(this.itemEmEdicao!.titulo);
     this.editandoItem = true;
     this.cadastrandoItem = false;
   }
@@ -129,25 +128,31 @@ export class EditarTarefaComponent implements OnInit {
     this.excluindoItem = false;
   }
 
-  cadastrar() {
-    if (this.tarefaForm.invalid) return;
+  concluirItem(id: string) {
+    const itemConcluido = this.selecionarItemPorId(id);
+    itemConcluido!.concluido = !itemConcluido!.concluido;
+  }
 
-    let novaTarefa: InserirTarefaViewModel = this.tarefaForm.value;
-    novaTarefa.itens = this.itensTarefa;
-    novaTarefa.prioridade = 1;
-    const observer: PartialObserver<TarefaInseridaViewModel> = {
-      next: (novaTarefa) => this.processarSucesso(novaTarefa),
+  editar() {
+    if (this.validarFormulario()) return;
+
+    const id = this.route.snapshot.params['id'];
+    if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
+
+    const tarefa: EditarTarefaViewModel = this.tarefaForm.value;
+    tarefa.itens = this.itensTarefa;
+
+    const observer: PartialObserver<TarefaEditadaViewModel> = {
+      next: (tarefa) => this.processarSucesso(tarefa),
       error: (erro) => this.processarFalha(erro)
     }
 
-    console.log(novaTarefa);
-
-    this.tarefaService.cadastrar(novaTarefa).subscribe(observer);
+    this.tarefaService.editar(id, tarefa).subscribe(observer);
   }
 
-  private processarSucesso(novaTarefa: TarefaInseridaViewModel) {
+  private processarSucesso(tarefaEditada: TarefaEditadaViewModel) {
     this.notificacao.sucesso(
-      `A tarefa '${novaTarefa.titulo}' foi cadastrada com sucesso!`
+      `A tarefa '${tarefaEditada.titulo}' foi editada com sucesso!`
     );
     this.router.navigate(['/tarefas']);
   }
@@ -181,7 +186,18 @@ export class EditarTarefaComponent implements OnInit {
       this.prioridade?.setValue('0');
     else
       this.prioridade?.setValue('2');
+  }
 
-    console.log(tarefaSelecionada);
+  private validarFormulario(): boolean {
+    if (this.tarefaForm.invalid) {
+      if (this.itensTarefa.length == 0)
+        this.erroSemItens = true;
+      return true;
+    }
+    if (this.itensTarefa.length == 0) {
+      this.erroSemItens = true;
+      return true;
+    }
+    return false;
   }
 }

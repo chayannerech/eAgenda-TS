@@ -1,17 +1,13 @@
-
 .app-botao-cadastrar {
   border: 1px solid rgb(114, 114, 114);
 }
-
 .app-titulo-responsivo {
   font: 1.5rem / 1.8rem Roboto, sans-serif;
   margin: 0;
 }
-
 .app-card-componentes {
   background-color: #3d3d3d;
 }
-
 .app-icone-tarefas {
   justify-content: center;
   margin-right: 10px;
@@ -19,7 +15,6 @@
   width: 28px;
   height: 27px;
 }
-
 .app-input-sanfona {
   background-color: var(--mdc-filled-text-field-container-color, var(--mat-app-surface-variant));
   padding: 4px 16px;
@@ -28,11 +23,9 @@
   font-family: var(--mat-form-field-container-text-font, var(--mat-app-body-large-font));
   margin-top: 35px;
 }
-
 .mat-expansion-panel-header-description {
   flex-grow: 0;
 }
-
 .app-listagem-itens {
   margin: 0 auto;
   width: 95%;
@@ -46,7 +39,6 @@
   border-bottom: 1px solid white;
   justify-content: space-between;
 }
-
 .app-excluir-itens {
   margin-bottom: 48px;
   margin-right: 9.6px;
@@ -55,15 +47,32 @@
   margin-bottom: 28.8px;
   text-decoration: none;
 }
-
 .app-concluido {
   margin: 0;
-  background-color: rgb(60, 167, 60);
+  margin-right: 10px;
+  display: inline;
+  position: relative;
+  border: 1px solid #64e64a;
   border-radius: 25px;
-  padding: 0 5px;
+  padding: 2px 6px;
   font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
 }
-
+.app-pendente {
+  margin: 0;
+  margin-right: 10px;
+  display: inline;
+  position: relative;
+  border: 1px solid #e3e64a;
+  border-radius: 25px;
+  padding: 2px 6px;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+}
 .app-confirmar-exclusao {
   margin: 0;
   display: inline;
@@ -76,7 +85,6 @@
   text-decoration: none;
   color: white;
 }
-
 .app-cancelar-exclusao {
   margin: 0;
   display: inline;
@@ -88,54 +96,46 @@
   text-decoration: none;
   color: white;
 }
-
-.app-listar-item-em-edicao {
-  background-color: rgb(134, 0, 0);
-}
-
-.app-pendente {
-  margin: 0;
-  border: 1px solid rgb(252, 255, 90);
-  background-color: rgba(255, 255, 0, 0.158);
-  border-radius: 25px;
-  padding: 0 5px;
-  font-size: 13px;
-}
-
 .mat-expansion-panel-header {
   padding: 0;
 }
-
 .app-nao-ha-itens {
   text-align: center;
   font-size: 15px;
   color: rgba(255, 255, 255, 0.63);
 }
-
 .app-btn-editar {
   color: #ffffff;
   border: 1px solid rgb(39, 39, 39);
 }
-
+.app-erro-sem-itens {
+  font-family: sans-serif;
+  padding: 0 15px;
+}
 .app-btn-excluir {
   color: #942626;
   border: 1px solid rgb(39, 39, 39);
 }
-
-.app-botao-item-editar {
+.app-btn-editar-item {
   font-size: 18px;
   width: 18px;
   height: 16px;
   margin: 0;
 }
-
+.app-btn-concluir-item {
+  font-size: 18px;
+  width: 18px;
+  height: 16px;
+  margin: 0;
+}
+.app-btn-desconcluir-item {
+}
 ::ng-deep .disable-hover.mat-icon-button:hover {
   background-color: transparent !important;
   color: inherit !important;
   cursor: default !important;
   box-shadow: none !important;
 }
-
 .app-botao-item-excluir {
   font-size: 18px;
   width: 18px;

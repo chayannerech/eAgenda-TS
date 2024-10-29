@@ -11,7 +11,7 @@
   <hr>
 
   <div class="app-container-form">
-    <form [formGroup]="tarefaForm" (submit)="cadastrar()">
+    <form [formGroup]="tarefaForm" (submit)="editar()">
       <!--#region Título-->
       <mat-form-field class="app-form-field">
         <mat-label>Título</mat-label>
@@ -40,8 +40,8 @@
       <!--#endregion -->
 
       <!--#region Itens-->
-      <mat-expansion-panel hideToggle class="app-input-sanfona" (click)="alterarIconeSanfona()">
-        <mat-expansion-panel-header (click)="cadastrandoItem = false">
+      <mat-expansion-panel hideToggle class="app-input-sanfona">
+        <mat-expansion-panel-header (click)="cadastrandoItem = false; alterarIconeSanfona()">
           <mat-panel-title> Itens </mat-panel-title>
           <mat-icon>{{iconeSanfona}}</mat-icon>
         </mat-expansion-panel-header>
@@ -50,14 +50,22 @@
         <!--#region Listando os itens-->
         <div *ngIf="!editandoItem">
           <div *ngFor="let item of itensTarefa" class="app-listagem-itens">
-            <p class="m-0 py-2">{{item.titulo}}</p>
+            <div class="my-2">
+              <p *ngIf="item.concluido" class="app-concluido">concluído</p>
+              <p *ngIf="!item.concluido" class="app-pendente">pendente</p>
+              <p class="d-inline my-2">{{item.titulo}}</p>
+            </div>
             <section>
               <div *ngIf="item != itemEmExclusao">
-                <a mat-icon-button matTooltip="Editar item" (click)="abrirEdicaoDeItem(item.id)">
-                  <mat-icon class="app-botao-item-editar"> edit</mat-icon>
+                <a *ngIf="!item.concluido" mat-icon-button (click)="abrirEdicaoDeItem(item.id)">
+                  <mat-icon class="app-btn-editar-item">edit</mat-icon>
                 </a>
-                <a mat-icon-button matTooltip="Excluir item" (click)="excluindoItem = true; itemEmExclusao = item">
-                  <mat-icon class="app-botao-item-excluir"> delete </mat-icon>
+                <a *ngIf="!item.concluido" mat-icon-button (click)="excluindoItem = true; itemEmExclusao = item">
+                  <mat-icon class="app-botao-item-excluir">delete </mat-icon>
+                </a>
+                <a mat-icon-button (click)="concluirItem(item.id)">
+                  <mat-icon *ngIf="!item.concluido" class="app-btn-concluir-item">done_outline</mat-icon>
+                  <mat-icon *ngIf="item.concluido" class="app-btn-desconcluir-item">history</mat-icon>
                 </a>
               </div>
               <div *ngIf="item == itemEmExclusao">
@@ -132,6 +140,9 @@
           </a>
         </section>
       </mat-expansion-panel>
+      <mat-error class="app-erro-sem-itens" *ngIf="erroSemItens">
+        Insira ao menos um item!
+      </mat-error>
       <!--#endregion-->
 
       <div class="row justify-content-center g-2 gap-2 mt-5">

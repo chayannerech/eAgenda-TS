@@ -15,7 +15,7 @@ export class TarefaService {
   constructor(private http: HttpClient) { }
 
   cadastrar(novaTarefa: InserirTarefaViewModel): Observable<TarefaInseridaViewModel> {
-    novaTarefa.titulo = toTitleCase(novaTarefa.titulo);
+    this.formatarTarefa(novaTarefa);
 
     return this.http
       .post<TarefaInseridaViewModel>(this.url, novaTarefa)
@@ -24,7 +24,8 @@ export class TarefaService {
 
   editar(id: string, tarefaEditada: EditarTarefaViewModel): Observable<TarefaEditadaViewModel> {
     const urlCompleto = `${this.url}/${id}`;
-    tarefaEditada.titulo = toTitleCase(tarefaEditada.titulo);
+    this.formatarTarefa(tarefaEditada);
+    console.log(id)
 
     return this.http
       .put<TarefaEditadaViewModel>(urlCompleto, tarefaEditada)
@@ -50,5 +51,16 @@ export class TarefaService {
     return this.http
     .get<DetalhesTarefaViewModel>(urlCompleto)
     .pipe(map(processarDados), catchError(processarFalha));
+  }
+
+  private formatarTarefa(tarefa: any) {
+    tarefa.titulo = toTitleCase(tarefa.titulo);
+
+    if (tarefa.prioridade == 0)
+      tarefa.prioridade = 0;
+    else if (tarefa.prioridade == 1)
+      tarefa.prioridade = 1;
+    else
+      tarefa.prioridade = 2;
   }
 }

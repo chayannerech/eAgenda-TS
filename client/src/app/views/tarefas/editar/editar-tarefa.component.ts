@@ -142,6 +142,5 @@ export class EditarTarefaComponent implements OnInit {
     this.porcentagemConclusao = porcentagem;
 
     porcentagem == 100 ? tarefa.dataConclusao = new Date().toString() : tarefa.dataConclusao = '';
-    console.log(tarefa);
   }
 }

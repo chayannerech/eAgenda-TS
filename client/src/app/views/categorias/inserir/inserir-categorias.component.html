@@ -1,22 +1,16 @@
-<main class="container-fluid p-5">
+<main class="container-fluid app-container-componente">
   <div class="d-flex justify-content-between align-items-center">
-    <h1 class="fs-2 m-0">
-      <mat-icon class="app-icone-categorias">bookmarks</mat-icon>
+    <h1 class="app-titulo-responsivo">
+      <mat-icon class="app-icone-categorias d-none d-sm-inline-flex">bookmarks</mat-icon>
       Cadastrar categoria
     </h1>
-    <section class="d-flex justify-content-end">
-      <a
-        mat-button
-        class="app-botao-home"
-        [routerLink]="['/dashboard']"
-      >
-        <mat-icon class="app-icone-home">home</mat-icon>
-      </a>
-    </section>
+    <a mat-icon-button style="width: 60px; height: 60px" [routerLink]="['/dashboard']">
+      <mat-icon style="color: #ffabf3; font-size: 35px; width: 40px; height: auto; margin-top: 3px;">home</mat-icon>
+    </a>
   </div>
   <hr>
 
-  <div class="row g-3 mt-2 mx-auto col-12 col-md-10 col-lg-8">
+  <div class="app-container-form">
     <form [formGroup]="categoriaForm" (submit)="cadastrar()">
       <mat-form-field class="w-100" appearance="fill">
         <mat-label>Título da Categoria</mat-label>

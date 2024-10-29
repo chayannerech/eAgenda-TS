@@ -48,13 +48,13 @@
         <div class="mb-4">
           <div *ngFor="let item of itensTarefa" class="app-listagem-itens">
             <div class="my-2">
-              <p *ngIf="item.concluido" class="app-concluido">concluído</p>
-              <p *ngIf="!item.concluido" class="app-pendente">pendente</p>
+              <p *ngIf="item.concluido" class="app-pill app-item-concluido">concluído</p>
+              <p *ngIf="!item.concluido" class="app-pill app-item-pendente">pendente</p>
               <p class="d-inline my-2">{{item.titulo}}</p>
             </div>
             <div>
               <a mat-icon-button (click)="concluirItem(item.id)">
-                <mat-icon *ngIf="!item.concluido" class="app-btn-concluir-item">done_outline</mat-icon>
+                <mat-icon *ngIf="!item.concluido" class="app-btn-alterar-item">done_outline</mat-icon>
                 <mat-icon *ngIf="item.concluido">history</mat-icon>
               </a>
             </div>

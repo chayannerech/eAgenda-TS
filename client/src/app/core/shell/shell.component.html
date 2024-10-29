@@ -9,23 +9,41 @@
   >
     <mat-toolbar>
       <span class="d-flex align-items-center gap-2">
-      <mat-icon>note_alt</mat-icon>
-      e-Agenda
+        e-Agenda
+        <mat-icon>edit_note</mat-icon>
       </span>
     </mat-toolbar>
 
     <mat-nav-list>
       <ng-container *ngIf="!usuarioAutenticado">
-        <a *ngFor="let link of links" mat-list-item [routerLink]="link.rota">
-          <mat-icon matListItemIcon>{{ link.icone }}</mat-icon>
-          {{ link.titulo }}
-        </a>
+        <mat-expansion-panel hideToggle class="app-mat-expansion">
+          <mat-expansion-panel-header>
+            <mat-icon>person</mat-icon>
+            <mat-panel-title> Acessar </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a *ngFor="let link of links" mat-list-item [routerLink]="link.rota">
+            <mat-icon matListItemIcon class="app-expansion-item">{{ link.icone }}</mat-icon>
+            {{ link.titulo }}
+          </a>
+        </mat-expansion-panel>
       </ng-container>
       <ng-container *ngIf="usuarioAutenticado">
+        <mat-expansion-panel hideToggle class="app-mat-expansion">
+          <mat-expansion-panel-header>
+            <mat-icon>person</mat-icon>
+            <mat-panel-title> {{ usuarioAutenticado.nome }} </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a mat-list-item (click)="logoutEfetuado()" data-cy="logout" [routerLink]="'/login'">
+            <mat-icon matListItemIcon class="app-expansion-item">logout</mat-icon>
+            Logout
+          </a>
+        </mat-expansion-panel>
+        <br>
         <a *ngFor="let link of authLinks" mat-list-item [routerLink]="link.rota">
           <mat-icon matListItemIcon>{{ link.icone }}</mat-icon>
           {{ link.titulo }}
         </a>
+        <br>
       </ng-container>
     </mat-nav-list>
   </mat-sidenav>
@@ -41,21 +59,15 @@
       >
         <mat-icon aria-label="Ícone ativador da barra lateral">menu</mat-icon>
       </button>
-
       <span *ngIf="usuarioAutenticado" class="d-flex align-items-center gap-3 ms-auto">
-        <span>Seja bem-vindo(a), {{ usuarioAutenticado.nome }}</span>
-        <button (click)="logoutEfetuado()" data-cy="logout" [routerLink]="'/login'" mat-stroked-button>
-          <mat-icon>logout</mat-icon>
-          Logout
-        </button>
+        <span>Seja bem-vindo(a), {{ usuarioAutenticado.nome }}!</span>
       </span>
-
       <span
         *ngIf="isHandset$ | async"
-        class="d-flex align-items-center gap-2 ms-auto"
+        class="d-none d-md-flex align-items-center gap-2 ms-auto"
       >
-        <mat-icon>note_alt</mat-icon>
-        e-Agenda
+      e-Agenda
+      <mat-icon>edit_note</mat-icon>
       </span>
     </mat-toolbar>
     <ng-content></ng-content>

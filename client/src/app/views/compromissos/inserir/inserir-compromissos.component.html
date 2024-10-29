@@ -1,7 +1,7 @@
-<main class="container-fluid p-5">
+<main class="container-fluid app-container-componente">
   <div class="d-flex justify-content-between align-items-center">
-    <h1 class="fs-2 m-0">
-      <mat-icon class="app-icone-compromissos">checklist</mat-icon>
+    <h1 class="app-titulo-responsivo m-0">
+      <mat-icon class="app-icone-compromissos d-none d-sm-inline-flex">event</mat-icon>
       Cadastrar compromisso
     </h1>
     <section class="d-flex justify-content-end">
@@ -12,7 +12,7 @@
   </div>
   <hr>
 
-  <div class="row g-3 mx-auto col-12 col-md-10 col-lg-8">
+  <div class="row g-3 mx-auto col-12 col-md-10 col-lg-8 app-container-form">
     <form [formGroup]="compromissoForm" (ngSubmit)="cadastrar()">
 
       <mat-form-field class="app-form-field" appearance="fill">
@@ -27,9 +27,9 @@
         </mat-error>
       </mat-form-field>
 
-      <div class="d-flex align-items-center mb-4 app-form-field">
-        <div class="app-input-forjado h-auto w-100">
-          <mat-label class="me-5 mt-2">Tipo de Local</mat-label>
+      <div class="app-input-forjado d-md-flex app-form-field">
+        <mat-label class="me-5">Tipo de local*</mat-label>
+        <div class="align-items-center">
           <mat-radio-group formControlName="tipoLocal" aria-label="Tipo de Local" (change)="tipoDeLocalEscolhido($event)">
             <mat-radio-button value = '1' class="me-4">Presencial</mat-radio-button>
             <mat-radio-button value = '0' >Remoto</mat-radio-button>

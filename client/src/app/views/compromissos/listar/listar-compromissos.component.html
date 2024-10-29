@@ -1,7 +1,7 @@
-<main class="container-fluid app-container-compromissos">
+<main class="container-fluid app-container-componente">
   <div class="d-flex justify-content-between align-items-center">
-    <h1 class="fs-2 m-0">
-      <mat-icon class="app-icone-compromissos">checklist</mat-icon>
+    <h1 class="app-titulo-responsivo m-0">
+      <mat-icon class="app-icone-compromissos d-none d-sm-inline-flex">event</mat-icon>
       Compromissos
     </h1>
     <section class="d-flex justify-content-end">
@@ -15,12 +15,10 @@
     </section>
   </div>
   <hr>
-  <section
-    class="row justify-content-center justify-content-lg-start g-1"
-  >
+  <section class="row justify-content-center g-1">
     <a
       mat-button
-      class="col-sm-6 col-md-4 fs-6 py-4 mb-3 app-botao-compromissos"
+      class="col-sm-6 col-md-4 fs-6 py-4 mb-3 app-botao-cadastrar"
       [routerLink]="['/compromissos', 'inserir']"
     >
       <mat-icon>bookmark_add</mat-icon>
@@ -30,7 +28,7 @@
 
   <div class="row g-3 mt-2">
     <div *ngFor="let con of compromissos" class="col-sm-6 col-md-4 col-xxl-3">
-      <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-compromissos">
+      <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-componentes">
         <mat-card-header>
           <mat-card-title class="app-titulo-card">
             {{ con.assunto }}

@@ -1,0 +1,100 @@
+<main class="container-fluid app-container-componente">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="app-titulo-responsivo">
+      <mat-icon class="app-icone-tarefas d-none d-sm-inline-flex">task_alt</mat-icon>
+      Editar tarefa
+    </h1>
+    <a mat-icon-button style="width: 60px; height: 60px" [routerLink]="['/dashboard']">
+      <mat-icon style="color: #ffabf3; font-size: 35px; width: 40px; height: auto; margin-top: 3px;">home</mat-icon>
+    </a>
+  </div>
+  <hr>
+
+  <div class="app-container-form">
+    <form [formGroup]="tarefaForm" (submit)="editar()">
+      <!--#region Título-->
+      <mat-form-field class="app-form-field">
+        <mat-label>Título</mat-label>
+        <input formControlName="titulo" matInput placeholder="Ex: Não lavar o cachorro" />
+        <mat-icon matSuffix color="primary">subtitles</mat-icon>
+        <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['required']">
+          O titulo é obrigatório!
+        </mat-error>
+        <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['minlength']">
+          O titulo precisa conter ao menos 3 caracteres!
+        </mat-error>
+      </mat-form-field>
+      <!--#endregion -->
+
+      <!--#region Prioridade-->
+      <div class="app-input-forjado d-md-flex">
+        <mat-label>Prioridade*</mat-label>
+        <div>
+          <mat-radio-group formControlName="prioridade">
+            <mat-radio-button value="0" class="me-4">Baixa</mat-radio-button>
+            <mat-radio-button value="1" class="me-4">Média</mat-radio-button>
+            <mat-radio-button value="2">Alta</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <!--#endregion -->
+
+      <!--#region Itens-->
+      <mat-expansion-panel hideToggle class="app-input-sanfona">
+        <mat-expansion-panel-header (click)="alterarIconeSanfona()">
+          <mat-panel-title> Itens </mat-panel-title>
+          <mat-icon>{{iconeSanfona}}</mat-icon>
+        </mat-expansion-panel-header>
+        <div class="mb-4">
+          <div *ngFor="let item of itensTarefa" class="app-listagem-itens">
+            <div class="my-2">
+              <p *ngIf="item.concluido" class="app-concluido">concluído</p>
+              <p *ngIf="!item.concluido" class="app-pendente">pendente</p>
+              <p class="d-inline my-2">{{item.titulo}}</p>
+            </div>
+            <div>
+              <a mat-icon-button (click)="concluirItem(item.id)">
+                <mat-icon *ngIf="!item.concluido" class="app-btn-concluir-item">done_outline</mat-icon>
+                <mat-icon *ngIf="item.concluido">history</mat-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <!--#endregion-->
+
+      <div>
+        <p class="m-0 mt-5 mx-3 mb-2" style="font-family: sans-serif;">Percentual de conclusão:</p>
+        <h6
+        class="fs-6 text-center"
+        style="border: 1px solid black; border-radius: 25px;"
+        [ngStyle]="{
+          background:
+            porcentagemConclusao <= 25 ? 'linear-gradient(90deg, #ff4343 ' + porcentagemConclusao + '%, #e0e0e0 ' + porcentagemConclusao + '%)' :
+            porcentagemConclusao <= 50 ? 'linear-gradient(90deg, #ffde4c ' + porcentagemConclusao + '%, #e0e0e0 ' + porcentagemConclusao + '%)' :
+            porcentagemConclusao <= 75 ? 'linear-gradient(90deg, #d6ff42 ' + porcentagemConclusao + '%, #e0e0e0 ' + porcentagemConclusao + '%)' :
+            'linear-gradient(90deg, #71ff2f ' + porcentagemConclusao + '%, #e0e0e0 ' + porcentagemConclusao + '%)',
+          color: 'black',
+        }">
+        {{ porcentagemConclusao }}%
+        </h6>
+      </div>
+
+      <div class="row justify-content-center g-2 gap-2 mt-5">
+        <button type="submit" mat-flat-button class="col-sm-4 col-md-3">
+          <mat-icon matIconPrefix>check</mat-icon>
+          Confirmar
+        </button>
+        <a
+          mat-stroked-button
+          type="button"
+          class="col-sm-4 col-md-3"
+          routerLink="/tarefas"
+        >
+          <mat-icon matIconPrefix>keyboard_return</mat-icon>
+          Voltar
+        </a>
+      </div>
+    </form>
+  </div>
+</main>

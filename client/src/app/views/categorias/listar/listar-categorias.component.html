@@ -1,4 +1,4 @@
-<main class="container-fluid app-container-categorias">
+<main class="container-fluid app-container-componente">
     <div class="d-flex justify-content-between align-items-center">
       <h1 class="fs-2 m-0">
         <mat-icon class="app-icone-categorias">bookmarks</mat-icon>
@@ -16,7 +16,7 @@
     </div>
   <hr>
   <section
-    class="row justify-content-center justify-content-lg-start g-1"
+    class="row justify-content-center g-1"
   >
     <a
       mat-button
@@ -30,7 +30,7 @@
 
   <div class="row g-3 mt-2">
     <div *ngFor="let cat of categorias" class="col-sm-6 col-md-4 col-xxl-3">
-      <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-categorias">
+      <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-componentes">
         <mat-card-header>
           <mat-card-title class="app-titulo-card">
             {{ cat.titulo }}

@@ -13,6 +13,7 @@ import { RegistrarUsuarioViewModel, TokenViewModel } from '../../models/auth.mod
 import { UsuarioService } from '../../service/usuario.service';
 import { NotificacaoService } from '../../../notificacao/notificacao.service';
 import { PartialObserver } from 'rxjs';
+import { LocalStorageService } from '../../service/local-storage.service';
 
 @Component({
   selector: 'app-registro',
@@ -43,7 +44,8 @@ export class RegistroComponent {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private usuarioService: UsuarioService,
-    private notificacao: NotificacaoService
+    private notificacao: NotificacaoService,
+    private localStorageService: LocalStorageService
   ) {
     this.form = this.formBuilder.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
@@ -76,11 +78,12 @@ export class RegistroComponent {
 
   private processarSucesso(resposta: TokenViewModel) {
     this.usuarioService.logarUsuario(resposta.usuario);
+    this.localStorageService.salvarTokenAutenticacao(resposta);
     this.notificacao.sucesso(
       `O usuário ${resposta.usuario.nome} foi cadastrado com sucesso!`
     );
 
-    this.router.navigate(['/dashboard'])
+    this.router.navigate(['/dashboard']);
   }
 
   private processarFalha(erro: Error) {

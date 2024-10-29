@@ -16,3 +16,18 @@
   background-color: #6b12c5;
   border-left: 3px solid transparent;
 }
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 10px !important;
+}
+::ng-deep .mat-expansion-panel-content {
+  padding: 0 !important;
+}
+.app-mat-expansion {
+  border: 1px solid gray;
+  border-radius: 25px;
+}
+.app-expansion-item {
+  font-size: 110%;
+  padding-top: 1.5%;
+  margin-right: 2%;
+}

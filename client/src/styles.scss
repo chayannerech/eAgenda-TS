@@ -29,7 +29,41 @@ mat-error {
   --mat-snack-bar-button-color: #ffffff;
 }
 
+.app-container-componente {
+  padding: 50px 30px;
+}
+
 .app-form-field {
   width: 100%;
   margin-top: 15px;
+}
+
+.app-input-forjado {
+  background-color: var(--mdc-filled-text-field-container-color, var(--mat-app-surface-variant));
+  padding: 8px 16px;
+  padding-right: 40px;
+  border-bottom: 1px solid white;
+  border-radius: 4px 4px 0 0;
+  font-family: var(--mat-form-field-container-text-font, var(--mat-app-body-large-font));
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 15px;
+}
+
+@media (min-width: 768px) {
+  .app-container-form {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .app-container-componente {
+    padding: 50px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .app-container-form {
+    width: 70%;
+  }
 }

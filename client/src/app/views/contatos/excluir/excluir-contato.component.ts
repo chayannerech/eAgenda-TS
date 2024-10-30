@@ -8,17 +8,22 @@ import { NotificacaoService } from '../../../core/notificacao/notificacao.servic
 import { ContatoService } from '../services/contato.service';
 import { ContatoExcluidoViewModel, DetalhesContatoViewModel } from '../models/contato.models';
 import { SubmeterExclusaoComponent } from "../../partials/submeter-exclusao/submeter-exclusao.component";
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { DetalhesCompromissoComponent } from "../detalhes/detalhes-contato.component";
+import { ListarCompromissosViewModel } from '../../compromissos/models/compromisso.models';
 
 @Component({
   selector: 'app-excluir-contato',
   standalone: true,
-  imports: [NgIf, RouterLink, AsyncPipe, MatButtonModule, MatIconModule, SubmeterExclusaoComponent],
+  imports: [NgIf, RouterLink, AsyncPipe, MatButtonModule, MatIconModule, SubmeterExclusaoComponent, TituloComponent, DetalhesCompromissoComponent],
   templateUrl: './excluir-contato.component.html'
 })
 
 export class ExcluirContatoComponent {
   contato?: DetalhesContatoViewModel;
+  compromissos?: ListarCompromissosViewModel[];
   nomeDoContato: string;
+  compromissosId: string[];
 
   constructor (
     private route: ActivatedRoute,
@@ -27,12 +32,15 @@ export class ExcluirContatoComponent {
     private notificacao: NotificacaoService
   ) {
     this.nomeDoContato = "";
+    this.compromissosId = [];
   }
 
   ngOnInit(): void {
     this.contato = this.route.snapshot.data['contato'];
     this.nomeDoContato = this.contato!.nome;
-  }
+    }
+
+
 
   excluir() {
     const id = this.route.snapshot.params['id'];

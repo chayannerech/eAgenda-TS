@@ -1,14 +1,10 @@
-<main class="container my-4">
-  <div
-    class="row justify-content-center g-3 mt-2"
-  >
-    <div class="col col-lg-8 col-xxl-6">
-      <h1 class="fs-2">Excluir contato</h1>
-      <hr />
+<main class="container-fluid app-container-componente">
+  <div class="col col-lg-8 col-xxl-6">
+    <app-titulo [componenteCss]='"contatos"' [titulo]='"Excluir contato"' [icone]='"people"'></app-titulo>
+    <p class="mx-3">Deseja realmente excluir este contato?</p>
 
-      <p>Deseja realmente excluir o contato "{{ contato?.nome }}"?</p>
-
-      <app-submeter-exclusao (confirmacaoExclusao)="excluir()" [rota]='"/contatos"'></app-submeter-exclusao>
-    </div>
+    <app-detalhes-contato [contato]="contato"></app-detalhes-contato>
+    <app-submeter-exclusao (confirmacaoExclusao)="excluir()" [rota]='"/compromissos"'></app-submeter-exclusao>
   </div>
 </main>
+

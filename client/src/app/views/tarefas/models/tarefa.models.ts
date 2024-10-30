@@ -31,6 +31,7 @@ export interface TarefaEditadaViewModel {
 export interface DetalhesTarefaViewModel {
   id: string;
   titulo: string;
+  dataCriacao: string;
   dataConclusao: string;
   prioridade: string;
   quantidadedeItens: number;

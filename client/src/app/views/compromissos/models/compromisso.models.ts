@@ -4,6 +4,7 @@ export interface ListarCompromissosViewModel {
   data: string;
   horaInicio: string;
   horaTermino: string;
+  contato: ContatoEmCompromissoViewModel
 }
 export interface InserirCompromissoViewModel {
   assunto: string;
@@ -24,7 +25,7 @@ export interface CompromissoInseridoViewModel {
   data: string;
   horaInicio: string;
   horaTermino: string;
-  contatoid: string
+  contatoId: string
 }
 export interface EditarCompromissoViewModel {
   assunto: string;
@@ -34,7 +35,7 @@ export interface EditarCompromissoViewModel {
   data: string;
   horaInicio: string;
   horaTermino: string;
-  contatoid: string
+  contatoId: string
 }
 export interface CompromissoEditadoViewModel {
   id: string;
@@ -45,7 +46,7 @@ export interface CompromissoEditadoViewModel {
   data: string;
   horaInicio: string;
   horaTermino: string;
-  contatoid: string
+  contatoId: string
 }
 export interface DetalhesCompromissoViewModel {
   id: string;

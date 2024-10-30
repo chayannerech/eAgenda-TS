@@ -1,14 +1,9 @@
-<main class="container my-4">
-  <div
-    class="row justify-content-center g-3 mt-2"
-  >
-    <div class="col col-lg-8 col-xxl-6">
-      <h1 class="fs-2">Excluir contato</h1>
-      <hr />
+<main class="container-fluid app-container-componente">
+  <div class="col col-lg-8 col-xxl-6">
+    <app-titulo [componenteCss]='"tarefas"' [titulo]='"Excluir tarefa"' [icone]='"task_alt"'></app-titulo>
+    <p class="mx-3">Deseja realmente excluir esta tarefa?</p>
 
-      <p>Deseja realmente excluir a tarefa "{{ tarefa?.titulo }}"?</p>
-
-      <app-submeter-exclusao (confirmacaoExclusao)="excluir()" [rota]='"/tarefas"'></app-submeter-exclusao>
-    </div>
+    <app-detalhes-tarefa [tarefa]="tarefa"></app-detalhes-tarefa>
+    <app-submeter-exclusao (confirmacaoExclusao)="excluir()" [rota]='"/tarefas"'></app-submeter-exclusao>
   </div>
 </main>

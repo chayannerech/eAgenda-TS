@@ -1,4 +1,3 @@
-import { NgIf, AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,11 +7,13 @@ import { NotificacaoService } from '../../../core/notificacao/notificacao.servic
 import { DetalhesTarefaViewModel, TarefaExcluidaViewModel } from '../models/tarefa.models';
 import { TarefaService } from '../services/tarefa.service';
 import { SubmeterExclusaoComponent } from "../../partials/submeter-exclusao/submeter-exclusao.component";
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { DetalhesTarefaComponent } from "../detalhes/detalhes-tarefa.component";
 
 @Component({
   selector: 'app-excluir-tarefa',
   standalone: true,
-  imports: [NgIf, RouterLink, AsyncPipe, MatButtonModule, MatIconModule, SubmeterExclusaoComponent],
+  imports: [RouterLink, MatButtonModule, MatIconModule, SubmeterExclusaoComponent, TituloComponent, DetalhesTarefaComponent],
   templateUrl: './excluir-tarefa.component.html'
 })
 

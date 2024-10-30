@@ -6,6 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ListarContatosViewModel } from '../models/contato.models';
+import { BotaoCadastrarComponent } from "../../partials/botao-cadastrar/botao-cadastrar.component";
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { CardFooterComponent } from "../../partials/card-footer/card-footer.component";
 
 @Component({
   selector: 'app-listar-contato',
@@ -17,8 +20,11 @@ import { ListarContatosViewModel } from '../models/contato.models';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatTooltipModule
-  ],
+    MatTooltipModule,
+    BotaoCadastrarComponent,
+    TituloComponent,
+    CardFooterComponent
+],
   templateUrl: './listar-contato.component.html',
   styleUrl: '../styles/contatos.scss'
 })

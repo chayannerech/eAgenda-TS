@@ -1,0 +1,21 @@
+<div class="row justify-content-center g-2 gap-1 mt-5">
+  <button
+    (click)="excluir()"
+    mat-flat-button
+    class="col-sm-4 col-md-3"
+    type="button"
+  >
+    <mat-icon>check</mat-icon>
+    Confirmar
+  </button>
+
+  <button
+    mat-stroked-button
+    class="col-sm-4 col-md-3"
+    type="button"
+    routerLink={{rota}}
+  >
+    <mat-icon>keyboard_return</mat-icon>
+    Voltar
+  </button>
+</div>

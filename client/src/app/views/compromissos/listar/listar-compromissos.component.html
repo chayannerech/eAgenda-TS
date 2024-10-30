@@ -1,36 +1,13 @@
 <main class="container-fluid app-container-componente">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1 class="app-titulo-responsivo m-0">
-      <mat-icon class="app-icone-compromissos d-none d-sm-inline-flex">event</mat-icon>
-      Compromissos
-    </h1>
-    <section class="d-flex justify-content-end">
-      <a
-        mat-button
-        class="app-botao-home"
-        [routerLink]="['/dashboard']"
-      >
-        <mat-icon class="app-icone-home">home</mat-icon>
-      </a>
-    </section>
-  </div>
-  <hr>
-  <section class="row justify-content-center g-1">
-    <a
-      mat-button
-      class="col-sm-6 col-md-4 fs-6 py-4 mb-3 app-botao-cadastrar"
-      [routerLink]="['/compromissos', 'inserir']"
-    >
-      <mat-icon>bookmark_add</mat-icon>
-      Cadastrar
-    </a>
-  </section>
+  <app-titulo [componenteCss]='"compromissos"' [titulo]='"Compromissos"' [icone]='"event"'></app-titulo>
+
+  <app-botao-cadastrar [rota]='"/compromissos"'></app-botao-cadastrar>
 
   <div class="row g-3 mt-2">
     <div *ngFor="let con of compromissos" class="col-sm-6 col-md-4 col-xxl-3">
       <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-componentes">
         <mat-card-header>
-          <mat-card-title class="app-titulo-card">
+          <mat-card-title class="fs-5">
             {{ con.assunto }}
           </mat-card-title>
         </mat-card-header>
@@ -39,22 +16,7 @@
           <p class="m-0">Início: {{ con.horaInicio }}</p>
           <p class="m-0">Fim: {{ con.horaTermino }}</p>
         </mat-card-content>
-        <mat-card-footer class="d-flex justify-content-end p-3 mt-auto gap-1">
-          <a mat-icon-button
-            class="app-btn-editar"
-            [routerLink]="['/compromissos', 'editar', con.id]"
-            matTooltip="Editar"
-          >
-            <mat-icon> edit </mat-icon>
-          </a>
-          <a mat-icon-button
-            class="app-btn-excluir"
-            [routerLink]="['/compromissos', 'excluir', con.id]"
-            matTooltip="Excluir"
-          >
-            <mat-icon> delete </mat-icon>
-          </a>
-        </mat-card-footer>
+        <app-card-footer [rota]='"/compromissos"' [id]='con.id'></app-card-footer>
       </mat-card>
     </div>
     <div *ngIf="compromissos?.length == 0" class="row g-3 mt-4">
@@ -62,4 +24,3 @@
     </div>
   </div>
 </main>
-

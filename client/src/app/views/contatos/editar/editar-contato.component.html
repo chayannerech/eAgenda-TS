@@ -1,24 +1,9 @@
 <main class="container-fluid p-5">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1 class="fs-2 m-0">
-      <mat-icon class="app-icone-contatos">people</mat-icon>
-      Editar contato
-    </h1>
-    <section class="d-flex justify-content-end">
-      <a
-        mat-button
-        class="app-botao-home"
-        [routerLink]="['/dashboard']"
-      >
-        <mat-icon class="app-icone-home">home</mat-icon>
-      </a>
-    </section>
-  </div>
-  <hr>
+  <app-titulo [componenteCss]='"contatos"' [titulo]='"Editar contato"' [icone]='"people"'></app-titulo>
 
   <div class="row g-3 mx-auto col-12 col-md-10 col-lg-8">
     <form [formGroup]="contatoForm" (submit)="editar()">
-      <mat-form-field class="app-form-field" appearance="fill">
+      <mat-form-field class="app-form-field">
         <mat-label>Nome</mat-label>
         <input formControlName="nome" matInput placeholder="Ex: Ana Júlia" />
         <mat-icon matSuffix color="primary">subtitles</mat-icon>
@@ -30,7 +15,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="app-form-field" appearance="fill">
+      <mat-form-field class="app-form-field">
         <mat-label>Email</mat-label>
         <input formControlName="email" matInput placeholder="Ex: ana@email.com" />
         <mat-icon matSuffix color="primary">subtitles</mat-icon>
@@ -42,7 +27,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="app-form-field" appearance="fill">
+      <mat-form-field class="app-form-field">
         <mat-label>Empresa</mat-label>
         <input formControlName="empresa" matInput placeholder="Ex: Anatel" />
         <mat-icon matSuffix color="primary">subtitles</mat-icon>
@@ -54,7 +39,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="app-form-field" appearance="fill">
+      <mat-form-field class="app-form-field">
         <mat-label>Cargo</mat-label>
         <input formControlName="cargo" matInput placeholder="Ex: Presidente" />
         <mat-icon matSuffix color="primary">subtitles</mat-icon>
@@ -66,7 +51,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="app-form-field" appearance="fill">
+      <mat-form-field class="app-form-field">
         <mat-label>Telefone</mat-label>
         <input formControlName="telefone" matInput mask="(00) 00000-0000" placeholder="Ex: (22) 99999-9999" />
         <mat-icon matSuffix color="primary">subtitles</mat-icon>
@@ -77,22 +62,7 @@
           O telefone precisa conter 11 dígitos!
         </mat-error>
       </mat-form-field>
-
-      <div class="row justify-content-center g-2 gap-2 mt-3">
-        <button type="submit" mat-flat-button class="col-sm-4 col-md-3">
-          <mat-icon matIconPrefix>check</mat-icon>
-          Confirmar
-        </button>
-        <a
-          mat-stroked-button
-          type="button"
-          class="col-sm-4 col-md-3"
-          routerLink="/contatos"
-        >
-          <mat-icon matIconPrefix>keyboard_return</mat-icon>
-          Voltar
-        </a>
-      </div>
+      <app-submeter-form [rota]='"/contatos"'></app-submeter-form>
     </form>
   </div>
 </main>

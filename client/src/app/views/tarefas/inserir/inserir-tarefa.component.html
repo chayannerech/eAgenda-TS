@@ -1,14 +1,5 @@
 <main class="container-fluid app-container-componente">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1 class="app-titulo-responsivo">
-      <mat-icon class="app-icone-tarefas d-none d-sm-inline-flex">task_alt</mat-icon>
-      Cadastrar tarefa
-    </h1>
-    <a mat-icon-button style="width: 60px; height: 60px" [routerLink]="['/dashboard']">
-      <mat-icon style="color: #ffabf3; font-size: 35px; width: 40px; height: auto; margin-top: 3px;">home</mat-icon>
-    </a>
-  </div>
-  <hr>
+  <app-titulo [componenteCss]='"tarefas"' [titulo]='"Cadastrar tarefa"' [icone]='"task_alt"'></app-titulo>
 
   <div class="app-container-form">
     <form [formGroup]="tarefaForm" (submit)="cadastrar()">
@@ -75,7 +66,7 @@
 
         <!--#region Cadastrando um item-->
         <form *ngIf="cadastrandoItem" [formGroup]="itemForm" (submit)="inserirItens()" style="width: 95%; margin: 0 auto;">
-          <mat-form-field class="app-form-field" appearance="fill">
+          <mat-form-field class="app-form-field">
             <mat-label style="font-size: 15px;">Título do item</mat-label>
             <input formControlName="titulo" style="font-size: 15px;" matInput placeholder="Ex: Comprar o shampoo" />
             <mat-icon matSuffix color="primary">subtitles</mat-icon>
@@ -101,7 +92,7 @@
 
         <!--#region Editando um item-->
         <form *ngIf="editandoItem" [formGroup]="itemForm" (submit)="editarItem()" style="width: 95%; margin: 0 auto;">
-          <mat-form-field class="app-form-field" appearance="fill">
+          <mat-form-field class="app-form-field">
             <mat-label style="font-size: 15px;">Título do item</mat-label>
             <input formControlName="titulo" style="font-size: 15px;" matInput placeholder="Ex: Comprar o shampoo" />
             <mat-icon matSuffix color="primary">subtitles</mat-icon>
@@ -136,22 +127,7 @@
         Insira ao menos um item!
       </mat-error>
       <!--#endregion-->
-
-      <div class="row justify-content-center g-2 gap-2 mt-5">
-        <button type="submit" mat-flat-button class="col-sm-4 col-md-3">
-          <mat-icon matIconPrefix>check</mat-icon>
-          Confirmar
-        </button>
-        <a
-          mat-stroked-button
-          type="button"
-          class="col-sm-4 col-md-3"
-          routerLink="/tarefas"
-        >
-          <mat-icon matIconPrefix>keyboard_return</mat-icon>
-          Voltar
-        </a>
-      </div>
+      <app-submeter-form [rota]='"/tarefas"'></app-submeter-form>
     </form>
   </div>
 </main>

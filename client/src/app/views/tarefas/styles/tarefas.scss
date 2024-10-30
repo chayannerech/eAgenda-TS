@@ -1,25 +1,5 @@
-.app-botao-cadastrar {
-  border: 1px solid rgb(114, 114, 114);
-  font-size: 1rem;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-  margin-bottom: 1rem;
-}
-.app-titulo-responsivo {
-  font: 1.5rem / 1.8rem Roboto, sans-serif;
-  margin: 0;
-}
 .app-card-componentes {
   background-color: #3d3d3d;
-}
-
-
-.app-icone-tarefas {
-  justify-content: center;
-  margin-right: 10px;
-  font-size: 29px;
-  width: 28px;
-  height: 27px;
 }
 .app-input-sanfona {
   background-color: var(--mdc-filled-text-field-container-color, var(--mat-app-surface-variant));
@@ -40,8 +20,6 @@
   text-decoration: none;
   color: white;
 }
-
-
 .mat-expansion-panel-header-description {
   flex-grow: 0;
 }
@@ -95,21 +73,17 @@
   font-family: sans-serif;
   padding: 0 15px;
 }
-
-
-.app-btn-editar {
-  color: #ffffff;
-  border: 1px solid rgb(39, 39, 39);
+mat-form-field {
+  font-size: 14px;
 }
-.app-btn-excluir {
-  color: #942626;
-  border: 1px solid rgb(39, 39, 39);
+mat-label {
+  font-size: 15px;
 }
-
-
 @media (min-width: 768px) {
-  .app-titulo-responsivo {
-    font: 1.8rem / 1rem Roboto, sans-serif;
-    margin: 0;
+  mat-form-field {
+    font-size: inherit;
+  }
+  mat-label {
+    font-size: inherit;
   }
 }

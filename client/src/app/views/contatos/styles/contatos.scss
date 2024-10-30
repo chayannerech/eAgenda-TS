@@ -1,47 +1,17 @@
-.app-container-contatos {
-  padding: 50px;
-}
-
-.app-card-contatos {
+.app-card-componentes {
   background-color: #3d3d3d;
 }
-
-.app-botao-contatos {
-  border: 1px solid rgb(114, 114, 114);
+mat-form-field {
+  font-size: 14px;
 }
-
-.app-botao-home {
-  width: 64px;
-  height: 64px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
+mat-label {
+  font-size: 15px;
 }
-
-.app-icone-contatos {
-  display: inline-flex;
-  justify-content: center;
-  margin-right: 15px;
-  font-size: 30px;
-  width: 25px;
-  height: 26px;
-}
-
-.app-icone-home {
-  font-size: 35px;
-  width: 35px;
-  height: 35px;
-  margin: 0;
-  z-index: 0;
-}
-
-.app-btn-editar {
-  color: #ffffff;
-  border: 1px solid rgb(39, 39, 39);
-}
-
-.app-btn-excluir {
-  color: #942626;
-  border: 1px solid rgb(39, 39, 39);
+@media (min-width: 576px) {
+  mat-form-field {
+    font-size: inherit;
+  }
+  mat-label {
+    font-size: inherit;
+  }
 }

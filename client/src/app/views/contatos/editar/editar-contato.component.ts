@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { PartialObserver } from 'rxjs';
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
 
 @Component({
   selector: 'app-editar-contato',
@@ -23,8 +25,10 @@ import { PartialObserver } from 'rxjs';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    NgxMaskDirective
-  ],
+    NgxMaskDirective,
+    TituloComponent,
+    SubmeterFormComponent
+],
   templateUrl: './editar-contato.component.html',
   styleUrl: '../styles/contatos.scss',
   providers: [provideNgxMask()]

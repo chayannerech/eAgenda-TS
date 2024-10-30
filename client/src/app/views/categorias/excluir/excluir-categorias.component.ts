@@ -3,16 +3,28 @@ import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable, PartialObserver, tap } from 'rxjs';
+import { PartialObserver } from 'rxjs';
 import { CategoriaExcluidaViewModel, DetalhesCategoriaViewModel } from '../models/categoria.models';
 import { CategoriaService } from '../services/categoria.service';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { toTitleCase } from '../../../app.component';
-
+import { SubmeterExclusaoComponent } from '../../partials/submeter-exclusao/submeter-exclusao.component';
+import { MatCardModule } from '@angular/material/card';
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { DetalhesCategoriaComponent } from "../detalhes/detalhes-categoria.component";
 @Component({
   selector: 'app-excluir-categorias',
   standalone: true,
-  imports: [NgIf, RouterLink, AsyncPipe, MatButtonModule, MatIconModule],
+  imports: [
+    NgIf,
+    RouterLink,
+    AsyncPipe,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    SubmeterExclusaoComponent,
+    TituloComponent,
+    DetalhesCategoriaComponent
+],
   templateUrl: './excluir-categorias.component.html',
 })
 
@@ -45,7 +57,6 @@ export class ExcluirCategoriaComponent implements OnInit {
       }
 
       this.categoriaService.excluir(id).subscribe(observer);
-
   }
 
   private processarSucesso() {

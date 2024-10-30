@@ -7,11 +7,12 @@ import { PartialObserver } from 'rxjs';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { DetalhesTarefaViewModel, TarefaExcluidaViewModel } from '../models/tarefa.models';
 import { TarefaService } from '../services/tarefa.service';
+import { SubmeterExclusaoComponent } from "../../partials/submeter-exclusao/submeter-exclusao.component";
 
 @Component({
   selector: 'app-excluir-tarefa',
   standalone: true,
-  imports: [ NgIf, RouterLink, AsyncPipe, MatButtonModule, MatIconModule ],
+  imports: [NgIf, RouterLink, AsyncPipe, MatButtonModule, MatIconModule, SubmeterExclusaoComponent],
   templateUrl: './excluir-tarefa.component.html'
 })
 

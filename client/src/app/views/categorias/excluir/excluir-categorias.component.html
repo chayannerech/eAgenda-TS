@@ -1,34 +1,9 @@
-<main class="container my-4">
-  <div
-    class="row justify-content-center g-3 mt-2"
-  >
+<main class="container-fluid app-container-componente">
     <div class="col col-lg-8 col-xxl-6">
-      <h1 class="fs-2">Excluir Categoria</h1>
-      <hr />
+      <app-titulo [componenteCss]='"categorias"' [titulo]='"Excluir categoria"' [icone]='"bookmarks"'></app-titulo>
+      <p class="mx-3">Deseja realmente excluir esta categoria?</p>
 
-      <p>Deseja realmente excluir a categoria "{{ categoria?.titulo }}"?</p>
-
-      <div class="row justify-content-end g-2 gap-1 mt-5">
-        <button
-          (click)="excluir()"
-          mat-flat-button
-          class="col-md-3"
-          type="button"
-        >
-          <mat-icon>check</mat-icon>
-          Confirmar
-        </button>
-
-        <button
-          mat-stroked-button
-          class="col-md-3"
-          type="button"
-          routerLink="/categorias"
-        >
-          <mat-icon>keyboard_return</mat-icon>
-          Voltar
-        </button>
-      </div>
+      <app-detalhes-categoria [categoria]="categoria"></app-detalhes-categoria>
+      <app-submeter-exclusao (confirmacaoExclusao)="excluir()" [rota]='"/categorias"'></app-submeter-exclusao>
     </div>
-  </div>
 </main>

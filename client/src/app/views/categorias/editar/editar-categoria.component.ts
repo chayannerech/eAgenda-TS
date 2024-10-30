@@ -9,11 +9,14 @@ import { CategoriaService } from '../services/categoria.service';
 import { CategoriaEditadaViewModel, EditarCategoriaViewModel } from '../models/categoria.models';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { PartialObserver } from 'rxjs/internal/types';
+import { CommonModule, NgIf } from '@angular/common';
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
 
 @Component({
   selector: 'app-editar-categorias',
   standalone: true,
-  imports: [ RouterLink, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule ],
+  imports: [NgIf, CommonModule, RouterLink, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, TituloComponent, SubmeterFormComponent],
   templateUrl: './editar-categoria.component.html',
   styleUrl: '../styles/categorias.scss',
 })

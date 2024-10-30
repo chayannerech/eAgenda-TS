@@ -8,27 +8,7 @@
 
       <p>Deseja realmente excluir a tarefa "{{ tarefa?.titulo }}"?</p>
 
-      <div class="row justify-content-center g-2 gap-1 mt-5">
-        <button
-          (click)="excluir()"
-          mat-flat-button
-          class="col-md-3"
-          type="button"
-        >
-          <mat-icon>check</mat-icon>
-          Confirmar
-        </button>
-
-        <button
-          mat-stroked-button
-          class="col-md-3"
-          type="button"
-          routerLink="/contatos"
-        >
-          <mat-icon>keyboard_return</mat-icon>
-          Voltar
-        </button>
-      </div>
+      <app-submeter-exclusao (confirmacaoExclusao)="excluir()" [rota]='"/tarefas"'></app-submeter-exclusao>
     </div>
   </div>
 </main>

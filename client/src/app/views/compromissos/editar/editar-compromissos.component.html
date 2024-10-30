@@ -1,21 +1,10 @@
-<main class="container-fluid p-5">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1 class="fs-2 m-0">
-      <mat-icon class="app-icone-compromissos d-none d-sm-inline-flex">event</mat-icon>
-      Editar compromisso
-    </h1>
-    <section class="d-flex justify-content-end">
-      <a mat-button class="app-botao-home" [routerLink]="['/dashboard']">
-        <mat-icon class="app-icone-home">home</mat-icon>
-      </a>
-    </section>
-  </div>
-  <hr>
+<main class="container-fluid app-container-componente">
+  <app-titulo [componenteCss]='"compromissos"' [titulo]='"Editar compromisso"' [icone]='"event"'></app-titulo>
 
-  <div class="row g-3 mx-auto col-12 col-md-10 col-lg-8 app-container-form">
+  <div class="app-container-form">
     <form [formGroup]="compromissoForm" (ngSubmit)="editar()">
 
-      <mat-form-field class="app-form-field" appearance="fill">
+      <mat-form-field class="app-form-field">
         <mat-label>Assunto</mat-label>
         <input formControlName="assunto" matInput placeholder="Ex: Não lavar o cachorro" />
         <mat-icon matSuffix color="primary">subtitles</mat-icon>
@@ -27,7 +16,7 @@
         </mat-error>
       </mat-form-field>
 
-      <div class="app-input-forjado d-md-flex app-form-field">
+      <div class="app-input-forjado d-md-flex">
         <mat-label class="me-5">Tipo de local*</mat-label>
         <div class="align-items-center">
           <mat-radio-group formControlName="tipoLocal" aria-label="Tipo de Local" (change)="tipoDeLocalEscolhido($event)">
@@ -37,7 +26,7 @@
         </div>
       </div>
 
-      <mat-form-field class="app-form-field" appearance="fill">
+      <mat-form-field class="app-form-field">
         <mat-label>Local</mat-label>
         <input formControlName="local" matInput placeholder="Ex: sala 104" />
         <mat-icon matSuffix color="primary">place</mat-icon>
@@ -49,7 +38,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="app-form-field" appearance="fill">
+      <mat-form-field class="app-form-field">
         <mat-label>Link</mat-label>
         <input formControlName="link" matInput placeholder="Ex: https://reuniao.com" />
         <mat-icon matSuffix color="primary">link</mat-icon>
@@ -61,7 +50,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="app-form-field" appearance="fill">
+      <mat-form-field class="app-form-field">
         <mat-label>Data</mat-label>
         <input matInput [matDatepicker]="picker" formControlName="data" placeholder="Escolha uma data">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -71,7 +60,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="app-form-field" appearance="fill">
+      <mat-form-field class="app-form-field">
         <mat-label>Hora de Início</mat-label>
         <input formControlName="horaInicio" matInput placeholder="Ex: 09:00" />
         <mat-icon matSuffix color="primary">schedule</mat-icon>
@@ -83,7 +72,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="app-form-field" appearance="fill">
+      <mat-form-field class="app-form-field">
         <mat-label>Hora de Término</mat-label>
         <input formControlName="horaTermino" matInput placeholder="Ex: 10:30" />
         <mat-icon matSuffix color="primary">schedule</mat-icon>
@@ -96,7 +85,7 @@
       </mat-form-field>
 
       <div *ngIf="contatos$ | async as contatos">
-        <mat-form-field class="app-form-field" appearance="fill">
+        <mat-form-field class="app-form-field">
           <mat-label>Contato</mat-label>
           <mat-select formControlName="contatoId" placeholder="Selecione um contato">
             <mat-option *ngFor="let contato of contatos" [value]="contato.id">
@@ -108,17 +97,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-
-      <div class="row justify-content-center g-2 gap-2 mt-3">
-        <button type="submit" mat-flat-button class="col-sm-4 col-md-3">
-          <mat-icon matIconPrefix>check</mat-icon>
-          Confirmar
-        </button>
-        <a mat-stroked-button type="button" class="col-sm-4 col-md-3" routerLink="/compromissos">
-          <mat-icon matIconPrefix>keyboard_return</mat-icon>
-          Voltar
-        </a>
-      </div>
+      <app-submeter-form [rota]='"/compromissos"'></app-submeter-form>
     </form>
   </div>
 </main>

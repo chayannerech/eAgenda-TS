@@ -12,6 +12,8 @@ import { DetalhesTarefaViewModel, EditarTarefaViewModel, InserirTarefaViewModel,
 import { TarefaService } from '../services/tarefa.service';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
 
 @Component({
   selector: 'app-inserir-tarefa',
@@ -29,6 +31,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatButtonModule,
     MatRadioModule,
     MatExpansionModule,
+    TituloComponent,
+    SubmeterFormComponent
 ],
 
   templateUrl: './editar-tarefa.component.html',

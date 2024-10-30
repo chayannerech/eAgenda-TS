@@ -1,18 +1,31 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable, PartialObserver, tap } from 'rxjs';
-import { toTitleCase } from '../../../app.component';
+import { PartialObserver } from 'rxjs';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { CompromissoExcluidoViewModel, DetalhesCompromissoViewModel } from '../../compromissos/models/compromisso.models';
 import { CompromissoService } from '../../compromissos/services/compromisso.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { SubmeterExclusaoComponent } from "../../partials/submeter-exclusao/submeter-exclusao.component";
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { MatCardModule } from '@angular/material/card';
+import { DetalhesCompromissoComponent } from "../detalhes/detalhes-compromisso.component";
 
 @Component({
   selector: 'app-excluir-compromisso',
   standalone: true,
-  imports: [ NgIf, RouterLink, AsyncPipe, MatButtonModule, MatIconModule ],
+  imports: [
+    NgIf,
+    RouterLink,
+    AsyncPipe,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    SubmeterExclusaoComponent,
+    TituloComponent,
+    DetalhesCompromissoComponent
+],
   templateUrl: './excluir-compromisso.component.html',
   styleUrl: '../styles/compromissos.scss'
 })
@@ -32,6 +45,8 @@ export class ExcluirCompromissoComponent {
 
   ngOnInit(): void {
     this.compromisso = this.route.snapshot.data['compromisso'];
+    this.compromisso!.horaInicio = this.compromissoService.formatarHorario(this.compromisso!.horaInicio);
+    this.compromisso!.horaTermino = this.compromissoService.formatarHorario(this.compromisso!.horaTermino);
     this.assuntoDoCompromisso = this.compromisso!.assunto;
   }
 

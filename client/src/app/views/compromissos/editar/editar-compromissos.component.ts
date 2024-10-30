@@ -16,6 +16,8 @@ import { ListarContatosViewModel } from '../../contatos/models/contato.models';
 import { ContatoService } from '../../contatos/services/contato.service';
 import { CompromissoEditadoViewModel, DetalhesCompromissoViewModel, EditarCompromissoViewModel, InserirCompromissoViewModel } from '../models/compromisso.models';
 import { CompromissoService } from '../services/compromisso.service';
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
 
 @Component({
   selector: 'app-editar-compromissos',
@@ -33,8 +35,10 @@ import { CompromissoService } from '../services/compromisso.service';
     MatRadioModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
-  ],
+    MatSelectModule,
+    TituloComponent,
+    SubmeterFormComponent
+],
   templateUrl: './editar-compromissos.component.html',
   styleUrl: '../styles/compromissos.scss'
 })

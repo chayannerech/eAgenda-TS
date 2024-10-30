@@ -10,11 +10,13 @@ import { CategoriaService } from '../services/categoria.service';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { NgIf } from '@angular/common';
 import { PartialObserver } from 'rxjs';
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
 
 @Component({
   selector: 'app-inserir-categorias',
   standalone: true,
-  imports: [ NgIf, RouterLink, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule ],
+  imports: [NgIf, RouterLink, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, TituloComponent, SubmeterFormComponent],
   templateUrl: './inserir-categorias.component.html',
   styleUrl: '../styles/categorias.scss'
 })

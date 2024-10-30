@@ -7,11 +7,12 @@ import { PartialObserver } from 'rxjs';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { ContatoService } from '../services/contato.service';
 import { ContatoExcluidoViewModel, DetalhesContatoViewModel } from '../models/contato.models';
+import { SubmeterExclusaoComponent } from "../../partials/submeter-exclusao/submeter-exclusao.component";
 
 @Component({
   selector: 'app-excluir-contato',
   standalone: true,
-  imports: [ NgIf, RouterLink, AsyncPipe, MatButtonModule, MatIconModule ],
+  imports: [NgIf, RouterLink, AsyncPipe, MatButtonModule, MatIconModule, SubmeterExclusaoComponent],
   templateUrl: './excluir-contato.component.html'
 })
 

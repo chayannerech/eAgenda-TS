@@ -6,11 +6,25 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { BotaoCadastrarComponent } from "../../partials/botao-cadastrar/botao-cadastrar.component";
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { CardFooterComponent } from "../../partials/card-footer/card-footer.component";
 
 @Component({
   selector: 'app-listagem-categorias',
   standalone: true,
-  imports: [ RouterLink, NgForOf, NgIf, AsyncPipe, MatCardModule, MatButtonModule, MatIconModule, MatTooltipModule ],
+  imports: [
+    NgIf,
+    NgForOf,
+    RouterLink,
+    AsyncPipe,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    BotaoCadastrarComponent,
+    TituloComponent,
+    CardFooterComponent],
   templateUrl: './listar-categorias.component.html',
   styleUrl: '../styles/categorias.scss'
 })

@@ -1,0 +1,17 @@
+<mat-card-footer class="d-flex justify-content-end p-3 mt-auto gap-1">
+  <a mat-icon-button
+    class="app-btn-editar"
+    [routerLink]="[rota, 'editar', id]"
+    matTooltip="Editar"
+  >
+    <mat-icon> edit </mat-icon>
+  </a>
+  <a mat-icon-button
+    class="app-btn-excluir"
+    [routerLink]="[rota, 'excluir', id]"
+    matTooltip="Excluir"
+  >
+    <mat-icon> delete </mat-icon>
+  </a>
+</mat-card-footer>
+

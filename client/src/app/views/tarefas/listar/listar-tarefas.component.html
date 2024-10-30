@@ -1,30 +1,13 @@
 <main class="container-fluid app-container-componente">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1 class="app-titulo-responsivo">
-      <mat-icon class="app-icone-tarefas d-none d-sm-inline-flex">task_alt</mat-icon>
-      Tarefas
-    </h1>
-    <a mat-icon-button style="width: 60px; height: 60px" [routerLink]="['/dashboard']">
-      <mat-icon style="color: #ffabf3; font-size: 35px; width: 40px; height: auto; margin-top: 3px;">home</mat-icon>
-    </a>
-  </div>
-  <hr>
+  <app-titulo [componenteCss]='"tarefas"' [titulo]='"Tarefas"' [icone]='"task_alt"'></app-titulo>
 
-  <section class="row justify-content-center g-1">
-    <a mat-button
-      class="col-sm-6 col-md-4 col-xl-3 app-botao-cadastrar"
-      [routerLink]="['/tarefas', 'inserir']"
-    >
-      <mat-icon>bookmark_add</mat-icon>
-      Cadastrar
-    </a>
-  </section>
+  <app-botao-cadastrar [rota]='"/tarefas"'></app-botao-cadastrar>
 
   <div class="row g-3 mt-2">
     <div *ngFor="let tarefa of tarefas" class="col-sm-6 col-md-4 col-xxl-3">
       <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-componentes">
         <mat-card-header>
-          <mat-card-title class="app-titulo-card">
+          <mat-card-title class="fs-5">
             {{ tarefa.titulo }}
           </mat-card-title>
         </mat-card-header>
@@ -33,22 +16,7 @@
           <p class="m-0 mt-4">Prioridade: {{ tarefa.prioridade }}</p>
           <p class="m-0">Status: {{ tarefa.situacao }}</p>
         </mat-card-content>
-        <mat-card-footer class="d-flex justify-content-end p-3 mt-auto gap-1">
-          <a mat-icon-button
-            class="app-btn-editar"
-            [routerLink]="['/tarefas', 'editar', tarefa.id]"
-            matTooltip="Editar"
-          >
-            <mat-icon> edit </mat-icon>
-          </a>
-          <a mat-icon-button
-            class="app-btn-excluir"
-            [routerLink]="['/tarefas', 'excluir', tarefa.id]"
-            matTooltip="Excluir"
-          >
-            <mat-icon> delete </mat-icon>
-          </a>
-        </mat-card-footer>
+        <app-card-footer [rota]='"/tarefas"' [id]='tarefa.id'></app-card-footer>
       </mat-card>
     </div>
     <div *ngIf="tarefas?.length == 0" class="row g-3 mt-4">

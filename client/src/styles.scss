@@ -52,10 +52,14 @@ mat-error {
   margin-top: 15px;
 }
 
+.app-container-form {
+  margin-top: 30px;
+}
+
 @media (min-width: 768px) {
   .app-container-form {
     width: 80%;
-    margin: 0 auto;
+    margin:50px auto;
   }
   .app-container-componente {
     padding: 50px;

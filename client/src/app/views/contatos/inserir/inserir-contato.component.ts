@@ -11,7 +11,8 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { ContatoInseridoViewModel, InserirContatoViewModel } from '../models/contato.models';
 import { ContatoService } from '../services/contato.service';
 import { PartialObserver } from 'rxjs';
-import { toTitleCase } from '../../../app.component';
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
 
 @Component({
   selector: 'app-inserir-contato',
@@ -24,8 +25,10 @@ import { toTitleCase } from '../../../app.component';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    NgxMaskDirective
-  ],
+    NgxMaskDirective,
+    TituloComponent,
+    SubmeterFormComponent
+],
   templateUrl: './inserir-contato.component.html',
   styleUrl: '../styles/contatos.scss',
   providers: [provideNgxMask()]

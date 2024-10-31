@@ -3,6 +3,9 @@ import { inject } from "@angular/core";
 import { ListarDespesasViewModel, DetalhesDespesaViewModel } from "./models/despesa.models";
 import { DespesaService } from "./services/despesas.service";
 import { ListarDespesasComponent } from "./listar/listar-despesas.component";
+import { InserirDespesaComponent } from "./inserir/inserir-despesa.component";
+import { ExcluirDespesaComponent } from "./excluir/excluir-despesa.component";
+import { EditarDespesaComponent } from "./editar/editar-despesa.component";
 
 const listarDespesasResolver: ResolveFn<ListarDespesasViewModel[]> = () => {
   return inject(DespesaService).selecionarTodos();

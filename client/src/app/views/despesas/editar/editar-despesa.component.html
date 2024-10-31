@@ -2,16 +2,16 @@
   <app-titulo [componenteCss]='"compromissos"' [titulo]='"Editar compromisso"' [icone]='"event"'></app-titulo>
 
   <div class="app-container-form">
-    <form [formGroup]="compromissoForm" (ngSubmit)="editar()">
+    <form [formGroup]="despesaForm" (ngSubmit)="editar()">
 
       <mat-form-field class="app-form-field">
         <mat-label>Assunto</mat-label>
         <input formControlName="assunto" matInput placeholder="Ex: Não lavar o cachorro" />
         <mat-icon matSuffix color="primary">subtitles</mat-icon>
-        <mat-error *ngIf="compromissoForm.get('assunto')!.invalid && compromissoForm.get('assunto')?.errors?.['required']">
+        <mat-error *ngIf="despesaForm.get('assunto')!.invalid && despesaForm.get('assunto')?.errors?.['required']">
           O assunto é obrigatório!
         </mat-error>
-        <mat-error *ngIf="compromissoForm.get('assunto')!.invalid && compromissoForm.get('assunto')?.errors?.['minlength']">
+        <mat-error *ngIf="despesaForm.get('assunto')!.invalid && despesaForm.get('assunto')?.errors?.['minlength']">
           O assunto precisa conter ao menos 3 caracteres!
         </mat-error>
       </mat-form-field>
@@ -30,10 +30,10 @@
         <mat-label>Local</mat-label>
         <input formControlName="local" matInput placeholder="Ex: sala 104" />
         <mat-icon matSuffix color="primary">place</mat-icon>
-        <mat-error *ngIf="compromissoForm.get('local')!.invalid && compromissoForm.get('local')?.errors?.['required']">
+        <mat-error *ngIf="despesaForm.get('local')!.invalid && despesaForm.get('local')?.errors?.['required']">
           O local é obrigatório!
         </mat-error>
-        <mat-error *ngIf="compromissoForm.get('local')!.invalid && compromissoForm.get('local')?.errors?.['minlength']">
+        <mat-error *ngIf="despesaForm.get('local')!.invalid && despesaForm.get('local')?.errors?.['minlength']">
           O local precisa conter ao menos 3 caracteres!
         </mat-error>
       </mat-form-field>
@@ -55,7 +55,7 @@
         <input matInput [matDatepicker]="picker" formControlName="data" placeholder="Escolha uma data">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-        <mat-error *ngIf="compromissoForm.get('data')?.invalid && compromissoForm.get('data')?.errors?.['required']">
+        <mat-error *ngIf="despesaForm.get('data')?.invalid && despesaForm.get('data')?.errors?.['required']">
           A data é obrigatória!
         </mat-error>
       </mat-form-field>
@@ -64,10 +64,10 @@
         <mat-label>Hora de Início</mat-label>
         <input formControlName="horaInicio" matInput placeholder="Ex: 09:00" />
         <mat-icon matSuffix color="primary">schedule</mat-icon>
-        <mat-error *ngIf="compromissoForm.get('horaInicio')?.invalid && compromissoForm.get('horaInicio')?.errors?.['required']">
+        <mat-error *ngIf="despesaForm.get('horaInicio')?.invalid && despesaForm.get('horaInicio')?.errors?.['required']">
           A hora de início é obrigatória!
         </mat-error>
-        <mat-error *ngIf="compromissoForm.get('horaInicio')?.invalid && compromissoForm.get('horaInicio')?.errors?.['pattern']">
+        <mat-error *ngIf="despesaForm.get('horaInicio')?.invalid && despesaForm.get('horaInicio')?.errors?.['pattern']">
           Informe uma hora válida no formato HH:mm!
         </mat-error>
       </mat-form-field>
@@ -76,10 +76,10 @@
         <mat-label>Hora de Término</mat-label>
         <input formControlName="horaTermino" matInput placeholder="Ex: 10:30" />
         <mat-icon matSuffix color="primary">schedule</mat-icon>
-        <mat-error *ngIf="compromissoForm.get('horaTermino')?.invalid && compromissoForm.get('horaTermino')?.errors?.['required']">
+        <mat-error *ngIf="despesaForm.get('horaTermino')?.invalid && despesaForm.get('horaTermino')?.errors?.['required']">
           A hora de término é obrigatória!
         </mat-error>
-        <mat-error *ngIf="compromissoForm.get('horaTermino')?.invalid && compromissoForm.get('horaTermino')?.errors?.['pattern']">
+        <mat-error *ngIf="despesaForm.get('horaTermino')?.invalid && despesaForm.get('horaTermino')?.errors?.['pattern']">
           Informe uma hora válida no formato HH:mm!
         </mat-error>
       </mat-form-field>
@@ -92,7 +92,7 @@
               {{ contato.nome }}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="compromissoForm.get('contatoId')?.invalid && compromissoForm.get('contatoId')?.errors?.['required']">
+          <mat-error *ngIf="despesaForm.get('contatoId')?.invalid && despesaForm.get('contatoId')?.errors?.['required']">
             O contato é obrigatório!
           </mat-error>
         </mat-form-field>

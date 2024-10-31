@@ -1,26 +1,26 @@
-import { NgIf, NgForOf, AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { RouterLink, Router, ActivatedRoute } from '@angular/router';
-import { Observable, PartialObserver } from 'rxjs';
-import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { ListarContatosViewModel } from '../../contatos/models/contato.models';
-import { ContatoService } from '../../contatos/services/contato.service';
-import { CompromissoEditadoViewModel, DetalhesCompromissoViewModel, EditarCompromissoViewModel, InserirCompromissoViewModel } from '../models/compromisso.models';
-import { CompromissoService } from '../services/compromisso.service';
-import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { NgIf, NgForOf, AsyncPipe } from "@angular/common";
+import { Component } from "@angular/core";
+import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatSelectModule } from "@angular/material/select";
+import { RouterLink, ActivatedRoute, Router } from "@angular/router";
+import { Observable, PartialObserver } from "rxjs";
+import { NotificacaoService } from "../../../core/notificacao/notificacao.service";
+import { ListarContatosViewModel } from "../../contatos/models/contato.models";
+import { ContatoService } from "../../contatos/services/contato.service";
 import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { EditarDespesaViewModel, DetalhesDespesaViewModel, DespesaEditadaViewModel } from "../models/despesa.models";
+import { DespesaService } from "../services/despesas.service";
 
 @Component({
-  selector: 'app-editar-compromissos',
+  selector: 'app-editar-despesas',
   standalone: true,
   imports: [
     RouterLink,
@@ -39,12 +39,12 @@ import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-for
     TituloComponent,
     SubmeterFormComponent
 ],
-  templateUrl: './editar-compromissos.component.html',
-  styleUrl: '../styles/compromissos.scss'
+  templateUrl: './editar-despesa.component.html',
+  styleUrl: '../styles/despesas.scss'
 })
 
-export class EditarCompromissosComponent {
-  compromissoForm: FormGroup;
+export class EditarDespesaComponent {
+  despesaForm: FormGroup;
   localDesabilitado: boolean;
   linkDesabilitado: boolean;
   contatos$?: Observable<ListarContatosViewModel[]>;
@@ -53,13 +53,13 @@ export class EditarCompromissosComponent {
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private compromissoService: CompromissoService,
+    private despesaService: DespesaService,
     private contatoService: ContatoService,
     private notificacao: NotificacaoService
   ) {
     this.localDesabilitado = false;
     this.linkDesabilitado = true;
-    this.compromissoForm = this.fb.group({
+    this.despesaForm = this.fb.group({
       assunto: ['', [ Validators.required, Validators.minLength(3) ]],
       local: ['', [ Validators.required, Validators.minLength(3) ]],
       tipoLocal: ['1', [ Validators.required ]],
@@ -74,32 +74,32 @@ export class EditarCompromissosComponent {
   ngOnInit(): void {
     this.contatos$ = this.contatoService.selecionarTodos();
 
-    const compromisso = this.route.snapshot.data['compromisso'];
-    this.trazerValoresParaEdicao(compromisso);
+    const despesa = this.route.snapshot.data['despesa'];
+    this.trazerValoresParaEdicao(despesa);
   }
 
-  get assunto() { return this.compromissoForm.get('assunto'); }
-  get local() { return this.compromissoForm.get('local'); }
-  get tipoLocal() { return this.compromissoForm.get('tipoLocal'); }
-  get link() { return this.compromissoForm.get('link'); }
-  get data() { return this.compromissoForm.get('data'); }
-  get horaInicio() { return this.compromissoForm.get('horaInicio'); }
-  get horaTermino() { return this.compromissoForm.get('horaTermino'); }
-  get contatoId() { return this.compromissoForm.get('contatoId'); }
+  get assunto() { return this.despesaForm.get('assunto'); }
+  get local() { return this.despesaForm.get('local'); }
+  get tipoLocal() { return this.despesaForm.get('tipoLocal'); }
+  get link() { return this.despesaForm.get('link'); }
+  get data() { return this.despesaForm.get('data'); }
+  get horaInicio() { return this.despesaForm.get('horaInicio'); }
+  get horaTermino() { return this.despesaForm.get('horaTermino'); }
+  get contatoId() { return this.despesaForm.get('contatoId'); }
 
   editar() {
-    if (this.compromissoForm.invalid) return;
+    if (this.despesaForm.invalid) return;
 
     const id = this.route.snapshot.params['id'];
     if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    const compromissoEditado: EditarCompromissoViewModel = this.compromissoForm.value;
-    const observer: PartialObserver<CompromissoEditadoViewModel> = {
-      next: (compromissoEditado) => this.processarSucesso(compromissoEditado),
+    const despesaEditado: EditarDespesaViewModel = this.despesaForm.value;
+    const observer: PartialObserver<DespesaEditadaViewModel> = {
+      next: (despesaEditado) => this.processarSucesso(despesaEditado),
       error: (erro) => this.processarFalha(erro)
     }
 
-    this.compromissoService.editar(id, compromissoEditado).subscribe(observer);
+    this.despesaService.editar(id, despesaEditado).subscribe(observer);
   }
 
   public tipoDeLocalEscolhido(event: any) {
@@ -125,22 +125,16 @@ export class EditarCompromissosComponent {
     this.link?.updateValueAndValidity();
   }
 
-  private trazerValoresParaEdicao(compromissoSelecionado: DetalhesCompromissoViewModel) {
-    compromissoSelecionado.horaInicio = this.compromissoService.formatarHorario(compromissoSelecionado.horaInicio);
-    compromissoSelecionado.horaTermino = this.compromissoService.formatarHorario(compromissoSelecionado.horaTermino);
-
-    this.compromissoForm.patchValue(compromissoSelecionado);
-
-    this.contatoId?.setValue(compromissoSelecionado.contato.id);
-    this.tipoDeLocalEscolhido({value: compromissoSelecionado.tipoLocal});
+  private trazerValoresParaEdicao(despesaSelecionada: DetalhesDespesaViewModel) {
+    this.despesaForm.patchValue(despesaSelecionada);
   }
 
-  private processarSucesso(compromissoEditado: CompromissoEditadoViewModel) {
+  private processarSucesso(despesaEditado: DespesaEditadaViewModel) {
     this.notificacao.sucesso(
-      `O Compromisso '${compromissoEditado.assunto}' foi cadastrado com sucesso!`
+      `O Despesa '${despesaEditado.descricao}' foi cadastrado com sucesso!`
     );
 
-    this.router.navigate(['/compromissos']);
+    this.router.navigate(['/despesas']);
 }
 
   private processarFalha(erro: Error) {

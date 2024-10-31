@@ -1,0 +1,25 @@
+<mat-card class="container-fluid border-1 border-secondary app-container-excluir col-12 col-md-10 col-lg-8">
+  <div class="mx-auto">
+    {{compromisso?.assunto}}
+    <p style="font-size: 13px; margin-bottom: 10px; color: rgba(192, 192, 192, 0.63);"><strong>Id:</strong> {{compromisso?.id}}</p>
+  </div>
+  <hr>
+  <div class="row" style="font-size: 14px;">
+    <div class="col text-end">
+      <p *ngIf="compromisso?.local" class="mb-1">Local:</p>
+      <p *ngIf="compromisso?.link" class="mb-1">Link:</p>
+      <p class="mb-1">Data:</p>
+      <p class="mb-1">Início:</p>
+      <p class="mb-1">Término:</p>
+      <p class="mb-1">Contato:</p>
+    </div>
+    <div class="col text-start">
+      <p class="mb-1">{{ compromisso?.local }}</p>
+      <p class="mb-1">{{ compromisso?.link }}</p>
+      <p class="mb-1">{{ mostrarData(compromisso!.data) }}</p>
+      <p class="mb-1">{{ compromisso!.horaInicio }}</p>
+      <p class="mb-1">{{ compromisso!.horaTermino }}</p>
+      <p class="mb-1">{{ compromisso!.contato.nome }}</p>
+    </div>
+  </div>
+</mat-card>

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { LocalStorageService } from '../../../core/auth/service/local-storage.service';
 import { CompromissoEditadoViewModel, CompromissoExcluidoViewModel, CompromissoInseridoViewModel, DetalhesCompromissoViewModel, EditarCompromissoViewModel, InserirCompromissoViewModel, ListarCompromissosViewModel } from '../models/compromisso.models';
 import { processarDados, processarFalha, toTitleCase } from '../../../app.component';
 
@@ -13,7 +12,7 @@ import { processarDados, processarFalha, toTitleCase } from '../../../app.compon
 export class CompromissoService {
   private readonly url = `${environment.apiUrl}/compromissos`;
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
+  constructor(private http: HttpClient) { }
 
   cadastrar(novoCompromisso: InserirCompromissoViewModel): Observable<CompromissoInseridoViewModel> {
     this.formatarCompromisso(novoCompromisso);

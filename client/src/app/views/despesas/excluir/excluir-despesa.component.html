@@ -1,0 +1,7 @@
+<main class="container-fluid app-container-componente">
+  <app-titulo [componenteCss]='"compromissos"' [titulo]='"Excluir compromisso"' [icone]='"event"'></app-titulo>
+  <p class="mx-3">Deseja realmente excluir este compromisso?</p>
+
+  <app-detalhes-compromisso [compromisso]="compromisso"></app-detalhes-compromisso>
+  <app-submeter-exclusao (confirmacaoExclusao)="excluir()" [rota]='"/compromissos"'></app-submeter-exclusao>
+</main>

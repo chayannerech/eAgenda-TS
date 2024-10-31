@@ -9,6 +9,7 @@ import { ListarTarefasViewModel } from '../models/tarefa.models';
 import { BotaoCadastrarComponent } from "../../partials/botao-cadastrar/botao-cadastrar.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { CardFooterComponent } from "../../partials/card-footer/card-footer.component";
+import { CardTarefasComponent } from "../card-tarefas/card-tarefas.component";
 
 @Component({
   selector: 'app-listar-tarefas',
@@ -23,7 +24,8 @@ import { CardFooterComponent } from "../../partials/card-footer/card-footer.comp
     MatTooltipModule,
     BotaoCadastrarComponent,
     TituloComponent,
-    CardFooterComponent
+    CardFooterComponent,
+    CardTarefasComponent
 ],
   templateUrl: './listar-tarefas.component.html',
   styleUrl: '../styles/tarefas.scss'

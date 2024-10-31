@@ -9,6 +9,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BotaoCadastrarComponent } from "../../partials/botao-cadastrar/botao-cadastrar.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { CardFooterComponent } from "../../partials/card-footer/card-footer.component";
+import { CardCategoriasComponent } from "../card-categorias/card-categorias.component";
 
 @Component({
   selector: 'app-listagem-categorias',
@@ -24,7 +25,9 @@ import { CardFooterComponent } from "../../partials/card-footer/card-footer.comp
     MatTooltipModule,
     BotaoCadastrarComponent,
     TituloComponent,
-    CardFooterComponent],
+    CardFooterComponent,
+    CardCategoriasComponent
+],
   templateUrl: './listar-categorias.component.html',
   styleUrl: '../styles/categorias.scss'
 })

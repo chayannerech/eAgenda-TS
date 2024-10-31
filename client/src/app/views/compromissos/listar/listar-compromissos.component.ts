@@ -9,6 +9,7 @@ import { ListarCompromissosViewModel } from '../models/compromisso.models';
 import { BotaoCadastrarComponent } from "../../partials/botao-cadastrar/botao-cadastrar.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { CardFooterComponent } from "../../partials/card-footer/card-footer.component";
+import { CardCompromissosComponent } from "../card-compromissos/card-compromissos.component";
 
 @Component({
   selector: 'app-listar-compromissos',
@@ -24,8 +25,9 @@ import { CardFooterComponent } from "../../partials/card-footer/card-footer.comp
     MatTooltipModule,
     BotaoCadastrarComponent,
     TituloComponent,
-    CardFooterComponent
-  ],
+    CardFooterComponent,
+    CardCompromissosComponent
+],
   templateUrl: './listar-compromissos.component.html',
   styleUrl: '../styles/compromissos.scss'
 })

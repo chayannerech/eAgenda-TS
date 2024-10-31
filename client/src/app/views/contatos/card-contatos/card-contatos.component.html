@@ -1,0 +1,21 @@
+<div class="row g-3 mt-2 mx-3">
+  <div *ngFor="let con of contatos" class="col-sm-6 col-md-4 col-xxl-3">
+    <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-componentes">
+      <mat-card-header>
+        <mat-card-title class="fs-5">
+          {{ con.nome }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content style="font-size: 12px;">
+        <p class="m-0">{{ con.email }}</p>
+        <p class="m-0">{{ con.telefone }}</p>
+        <p class="m-0 mt-3">Empresa: {{ con.empresa }}</p>
+        <p class="m-0">Cargo: {{ con.cargo }}</p>
+      </mat-card-content>
+      <app-card-footer [rota]='"/contatos"' [id]='con.id'></app-card-footer>
+    </mat-card>
+  </div>
+  <div *ngIf="contatos?.length == 0" class="row g-3 mt-4">
+    <p class="text-center text-secondary">Ainda não existem contatos cadastrados :(</p>
+  </div>
+</div>

@@ -9,6 +9,7 @@ import { ListarContatosViewModel } from '../models/contato.models';
 import { BotaoCadastrarComponent } from "../../partials/botao-cadastrar/botao-cadastrar.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { CardFooterComponent } from "../../partials/card-footer/card-footer.component";
+import { CardContatosComponent } from "../card-contatos/card-contatos.component";
 
 @Component({
   selector: 'app-listar-contato',
@@ -23,7 +24,8 @@ import { CardFooterComponent } from "../../partials/card-footer/card-footer.comp
     MatTooltipModule,
     BotaoCadastrarComponent,
     TituloComponent,
-    CardFooterComponent
+    CardFooterComponent,
+    CardContatosComponent
 ],
   templateUrl: './listar-contato.component.html',
   styleUrl: '../styles/contatos.scss'

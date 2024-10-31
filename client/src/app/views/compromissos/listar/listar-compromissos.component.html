@@ -1,26 +1,5 @@
 <main class="container-fluid app-container-componente">
   <app-titulo [componenteCss]='"compromissos"' [titulo]='"Compromissos"' [icone]='"event"'></app-titulo>
-
   <app-botao-cadastrar [rota]='"/compromissos"'></app-botao-cadastrar>
-
-  <div class="row g-3 mt-2">
-    <div *ngFor="let con of compromissos" class="col-sm-6 col-md-4 col-xxl-3">
-      <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-componentes">
-        <mat-card-header>
-          <mat-card-title class="fs-5">
-            {{ con.assunto }}
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content style="font-size: 13px;">
-          <p class="m-0 mt-3">Data: {{ con.data }}</p>
-          <p class="m-0">Início: {{ con.horaInicio }}</p>
-          <p class="m-0">Fim: {{ con.horaTermino }}</p>
-        </mat-card-content>
-        <app-card-footer [rota]='"/compromissos"' [id]='con.id'></app-card-footer>
-      </mat-card>
-    </div>
-    <div *ngIf="compromissos?.length == 0" class="row g-3 mt-4">
-      <p class="text-center text-secondary">Ainda não existem compromissos cadastrados :(</p>
-    </div>
-  </div>
+  <app-card-compromissos [compromissos]="compromissos"></app-card-compromissos>
 </main>

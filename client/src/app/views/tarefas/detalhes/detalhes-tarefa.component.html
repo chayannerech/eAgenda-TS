@@ -33,16 +33,19 @@
     <p style="font-size: 14px;">
       Itens
     </p>
-    <div class="row mx-1 mt-3">
+    <div class="row mx-1 mt-3 justify-content-center">
       <div *ngFor="let item of tarefa!.itens" class="col-sm-6 col-md-4">
-        <div class="mb-3 rounded-3 p-1" style="border: 2px solid gray; background-color: rgba(128, 128, 128, 0.397); font: 500 13px / 1.5rem Roboto, sans-serif;">
+        <div class="mb-3 rounded-3 p-1"
+          [ngStyle]="{
+            border: item.concluido ? '2px solid #a0ff34ec' : '2px solid #fffc53',
+            background: '#80808065',
+            font: '500 13px / 1.5rem Roboto, sans-serif'
+            }"
+          >
           <p class="text-center mt-2">{{item.titulo}}</p>
           <hr class="m-0">
-          <div class="rounded-1 mx-4 my-3"
-            [ngStyle]="{
-              border: item.concluido ? '1px solid #a0ff34ec' : '1px solid #fffc53',
-              color: item.concluido ? '#a0ff34ec' : '#fffc53'
-            }"
+          <div class="rounded-1 mx-4 my-1"
+            [ngStyle]="{ color: item.concluido ? '#a0ff34ec' : '#fffc53'}"
           >
             <p *ngIf="item.concluido" class="text-center m-0" style="font-size: 13px;">concluído</p>
             <p *ngIf="!item.concluido" class="text-center m-0" style="font-size: 13px;">pendente</p>

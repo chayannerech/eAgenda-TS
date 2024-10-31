@@ -8,8 +8,9 @@ import { PartialObserver } from "rxjs";
 import { NotificacaoService } from "../../../core/notificacao/notificacao.service";
 import { SubmeterExclusaoComponent } from "../../partials/submeter-exclusao/submeter-exclusao.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
-import { DetalhesDespesaViewModel } from "../models/despesa.models";
+import { DespesaExcluidaViewModel, DetalhesDespesaViewModel } from "../models/despesa.models";
 import { DespesaService } from "../services/despesas.service";
+import { DetalhesDespesaComponent } from "../detalhes/detalhes-despesa.component";
 
 @Component({
   selector: 'app-excluir-despesa',
@@ -31,7 +32,7 @@ import { DespesaService } from "../services/despesas.service";
 
 export class ExcluirDespesaComponent {
   despesa?: DetalhesDespesaViewModel;
-  assuntoDoDespesa: string;
+  descricaoDaDespesa: string;
 
   constructor (
     private route: ActivatedRoute,
@@ -39,21 +40,19 @@ export class ExcluirDespesaComponent {
     private despesaService: DespesaService,
     private notificacao: NotificacaoService
   ) {
-    this.assuntoDoDespesa = "";
+    this.descricaoDaDespesa = "";
   }
 
   ngOnInit(): void {
     this.despesa = this.route.snapshot.data['despesa'];
-    this.despesa!.horaInicio = this.despesaService.formatarHorario(this.despesa!.horaInicio);
-    this.despesa!.horaTermino = this.despesaService.formatarHorario(this.despesa!.horaTermino);
-    this.assuntoDoDespesa = this.despesa!.assunto;
+    this.descricaoDaDespesa = this.despesa!.descricao;
   }
 
   excluir() {
     const id = this.route.snapshot.params['id'];
     if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    const observer: PartialObserver<DespesaExcluidoViewModel> = {
+    const observer: PartialObserver<DespesaExcluidaViewModel> = {
       next: () => this.processarSucesso(),
       error: (erro) => this.processarFalha(erro)
     }
@@ -63,7 +62,7 @@ export class ExcluirDespesaComponent {
 
   private processarSucesso() {
     this.notificacao.sucesso(
-      `O contato '${this.assuntoDoDespesa}' foi excluído com sucesso!`
+      `O contato '${this.descricaoDaDespesa}' foi excluído com sucesso!`
     );
     this.router.navigate(['/despesas']);
   }

@@ -1,21 +1,21 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { DetalhesCompromissoViewModel } from '../models/compromisso.models';
+import { DetalhesDespesaViewModel } from '../models/despesa.models';
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-detalhes-compromisso',
+  selector: 'app-detalhes-despesa',
   standalone: true,
   imports: [
     NgIf,
     MatCardModule
   ],
-  templateUrl: './detalhes-compromisso.component.html',
-  styleUrl: '../styles/compromissos.scss'
+  templateUrl: './detalhes-despesa.component.html',
+  styleUrl: '../styles/despesas.scss'
 })
 
-export class DetalhesCompromissoComponent {
-  @Input() compromisso: DetalhesCompromissoViewModel | undefined;
+export class DetalhesDespesaComponent {
+  @Input() despesa: DetalhesDespesaViewModel | undefined;
 
   mostrarData(data: string): string {
     const shortDate = new Date(data)

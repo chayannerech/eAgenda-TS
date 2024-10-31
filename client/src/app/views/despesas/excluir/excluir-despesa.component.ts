@@ -1,19 +1,18 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { PartialObserver } from 'rxjs';
-import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { CompromissoExcluidoViewModel, DetalhesCompromissoViewModel } from '../../compromissos/models/compromisso.models';
-import { CompromissoService } from '../../compromissos/services/compromisso.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIf, AsyncPipe } from "@angular/common";
+import { Component } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatIconModule } from "@angular/material/icon";
+import { RouterLink, ActivatedRoute, Router } from "@angular/router";
+import { PartialObserver } from "rxjs";
+import { NotificacaoService } from "../../../core/notificacao/notificacao.service";
 import { SubmeterExclusaoComponent } from "../../partials/submeter-exclusao/submeter-exclusao.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
-import { MatCardModule } from '@angular/material/card';
-import { DetalhesCompromissoComponent } from "../detalhes/detalhes-compromisso.component";
+import { DetalhesDespesaViewModel } from "../models/despesa.models";
+import { DespesaService } from "../services/despesas.service";
 
 @Component({
-  selector: 'app-excluir-compromisso',
+  selector: 'app-excluir-despesa',
   standalone: true,
   imports: [
     NgIf,
@@ -24,49 +23,49 @@ import { DetalhesCompromissoComponent } from "../detalhes/detalhes-compromisso.c
     MatCardModule,
     SubmeterExclusaoComponent,
     TituloComponent,
-    DetalhesCompromissoComponent
+    DetalhesDespesaComponent
 ],
-  templateUrl: './excluir-compromisso.component.html',
-  styleUrl: '../styles/compromissos.scss'
+  templateUrl: './excluir-despesa.component.html',
+  styleUrl: '../styles/despesas.scss'
 })
 
-export class ExcluirCompromissoComponent {
-  compromisso?: DetalhesCompromissoViewModel;
-  assuntoDoCompromisso: string;
+export class ExcluirDespesaComponent {
+  despesa?: DetalhesDespesaViewModel;
+  assuntoDoDespesa: string;
 
   constructor (
     private route: ActivatedRoute,
     private router: Router,
-    private compromissoService: CompromissoService,
+    private despesaService: DespesaService,
     private notificacao: NotificacaoService
   ) {
-    this.assuntoDoCompromisso = "";
+    this.assuntoDoDespesa = "";
   }
 
   ngOnInit(): void {
-    this.compromisso = this.route.snapshot.data['compromisso'];
-    this.compromisso!.horaInicio = this.compromissoService.formatarHorario(this.compromisso!.horaInicio);
-    this.compromisso!.horaTermino = this.compromissoService.formatarHorario(this.compromisso!.horaTermino);
-    this.assuntoDoCompromisso = this.compromisso!.assunto;
+    this.despesa = this.route.snapshot.data['despesa'];
+    this.despesa!.horaInicio = this.despesaService.formatarHorario(this.despesa!.horaInicio);
+    this.despesa!.horaTermino = this.despesaService.formatarHorario(this.despesa!.horaTermino);
+    this.assuntoDoDespesa = this.despesa!.assunto;
   }
 
   excluir() {
     const id = this.route.snapshot.params['id'];
     if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    const observer: PartialObserver<CompromissoExcluidoViewModel> = {
+    const observer: PartialObserver<DespesaExcluidoViewModel> = {
       next: () => this.processarSucesso(),
       error: (erro) => this.processarFalha(erro)
     }
 
-    this.compromissoService.excluir(id).subscribe(observer);
+    this.despesaService.excluir(id).subscribe(observer);
   }
 
   private processarSucesso() {
     this.notificacao.sucesso(
-      `O contato '${this.assuntoDoCompromisso}' foi excluído com sucesso!`
+      `O contato '${this.assuntoDoDespesa}' foi excluído com sucesso!`
     );
-    this.router.navigate(['/compromissos']);
+    this.router.navigate(['/despesas']);
   }
 
   private processarFalha(erro: Error) {

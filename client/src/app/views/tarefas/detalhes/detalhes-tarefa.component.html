@@ -1,24 +1,53 @@
-<mat-card class="mt-5 app-card-componentes container d-flex text-center p-3" style="width: 70%;">
-  <div class="mx-auto">
+<mat-card class="container-fluid border-1 border-secondary border-1 border-secondary app-container-excluir col-12 col-md-10 col-lg-8">
+  <div class="mx-auto mt-2">
     {{tarefa?.titulo}}
     <p style="font-size: 13px; margin-bottom: 10px; color: rgba(192, 192, 192, 0.63);"><strong>Id:</strong> {{tarefa?.id}}</p>
   </div>
   <hr>
-  <div class="row" style="font-size: 14px;">
+  <div class="row d-none d-md-flex" style="font-size: 14px;">
     <div class="col text-end">
       <p class="mb-1">Prioridade:</p>
       <p class="mb-1">Criada em:</p>
       <p *ngIf="tarefa?.percentualConcluido == 100" class="mb-1">Concluida em:</p>
       <p class="mb-1">Percentual concluído:</p>
-      <p class="mb-1">Itens:</p>
     </div>
     <div class="col text-start">
       <p class="mb-1">{{ tarefa!.prioridade }}</p>
       <p class="mb-1">{{ mostrarData(tarefa!.dataCriacao) }}</p>
       <p *ngIf="tarefa?.percentualConcluido == 100" class="mb-1">{{ mostrarData(tarefa!.dataConclusao) }}</p>
       <p class="mb-1">{{ tarefa!.percentualConcluido }}%</p>
-      <div *ngFor="let item in tarefa.itens">
-        <p class="mb-1">{{ item.titulo }}%</p>
+    </div>
+  </div>
+
+  <div class="row d-flex d-md-none" style="font-size: 14px;">
+    <div class="col text-center">
+      <p class="mb-1">Prioridade: {{ tarefa!.prioridade }}</p>
+      <p class="mb-1">Criada em:: {{ tarefa!.dataCriacao }}</p>
+      <p *ngIf="tarefa?.percentualConcluido == 100" class="mb-1">Concluida em: {{ mostrarData(tarefa!.dataConclusao) }}</p>
+      <p class="mb-1">Percentual concluído: {{ tarefa!.percentualConcluido }}%</p>
+    </div>
+  </div>
+
+  <hr>
+  <div>
+    <p style="font-size: 14px;">
+      Itens
+    </p>
+    <div class="row mx-1 mt-3">
+      <div *ngFor="let item of tarefa!.itens" class="col-sm-6 col-md-4">
+        <div class="mb-3 rounded-3 p-1" style="border: 2px solid gray; background-color: rgba(128, 128, 128, 0.397); font: 500 13px / 1.5rem Roboto, sans-serif;">
+          <p class="text-center mt-2">{{item.titulo}}</p>
+          <hr class="m-0">
+          <div class="rounded-1 mx-4 my-3"
+            [ngStyle]="{
+              border: item.concluido ? '1px solid #a0ff34ec' : '1px solid #fffc53',
+              color: item.concluido ? '#a0ff34ec' : '#fffc53'
+            }"
+          >
+            <p *ngIf="item.concluido" class="text-center m-0" style="font-size: 13px;">concluído</p>
+            <p *ngIf="!item.concluido" class="text-center m-0" style="font-size: 13px;">pendente</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

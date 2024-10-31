@@ -1,3 +1,5 @@
+import { DetalhesCompromissoViewModel, ListarCompromissosViewModel } from "../../compromissos/models/compromisso.models";
+
 export interface ListarContatosViewModel {
   id: string;
   nome: string;
@@ -43,6 +45,6 @@ export interface DetalhesContatoViewModel {
   empresa: string;
   cargo: string;
   telefone: string;
+  compromissos: ListarCompromissosViewModel[]
 }
-
 export interface ContatoExcluidoViewModel {}

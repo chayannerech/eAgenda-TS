@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgForOf, NgIf, NgStyle } from '@angular/common';
 import { DetalhesTarefaViewModel } from '../models/tarefa.models';
 
 @Component({
@@ -8,8 +8,8 @@ import { DetalhesTarefaViewModel } from '../models/tarefa.models';
   standalone: true,
   imports: [
     NgIf,
-    NgFor,
-    CommonModule,
+    NgStyle,
+    NgForOf,
     MatCardModule
   ],
   templateUrl: './detalhes-tarefa.component.html',

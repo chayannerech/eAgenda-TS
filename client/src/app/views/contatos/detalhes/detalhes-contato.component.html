@@ -1,22 +1,51 @@
-<mat-card class="mt-5 app-card-componentes container d-flex text-center p-3" style="width: 70%;">
+<mat-card class="container-fluid border-1 border-secondary app-container-excluir col-12 col-md-10 col-lg-8">
   <div class="mx-auto">
     {{contato?.nome}}
-    <p style="font-size: 13px; margin-bottom: 10px; color: rgba(192, 192, 192, 0.63);"><strong>Id:</strong> {{contato?.id}}</p>
+    <p style="font-size: 12px; margin-bottom: 10px; color: rgba(192, 192, 192, 0.63);"><strong>Id:</strong> {{contato?.id}}</p>
   </div>
   <hr>
-  <div class="row" style="font-size: 14px;">
+  <div class="row d-none d-md-flex" style="font-size: 14px;">
     <div class="col text-end">
       <p class="mb-1">Empresa:</p>
       <p class="mb-1">Cargo:</p>
       <p class="mb-1">Email:</p>
       <p class="mb-1">Telefone:</p>
-      <p class="mb-1">Compromissos:</p>
     </div>
     <div class="col text-start">
       <p class="mb-1">{{ contato!.empresa }}</p>
       <p class="mb-1">{{ contato!.cargo }}</p>
       <p class="mb-1">{{ contato!.email }}</p>
       <p class="mb-1">{{ contato!.telefone }}</p>
+    </div>
+  </div>
+
+  <div class="row d-flex d-md-none" style="font-size: 14px;">
+    <div class="col text-center">
+      <p class="mb-1">Empresa: {{ contato!.empresa }}</p>
+      <p class="mb-1">Cargo: {{ contato!.cargo }}</p>
+      <p class="mb-1">Email: {{ contato!.email }}</p>
+      <p class="mb-1">Telefone: {{ contato!.telefone }}</p>
+    </div>
+  </div>
+  <hr>
+  <div>
+    <p style="font-size: 14px;">
+      Compromissos
+    </p>
+    <div class="row mx-1 mt-4">
+      <div *ngFor="let comp of contato!.compromissos" class="col-sm-6 col-md-6 col-xxl-4">
+        <div class="mb-3 rounded-3 p-1" style="border: 2px solid gray; background-color: rgba(128, 128, 128, 0.397); font: 500 13px / 1.5rem Roboto, sans-serif;">
+          <p class="text-center m-0 p-1" style="font-size: 15px;">{{comp.assunto}}</p>
+          <hr class="m-0">
+          <div class="rounded-1 m-1 mx-4 mt-3">
+            <p *ngIf="true" class="text-center m-0" style="font-size: 13px;">Data: {{mostrarData(comp.data)}}</p>
+            <p class="text-center m-0" style="font-size: 13px;">Início: {{comp.horaInicio.slice(0, 5)}}</p>
+            <p class="text-center m-0 mb-3" style="font-size: 13px;">Término: {{comp.horaTermino.slice(0, 5)}}</p>
+            <hr>
+            <p>{{verificarDatas(comp.data, comp.horaTermino)}}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </mat-card>

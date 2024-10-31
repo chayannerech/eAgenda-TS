@@ -1,10 +1,19 @@
 <main class="container-fluid app-container-componente">
-  <div class="col col-lg-8 col-xxl-6">
-    <app-titulo [componenteCss]='"contatos"' [titulo]='"Excluir contato"' [icone]='"people"'></app-titulo>
-    <p class="mx-3">Deseja realmente excluir este contato?</p>
+  <app-titulo [componenteCss]='"contatos"' [titulo]='"Excluir contato"' [icone]='"people"'></app-titulo>
+  <p class="mx-3">Deseja realmente excluir este contato?</p>
 
-    <app-detalhes-contato [contato]="contato"></app-detalhes-contato>
-    <app-submeter-exclusao (confirmacaoExclusao)="excluir()" [rota]='"/compromissos"'></app-submeter-exclusao>
+  <app-detalhes-contato [contato]="contato"></app-detalhes-contato>
+  <div *ngIf="contato?.compromissos?.length != 0" class="text-center">
+    <mat-error class="row justify-content-center">Não é possível excluir um contato associado à um compromisso</mat-error>
+    <button
+      mat-stroked-button
+      class="col-sm-4 col-md-3 d-inline mt-4"
+      type="button"
+      routerLink="/contatos"
+    >
+    <mat-icon>keyboard_return</mat-icon>
+    Voltar
+  </button>
   </div>
+  <app-submeter-exclusao *ngIf="contato?.compromissos?.length == 0" (confirmacaoExclusao)="excluir()" [rota]='"/contatos"'></app-submeter-exclusao>
 </main>
-

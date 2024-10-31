@@ -1,17 +1,17 @@
 <div class="row justify-content-center g-2 gap-1 mt-5">
   <button
     (click)="excluir()"
-    mat-flat-button
-    class="col-sm-4 col-md-3"
+    mat-stroked-button
+    class="col-sm-4 col-md-3 border-danger text-danger"
     type="button"
   >
-    <mat-icon>check</mat-icon>
-    Confirmar
+    <mat-icon>warning</mat-icon>
+    Excluir
   </button>
 
   <button
     mat-stroked-button
-    class="col-sm-4 col-md-3"
+    class="col-sm-4 col-md-3 text-white"
     type="button"
     routerLink={{rota}}
   >

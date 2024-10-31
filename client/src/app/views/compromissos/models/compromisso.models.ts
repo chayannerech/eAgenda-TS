@@ -4,7 +4,6 @@ export interface ListarCompromissosViewModel {
   data: string;
   horaInicio: string;
   horaTermino: string;
-  contato: ContatoEmCompromissoViewModel
 }
 export interface InserirCompromissoViewModel {
   assunto: string;

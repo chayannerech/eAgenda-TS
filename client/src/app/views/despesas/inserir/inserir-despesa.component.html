@@ -2,16 +2,16 @@
   <app-titulo [componenteCss]='"compromissos"' [titulo]='"Cadastrar compromisso"' [icone]='"event"'></app-titulo>
 
   <div class="app-container-form">
-    <form [formGroup]="compromissoForm" (ngSubmit)="cadastrar()">
+    <form [formGroup]="despesaForm" (ngSubmit)="cadastrar()">
 
       <mat-form-field class="app-form-field">
         <mat-label>Assunto</mat-label>
         <input formControlName="assunto" matInput placeholder="Ex: Não lavar o cachorro" />
         <mat-icon matSuffix color="primary">subtitles</mat-icon>
-        <mat-error *ngIf="compromissoForm.get('assunto')!.invalid && compromissoForm.get('assunto')?.errors?.['required']">
+        <mat-error *ngIf="despesaForm.get('assunto')!.invalid && despesaForm.get('assunto')?.errors?.['required']">
           O assunto é obrigatório!
         </mat-error>
-        <mat-error *ngIf="compromissoForm.get('assunto')!.invalid && compromissoForm.get('assunto')?.errors?.['minlength']">
+        <mat-error *ngIf="despesaForm.get('assunto')!.invalid && despesaForm.get('assunto')?.errors?.['minlength']">
           O assunto precisa conter ao menos 3 caracteres!
         </mat-error>
       </mat-form-field>
@@ -30,10 +30,10 @@
         <mat-label>Local</mat-label>
         <input formControlName="local" matInput placeholder="Ex: sala 104" />
         <mat-icon matSuffix color="primary">place</mat-icon>
-        <mat-error *ngIf="compromissoForm.get('local')!.invalid && compromissoForm.get('local')?.errors?.['required']">
+        <mat-error *ngIf="despesaForm.get('local')!.invalid && despesaForm.get('local')?.errors?.['required']">
           O local é obrigatório!
         </mat-error>
-        <mat-error *ngIf="compromissoForm.get('local')!.invalid && compromissoForm.get('local')?.errors?.['minlength']">
+        <mat-error *ngIf="despesaForm.get('local')!.invalid && despesaForm.get('local')?.errors?.['minlength']">
           O local precisa conter ao menos 3 caracteres!
         </mat-error>
       </mat-form-field>

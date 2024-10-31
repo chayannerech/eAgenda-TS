@@ -2,6 +2,7 @@ import { ActivatedRouteSnapshot, ResolveFn, Routes } from "@angular/router";
 import { inject } from "@angular/core";
 import { ListarDespesasViewModel, DetalhesDespesaViewModel } from "./models/despesa.models";
 import { DespesaService } from "./services/despesas.service";
+import { ListarDespesasComponent } from "./listar/listar-despesas.component";
 
 const listarDespesasResolver: ResolveFn<ListarDespesasViewModel[]> = () => {
   return inject(DespesaService).selecionarTodos();

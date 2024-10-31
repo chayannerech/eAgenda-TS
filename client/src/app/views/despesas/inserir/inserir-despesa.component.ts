@@ -6,21 +6,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink, Router } from '@angular/router';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { CompromissoService } from '../services/compromisso.service';
-import { CompromissoInseridoViewModel, InserirCompromissoViewModel } from '../models/compromisso.models';
+import { DespesaInseridaViewModel, InserirDespesaViewModel } from '../models/despesa.models';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { ContatoService } from '../../contatos/services/contato.service';
-import { EditarContatoViewModel, ListarContatosViewModel } from '../../contatos/models/contato.models';
-import { map, Observable, PartialObserver } from 'rxjs';
+import { ListarContatosViewModel } from '../../contatos/models/contato.models';
+import { Observable, PartialObserver } from 'rxjs';
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
+import { DespesaService } from '../services/despesas.service';
 
 @Component({
-  selector: 'app-inserir-compromissos',
+  selector: 'app-inserir-despesas',
   standalone: true,
   imports: [
     RouterLink,
@@ -39,12 +39,12 @@ import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-for
     TituloComponent,
     SubmeterFormComponent
 ],
-  templateUrl: './inserir-compromissos.component.html',
-  styleUrl: '../styles/compromissos.scss'
+  templateUrl: './inserir-despesa.component.html',
+  styleUrl: '../styles/despesas.scss'
 })
 
-export class InserirCompromissosComponent implements OnInit {
-  compromissoForm: FormGroup;
+export class InserirDespesaComponent implements OnInit {
+  despesaForm: FormGroup;
   localDesabilitado: boolean;
   linkDesabilitado: boolean;
   contatos$?: Observable<ListarContatosViewModel[]>;
@@ -52,13 +52,13 @@ export class InserirCompromissosComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private compromissoService: CompromissoService,
+    private despesaService: DespesaService,
     private contatoService: ContatoService,
     private notificacao: NotificacaoService
   ) {
     this.localDesabilitado = false;
     this.linkDesabilitado = true;
-    this.compromissoForm = this.fb.group({
+    this.despesaForm = this.fb.group({
       assunto: ['', [ Validators.required, Validators.minLength(3) ]],
       local: ['', [ Validators.required, Validators.minLength(3) ]],
       tipoLocal: ['1', [ Validators.required ]],
@@ -75,25 +75,25 @@ export class InserirCompromissosComponent implements OnInit {
     this.tipoDeLocalEscolhido({ value: '1' });
   }
 
-  get assunto() { return this.compromissoForm.get('assunto'); }
-  get local() { return this.compromissoForm.get('local'); }
-  get tipoLocal() { return this.compromissoForm.get('tipoLocal'); }
-  get link() { return this.compromissoForm.get('link'); }
-  get data() { return this.compromissoForm.get('data'); }
-  get horaInicio() { return this.compromissoForm.get('horaInicio'); }
-  get horaTermino() { return this.compromissoForm.get('horaTermino'); }
-  get contatoId() { return this.compromissoForm.get('contatoId'); }
+  get assunto() { return this.despesaForm.get('assunto'); }
+  get local() { return this.despesaForm.get('local'); }
+  get tipoLocal() { return this.despesaForm.get('tipoLocal'); }
+  get link() { return this.despesaForm.get('link'); }
+  get data() { return this.despesaForm.get('data'); }
+  get horaInicio() { return this.despesaForm.get('horaInicio'); }
+  get horaTermino() { return this.despesaForm.get('horaTermino'); }
+  get contatoId() { return this.despesaForm.get('contatoId'); }
 
   cadastrar() {
-    if (this.compromissoForm.invalid) return;
+    if (this.despesaForm.invalid) return;
 
-    const novoCompromisso: InserirCompromissoViewModel = this.compromissoForm.value;
-    const observer: PartialObserver<CompromissoInseridoViewModel> = {
-      next: (novoCompromisso) => this.processarSucesso(novoCompromisso),
+    const novaDespesa: InserirDespesaViewModel = this.despesaForm.value;
+    const observer: PartialObserver<DespesaInseridaViewModel> = {
+      next: (novaDespesa) => this.processarSucesso(novaDespesa),
       error: (erro) => this.processarFalha(erro)
     }
 
-      this.compromissoService.cadastrar(novoCompromisso).subscribe(observer);
+      this.despesaService.cadastrar(novaDespesa).subscribe(observer);
   }
 
   public tipoDeLocalEscolhido(event: any) {
@@ -114,12 +114,12 @@ export class InserirCompromissosComponent implements OnInit {
     }
   }
 
-  private processarSucesso(novoCompromisso: CompromissoInseridoViewModel) {
+  private processarSucesso(novaDespesa: DespesaInseridaViewModel) {
     this.notificacao.sucesso(
-      `O Compromisso '${novoCompromisso.assunto}' foi cadastrado com sucesso!`
+      `O Despesa '${novaDespesa.descricao}' foi cadastrado com sucesso!`
     );
 
-    this.router.navigate(['/compromissos']);
+    this.router.navigate(['/despesas']);
 }
 
   private processarFalha(erro: Error) {

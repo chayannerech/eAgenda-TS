@@ -168,15 +168,10 @@ export class InserirTarefaComponent {
   }
 
   private validarFormulario(): boolean {
-    if (this.tarefaForm.invalid) {
-      if (this.itensTarefa.length == 0)
-        this.erroSemItens = true;
-      return true;
-    }
-    if (this.itensTarefa.length == 0) {
+    if (this.itensTarefa.length == 0)
       this.erroSemItens = true;
+    if (this.tarefaForm.invalid)
       return true;
-    }
     return false;
   }
 }

@@ -10,58 +10,49 @@ mat-error {
   margin-top: 4px;
   color: #dd4f4f;
 }
-
 .notificacao-sucesso {
   --mdc-snackbar-container-color: #0b4730;
   --mdc-snackbar-supporting-text-color: #ffffff;
   --mat-snack-bar-button-color: #ffffff;
 }
-
 .notificacao-aviso {
   --mdc-snackbar-container-color: #dccf40;
   --mdc-snackbar-supporting-text-color: #000000;
   --mat-snack-bar-button-color: #000000;
 }
-
 .notificacao-erro {
   --mdc-snackbar-container-color: #dd4f4f;
   --mdc-snackbar-supporting-text-color: #ffffff;
   --mat-snack-bar-button-color: #ffffff;
 }
-
 .app-container-componente {
   padding: 50px 30px;
 }
-
 .app-form-field {
   width: 100%;
   margin-top: 15px;
 }
-
 .app-input-forjado {
   background-color: var(--mdc-filled-text-field-container-color, var(--mat-app-surface-variant));
+  font-family: var(--mat-form-field-container-text-font, var(--mat-app-body-large-font));
   padding: 8px 16px;
   padding-right: 40px;
   border-bottom: 1px solid white;
   border-radius: 4px 4px 0 0;
-  font-family: var(--mat-form-field-container-text-font, var(--mat-app-body-large-font));
   margin-bottom: 20px;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   margin-top: 15px;
 }
-
 .app-container-form {
   margin-top: 30px;
 }
-
 .app-container-excluir {
   margin-top: 2.5rem;
   text-align: center;
   padding: 1.5rem;
 }
-
 @media (min-width: 768px) {
   .app-container-form {
     width: 80%;
@@ -71,9 +62,8 @@ mat-error {
     padding: 50px;
   }
 }
-
 @media (min-width: 1600px) {
   .app-container-form {
-    width: 70%;
+    width: 60%;
   }
 }

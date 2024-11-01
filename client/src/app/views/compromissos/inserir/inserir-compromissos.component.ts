@@ -14,8 +14,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { ContatoService } from '../../contatos/services/contato.service';
-import { EditarContatoViewModel, ListarContatosViewModel } from '../../contatos/models/contato.models';
-import { map, Observable, PartialObserver } from 'rxjs';
+import { ListarContatosViewModel } from '../../contatos/models/contato.models';
+import { Observable, PartialObserver } from 'rxjs';
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
 

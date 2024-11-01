@@ -15,6 +15,7 @@ export class DespesaService {
   constructor(private http: HttpClient) { }
 
   cadastrar(novaDespesa: InserirDespesaViewModel): Observable<DespesaInseridaViewModel> {
+    this.formatarDespesa(novaDespesa);
     return this.http
       .post<DespesaInseridaViewModel>(this.url, novaDespesa)
       .pipe(map(processarDados), catchError(processarFalha));
@@ -22,6 +23,7 @@ export class DespesaService {
 
   editar(id: string, despesaEditada: EditarDespesaViewModel): Observable<DespesaEditadaViewModel> {
     const urlCompleto = `${this.url}/${id}`;
+    this.formatarDespesa(despesaEditada);
     return this.http
     .put<DespesaEditadaViewModel>(urlCompleto, despesaEditada)
     .pipe(map(processarDados), catchError(processarFalha));
@@ -46,5 +48,17 @@ export class DespesaService {
     return this.http
       .get<DetalhesDespesaViewModel>(urlCompleto)
       .pipe(map(processarDados), catchError(processarFalha));
+  }
+
+
+  private formatarDespesa(despesa: any) {
+    despesa.descricao = toTitleCase(despesa.descricao);
+
+    if (despesa.formaPagamento == 0)
+      despesa.formaPagamento = 0;
+    else if (despesa.formaPagamento == 1)
+      despesa.formaPagamento = 1;
+    else
+      despesa.formaPagamento = 2;
   }
 }

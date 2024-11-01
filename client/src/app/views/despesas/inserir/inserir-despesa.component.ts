@@ -1,23 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { RouterLink, Router } from '@angular/router';
-import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { DespesaInseridaViewModel, InserirDespesaViewModel } from '../models/despesa.models';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
-import { MatSelectModule } from '@angular/material/select';
-import { ContatoService } from '../../contatos/services/contato.service';
-import { ListarContatosViewModel } from '../../contatos/models/contato.models';
-import { Observable, PartialObserver } from 'rxjs';
-import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { NgIf, NgForOf, AsyncPipe, NgStyle } from "@angular/common";
+import { Component, OnInit } from "@angular/core";
+import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatSelectModule } from "@angular/material/select";
+import { RouterLink, Router } from "@angular/router";
+import { PartialObserver, reduce } from "rxjs";
+import { NotificacaoService } from "../../../core/notificacao/notificacao.service";
+import { ListarCategoriasViewModel } from "../../categorias/models/categoria.models";
+import { CategoriaService } from "../../categorias/services/categoria.service";
 import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
-import { DespesaService } from '../services/despesas.service';
+import { TituloComponent } from "../../partials/titulo/titulo.component";
+import { InserirDespesaViewModel, DespesaInseridaViewModel } from "../models/despesa.models";
+import { DespesaService } from "../services/despesas.service";
+import { MatTooltip } from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-inserir-despesas',
@@ -26,6 +27,7 @@ import { DespesaService } from '../services/despesas.service';
     RouterLink,
     NgIf,
     NgForOf,
+    NgStyle,
     AsyncPipe,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -36,6 +38,7 @@ import { DespesaService } from '../services/despesas.service';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatTooltip,
     TituloComponent,
     SubmeterFormComponent
 ],
@@ -45,49 +48,70 @@ import { DespesaService } from '../services/despesas.service';
 
 export class InserirDespesaComponent implements OnInit {
   despesaForm: FormGroup;
-  localDesabilitado: boolean;
-  linkDesabilitado: boolean;
-  contatos$?: Observable<ListarContatosViewModel[]>;
+  categorias?: ListarCategoriasViewModel[];
+  categoriasSelecionadas: ListarCategoriasViewModel[];
+  semCategorias: boolean;
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private despesaService: DespesaService,
-    private contatoService: ContatoService,
+    private categoriaService: CategoriaService,
     private notificacao: NotificacaoService
   ) {
-    this.localDesabilitado = false;
-    this.linkDesabilitado = true;
+    this.categoriasSelecionadas = [];
+    this.semCategorias = false;
     this.despesaForm = this.fb.group({
-      assunto: ['', [ Validators.required, Validators.minLength(3) ]],
-      local: ['', [ Validators.required, Validators.minLength(3) ]],
-      tipoLocal: ['1', [ Validators.required ]],
-      link: ['', Validators.required],
+      descricao: ['', [ Validators.required, Validators.minLength(3) ]],
+      valor: [0, [ Validators.required, Validators.min(1), Validators.max(100000) ]],
       data: ['', Validators.required],
-      horaInicio: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
-      horaTermino: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
-      contatoId: ['', [ Validators.required ]],
+      formaPagamento: ['1', [ Validators.required ]],
+      categoriasSelecionadasNome: ['',],
     });
   }
 
   ngOnInit(): void {
-    this.contatos$ = this.contatoService.selecionarTodos();
-    this.tipoDeLocalEscolhido({ value: '1' });
+    this.categoriaService.selecionarTodos().subscribe(categorias => {
+      this.categorias = categorias;
+    });
   }
 
-  get assunto() { return this.despesaForm.get('assunto'); }
-  get local() { return this.despesaForm.get('local'); }
-  get tipoLocal() { return this.despesaForm.get('tipoLocal'); }
-  get link() { return this.despesaForm.get('link'); }
+  get descricao() { return this.despesaForm.get('descricao'); }
+  get valor() { return this.despesaForm.get('valor'); }
   get data() { return this.despesaForm.get('data'); }
-  get horaInicio() { return this.despesaForm.get('horaInicio'); }
-  get horaTermino() { return this.despesaForm.get('horaTermino'); }
-  get contatoId() { return this.despesaForm.get('contatoId'); }
+  get formaPagamento() { return this.despesaForm.get('formaPagamento'); }
+  get categoriasSelecionadasNome() { return this.despesaForm.get('categorias'); }
+
+  selecionarCategoria(categoria: ListarCategoriasViewModel) {
+    this.categoriasSelecionadas.push(categoria);
+    this.categorias = this.categorias!.filter(cat => cat !== categoria);
+  }
+
+  removerCategoria(categoria: ListarCategoriasViewModel) {
+    this.categoriasSelecionadas = this.categoriasSelecionadas.filter(cat => cat !== categoria);
+    this.categorias!.push(categoria);
+  }
+
+  incrementar() {
+    const currentValue = this.valor?.value || 0;
+    this.valor?.setValue(currentValue + 1);
+  }
+  decrementar() {
+    const currentValue = this.valor?.value || 0;
+    if (currentValue > 0) {
+      this.valor?.setValue(currentValue - 1);
+    }
+  }
 
   cadastrar() {
-    if (this.despesaForm.invalid) return;
+    if (this.validarForm()) return;
 
     const novaDespesa: InserirDespesaViewModel = this.despesaForm.value;
+    novaDespesa.categoriasSelecionadas = [];
+    this.categoriasSelecionadas.forEach(x => novaDespesa.categoriasSelecionadas.push(x.id))
+
+    console.log(novaDespesa);
+
     const observer: PartialObserver<DespesaInseridaViewModel> = {
       next: (novaDespesa) => this.processarSucesso(novaDespesa),
       error: (erro) => this.processarFalha(erro)
@@ -96,27 +120,18 @@ export class InserirDespesaComponent implements OnInit {
       this.despesaService.cadastrar(novaDespesa).subscribe(observer);
   }
 
-  public tipoDeLocalEscolhido(event: any) {
-    if (event.value === '1') {
-      this.local!.enable();
-      this.link!.disable();
-
-      this.local?.setValidators([Validators.required, Validators.minLength(3)]);
-      this.link?.clearValidators();
-      this.link?.setValue('');
-    } else {
-      this.local!.disable();
-      this.link!.enable();
-
-      this.link?.setValidators([Validators.required]);
-      this.local?.clearValidators();
-      this.local?.setValue('');
+  private validarForm(): Boolean {
+    if (this.categoriasSelecionadas.length == 0) {
+      this.semCategorias = true;
+      return true;
     }
+    if (this.despesaForm.invalid) return true;
+    return false;
   }
 
   private processarSucesso(novaDespesa: DespesaInseridaViewModel) {
     this.notificacao.sucesso(
-      `O Despesa '${novaDespesa.descricao}' foi cadastrado com sucesso!`
+      `A Despesa '${novaDespesa.descricao}' foi cadastrada com sucesso!`
     );
 
     this.router.navigate(['/despesas']);

@@ -1,5 +1,5 @@
 <div class="row g-3 mt-2 mx-3">
-  <div *ngFor="let desp of despesas" class="col-sm-6 col-md-4 col-xxl-3">
+  <div *ngFor="let desp of despesas" class="col-sm-6 col-lg-4 col-xxl-3">
     <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-componentes">
       <mat-card-header>
         <mat-card-title class="fs-5">
@@ -8,7 +8,7 @@
       </mat-card-header>
       <mat-card-content style="font-size: 13px;">
         <p class="m-0 mt-3">Valor: {{ desp.valor }}</p>
-        <p class="m-0">Data: {{ desp.data }}</p>
+        <p class="m-0">Data: {{ mostrarData(desp.data) }}</p>
         <p class="m-0">Forma de pagamento: {{ desp.formaPagamento }}</p>
       </mat-card-content>
       <app-card-footer [rota]='"/despesas"' [id]='desp.id'></app-card-footer>

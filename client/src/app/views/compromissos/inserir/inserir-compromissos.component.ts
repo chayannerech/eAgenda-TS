@@ -18,6 +18,7 @@ import { ListarContatosViewModel } from '../../contatos/models/contato.models';
 import { Observable, PartialObserver } from 'rxjs';
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
+import { InputTextoComponent } from "../../partials/input-texto/input-texto.component";
 
 @Component({
   selector: 'app-inserir-compromissos',
@@ -37,7 +38,8 @@ import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-for
     MatNativeDateModule,
     MatSelectModule,
     TituloComponent,
-    SubmeterFormComponent
+    SubmeterFormComponent,
+    InputTextoComponent
 ],
   templateUrl: './inserir-compromissos.component.html',
   styleUrl: '../styles/compromissos.scss'

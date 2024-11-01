@@ -1,103 +1,81 @@
-<main class="container-fluid app-container-componente">
-  <app-titulo [componenteCss]='"compromissos"' [titulo]='"Editar compromisso"' [icone]='"event"'></app-titulo>
+<!-- <main class="container-fluid app-container-componente">
+  <app-titulo [componenteCss]='"despesas"' [titulo]='"Cadastrar despesa"' [icone]='"currency_exchange"'></app-titulo>
 
   <div class="app-container-form">
-    <form [formGroup]="despesaForm" (ngSubmit)="editar()">
+    <form [formGroup]="despesaForm" (ngSubmit)="cadastrar()">
 
-      <mat-form-field class="app-form-field">
-        <mat-label>Assunto</mat-label>
-        <input formControlName="assunto" matInput placeholder="Ex: Não lavar o cachorro" />
-        <mat-icon matSuffix color="primary">subtitles</mat-icon>
-        <mat-error *ngIf="despesaForm.get('assunto')!.invalid && despesaForm.get('assunto')?.errors?.['required']">
-          O assunto é obrigatório!
+      <app-input-texto
+        [placeholder]="'Ex: Compras de natal'" [campoDesejado]="'descrição'" [pronome]="'a'" [label]="'Descrição'"
+        (inputValido)="obterInput($event)">
+      </app-input-texto>
+
+      <mat-form-field appearance="fill" class="app-form-field">
+        <mat-label>Valor</mat-label>
+        <div class="app-btns-personalizados">
+          <input formControlName="valor" matInput type="text" mask="separator.2" prefix="R$ " placeholder="Ex: 100,00" />
+          <div class="mb-3">
+            <button type="button" (click)="incrementar()"><mat-icon>arrow_drop_up</mat-icon></button>
+            <button type="button" (click)="decrementar()"><mat-icon>arrow_drop_down</mat-icon></button>
+          </div>
+        </div>
+        <mat-icon class="mt-1" matSuffix color="primary">attach_money</mat-icon>
+        <mat-error *ngIf="valor!.invalid && valor?.errors?.['min']">
+          O valor é obrigatório!
         </mat-error>
-        <mat-error *ngIf="despesaForm.get('assunto')!.invalid && despesaForm.get('assunto')?.errors?.['minlength']">
-          O assunto precisa conter ao menos 3 caracteres!
+        <mat-error *ngIf="valor!.invalid && valor?.errors?.['max']">
+          Não avacalhe
         </mat-error>
       </mat-form-field>
 
-      <div class="app-input-forjado d-md-flex">
-        <mat-label class="me-5">Tipo de local*</mat-label>
-        <div class="align-items-center">
-          <mat-radio-group formControlName="tipoLocal" aria-label="Tipo de Local" (change)="tipoDeLocalEscolhido($event)">
-            <mat-radio-button value = '1' class="me-4">Presencial</mat-radio-button>
-            <mat-radio-button value = '0' >Remoto</mat-radio-button>
+      <div class="app-input-forjado d-lg-flex app-form-field">
+        <mat-label class="me-5 mat-label">Forma de pagamento*</mat-label>
+        <div class="align-itens-center text-center">
+          <mat-radio-group formControlName="formaPagamento" aria-label="Tipo de Local">
+            <mat-radio-button value = '0' class="me-4 mat-label">Pix</mat-radio-button>
+            <mat-radio-button value = '1' class="me-4">Dinheiro</mat-radio-button>
+            <mat-radio-button value = '2' class="me-4">Cartão</mat-radio-button>
           </mat-radio-group>
         </div>
       </div>
-
-      <mat-form-field class="app-form-field">
-        <mat-label>Local</mat-label>
-        <input formControlName="local" matInput placeholder="Ex: sala 104" />
-        <mat-icon matSuffix color="primary">place</mat-icon>
-        <mat-error *ngIf="despesaForm.get('local')!.invalid && despesaForm.get('local')?.errors?.['required']">
-          O local é obrigatório!
-        </mat-error>
-        <mat-error *ngIf="despesaForm.get('local')!.invalid && despesaForm.get('local')?.errors?.['minlength']">
-          O local precisa conter ao menos 3 caracteres!
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field class="app-form-field">
-        <mat-label>Link</mat-label>
-        <input formControlName="link" matInput placeholder="Ex: https://reuniao.com" />
-        <mat-icon matSuffix color="primary">link</mat-icon>
-        <mat-error *ngIf="link?.invalid && link?.errors?.['required']">
-          O link é obrigatório!
-        </mat-error>
-        <mat-error *ngIf="link?.invalid && link?.errors?.['pattern']">
-          O link precisa estar no formato de um URL padrão!
-        </mat-error>
-      </mat-form-field>
 
       <mat-form-field class="app-form-field">
         <mat-label>Data</mat-label>
         <input matInput [matDatepicker]="picker" formControlName="data" placeholder="Escolha uma data">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-        <mat-error *ngIf="despesaForm.get('data')?.invalid && despesaForm.get('data')?.errors?.['required']">
+        <mat-error *ngIf="data?.invalid && data?.errors?.['required']">
           A data é obrigatória!
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="app-form-field">
-        <mat-label>Hora de Início</mat-label>
-        <input formControlName="horaInicio" matInput placeholder="Ex: 09:00" />
-        <mat-icon matSuffix color="primary">schedule</mat-icon>
-        <mat-error *ngIf="despesaForm.get('horaInicio')?.invalid && despesaForm.get('horaInicio')?.errors?.['required']">
-          A hora de início é obrigatória!
-        </mat-error>
-        <mat-error *ngIf="despesaForm.get('horaInicio')?.invalid && despesaForm.get('horaInicio')?.errors?.['pattern']">
-          Informe uma hora válida no formato HH:mm!
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field class="app-form-field">
-        <mat-label>Hora de Término</mat-label>
-        <input formControlName="horaTermino" matInput placeholder="Ex: 10:30" />
-        <mat-icon matSuffix color="primary">schedule</mat-icon>
-        <mat-error *ngIf="despesaForm.get('horaTermino')?.invalid && despesaForm.get('horaTermino')?.errors?.['required']">
-          A hora de término é obrigatória!
-        </mat-error>
-        <mat-error *ngIf="despesaForm.get('horaTermino')?.invalid && despesaForm.get('horaTermino')?.errors?.['pattern']">
-          Informe uma hora válida no formato HH:mm!
-        </mat-error>
-      </mat-form-field>
-
-      <div *ngIf="contatos$ | async as contatos">
-        <mat-form-field class="app-form-field">
-          <mat-label>Contato</mat-label>
-          <mat-select formControlName="contatoId" placeholder="Selecione um contato">
-            <mat-option *ngFor="let contato of contatos" [value]="contato.id">
-              {{ contato.nome }}
+      <div class="app-input-forjado mb-0 p-3 pb-0">
+        <mat-label [ngStyle]="{color: semCategorias ? '#ffb0b0' : '#fff0ffdc'}">
+          Categorias*
+        </mat-label>
+        <div class="row mx-1 mt-3">
+          <div *ngFor="let cat of categoriasSelecionadas" class="col-sm-5 col-md-4 col-xxl-3">
+            <div class="app-card-categorias">
+              <p class="ms-2 mb-0 flex-grow-1">{{cat.titulo}}</p>
+              <a mat-icon-button matTooltip="Remover categoria" (click)="removerCategoria(cat)">
+                <mat-icon class="app-btn-remover-cat">delete</mat-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+        <mat-form-field class="app-form-field mt-4">
+          <mat-label>Inserir categorias</mat-label>
+          <mat-select formControlName="categoriasSelecionadasNome">
+            <mat-option *ngFor="let cat of categorias" [value]="cat.id" (click)="selecionarCategoria(cat)">
+              {{ cat.titulo }}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="despesaForm.get('contatoId')?.invalid && despesaForm.get('contatoId')?.errors?.['required']">
-            O contato é obrigatório!
-          </mat-error>
         </mat-form-field>
       </div>
-      <app-submeter-form [rota]='"/compromissos"'></app-submeter-form>
+      <mat-error *ngIf="semCategorias" class="ms-3">
+        Insira ao menos uma categoria
+      </mat-error>
+
+      <app-submeter-form [rota]='"/despesas"'></app-submeter-form>
     </form>
   </div>
-</main>
+</main> -->

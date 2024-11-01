@@ -4,17 +4,10 @@
   <div class="app-container-form">
     <form [formGroup]="compromissoForm" (ngSubmit)="cadastrar()">
 
-      <mat-form-field class="app-form-field">
-        <mat-label>Assunto</mat-label>
-        <input formControlName="assunto" matInput placeholder="Ex: Não lavar o cachorro" />
-        <mat-icon matSuffix color="primary">subtitles</mat-icon>
-        <mat-error *ngIf="compromissoForm.get('assunto')!.invalid && compromissoForm.get('assunto')?.errors?.['required']">
-          O assunto é obrigatório!
-        </mat-error>
-        <mat-error *ngIf="compromissoForm.get('assunto')!.invalid && compromissoForm.get('assunto')?.errors?.['minlength']">
-          O assunto precisa conter ao menos 3 caracteres!
-        </mat-error>
-      </mat-form-field>
+      <app-input-texto
+        [placeholder]="'Ex: Não lavar o cachorro'" [campoDesejado]="'assunto'" [pronome]="'o'"
+        (inputValido)="assunto?.setValue($event)">
+      </app-input-texto>
 
       <div class="app-input-forjado d-md-flex app-form-field">
         <mat-label class="me-5">Tipo de local*</mat-label>

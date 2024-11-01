@@ -14,6 +14,13 @@
   font-size: 80%;
   height: 75%;
 }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 .app-btns-personalizados {
   display: flex;
   align-items: center;
@@ -24,6 +31,8 @@
   cursor: pointer;
   display: flex;
   color: #ffabf3;
+  height: 16px;
+  align-items: center;
 }
 .app-btns-personalizados input {
   margin-bottom: 10px;
@@ -31,22 +40,4 @@
 ::ng-deep .mat-mdc-form-field-infix {
   padding-bottom: 0 !important;
 }
-mat-form-field {
-  font-size: 14px;
-}
-mat-label {
-  font-size: 15px;
-}
-@media (min-width: 576px) {
-  mat-form-field {
-    font-size: inherit;
-  }
-  mat-label {
-    font-size: inherit;
-  }
-}
-@media (max-width: 991px) {
-  .app-input-forjado .mat-label {
-    font-size: 12px;
-  }
-}
+

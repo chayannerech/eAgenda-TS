@@ -53,6 +53,20 @@ mat-error {
   text-align: center;
   padding: 1.5rem;
 }
+mat-form-field {
+  font-size: 14px;
+}
+mat-label {
+  font-size: 15px;
+}
+@media (min-width: 576px) {
+  mat-form-field {
+    font-size: inherit;
+  }
+  mat-label {
+    font-size: inherit;
+  }
+}
 @media (min-width: 768px) {
   .app-container-form {
     width: 80%;
@@ -60,6 +74,11 @@ mat-error {
   }
   .app-container-componente {
     padding: 50px;
+  }
+}
+@media (max-width: 991px) {
+  .app-input-forjado .mat-label {
+    font-size: 12px;
   }
 }
 @media (min-width: 1600px) {

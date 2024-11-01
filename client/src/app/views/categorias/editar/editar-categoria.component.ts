@@ -12,11 +12,12 @@ import { PartialObserver } from 'rxjs/internal/types';
 import { CommonModule, NgIf } from '@angular/common';
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
+import { InputTextoComponent } from "../../partials/input-texto/input-texto.component";
 
 @Component({
   selector: 'app-editar-categorias',
   standalone: true,
-  imports: [NgIf, CommonModule, RouterLink, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, TituloComponent, SubmeterFormComponent],
+  imports: [NgIf, CommonModule, RouterLink, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, TituloComponent, SubmeterFormComponent, InputTextoComponent],
   templateUrl: './editar-categoria.component.html',
   styleUrl: '../styles/categorias.scss',
 })
@@ -44,6 +45,10 @@ export class EditarCategoriaComponent implements OnInit{
   }
 
   get titulo() { return this.categoriaForm.get('titulo');}
+
+  obterTitulo(titulo: string) {
+    this.titulo?.setValue(titulo);
+  }
 
   editar() {
     if (this.categoriaForm.invalid) return;

@@ -1,0 +1,11 @@
+<mat-form-field class="app-form-field">
+  <mat-label>{{label}}</mat-label>
+  <input [formControl]="inputControl" matInput [placeholder]="placeholder" (input)="validarInput()" />
+  <mat-icon matSuffix color="primary">subtitles</mat-icon>
+  <mat-error *ngIf="inputControl.invalid && inputControl.errors?.['required']">
+    {{pronome.toUpperCase()}} {{campoDesejado}} é obrigatóri{{pronome}}!
+  </mat-error>
+  <mat-error *ngIf="inputControl.invalid && inputControl.errors?.['minlength']">
+    {{pronome.toUpperCase()}} {{campoDesejado}} precisa conter ao menos 3 caracteres!
+  </mat-error>
+</mat-form-field>

@@ -12,11 +12,12 @@ import { NgIf } from '@angular/common';
 import { PartialObserver } from 'rxjs';
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
+import { InputTextoComponent } from "../../partials/input-texto/input-texto.component";
 
 @Component({
   selector: 'app-inserir-categorias',
   standalone: true,
-  imports: [NgIf, RouterLink, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, TituloComponent, SubmeterFormComponent],
+  imports: [NgIf, RouterLink, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, TituloComponent, SubmeterFormComponent, InputTextoComponent],
   templateUrl: './inserir-categorias.component.html',
   styleUrl: '../styles/categorias.scss'
 })
@@ -39,6 +40,10 @@ export class InserirCategoriaComponent {
 
   get titulo() {
     return this.categoriaForm.get('titulo');
+  }
+
+  obterTitulo(titulo: string) {
+    this.titulo?.setValue(titulo);
   }
 
   cadastrar() {

@@ -19,6 +19,10 @@ import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { InserirDespesaViewModel, DespesaInseridaViewModel } from "../models/despesa.models";
 import { DespesaService } from "../services/despesas.service";
 import { MatTooltip } from "@angular/material/tooltip";
+import { NgxMaskDirective, provideNgxMask } from "ngx-mask";
+import { InputRadiosComponent } from "../../partials/input-radios/input-radios.component";
+import { InputTextoComponent } from "../../partials/input-texto/input-texto.component";
+import { InputDataComponent } from "../../partials/input-data/input-data.component";
 
 @Component({
   selector: 'app-inserir-despesas',
@@ -35,15 +39,18 @@ import { MatTooltip } from "@angular/material/tooltip";
     MatIconModule,
     MatButtonModule,
     MatRadioModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     MatSelectModule,
+    NgxMaskDirective,
     MatTooltip,
     TituloComponent,
-    SubmeterFormComponent
+    SubmeterFormComponent,
+    InputTextoComponent,
+    InputRadiosComponent,
+    InputDataComponent
 ],
   templateUrl: './inserir-despesa.component.html',
-  styleUrl: '../styles/despesas.scss'
+  styleUrl: '../styles/despesas.scss',
+  providers: [provideNgxMask()]
 })
 
 export class InserirDespesaComponent implements OnInit {
@@ -63,10 +70,9 @@ export class InserirDespesaComponent implements OnInit {
     this.semCategorias = false;
     this.despesaForm = this.fb.group({
       descricao: ['', [ Validators.required, Validators.minLength(3) ]],
-      valor: [0, [ Validators.required, Validators.min(1), Validators.max(100000) ]],
-      data: ['', Validators.required],
-      formaPagamento: ['1', [ Validators.required ]],
-      categoriasSelecionadasNome: ['',],
+      valor: [null, [ Validators.required, Validators.min(1), Validators.max(100000) ]],
+      data: ['', [Validators.required]],
+      formaPagamento: [null, [Validators.required]],
     });
   }
 
@@ -80,11 +86,24 @@ export class InserirDespesaComponent implements OnInit {
   get valor() { return this.despesaForm.get('valor'); }
   get data() { return this.despesaForm.get('data'); }
   get formaPagamento() { return this.despesaForm.get('formaPagamento'); }
-  get categoriasSelecionadasNome() { return this.despesaForm.get('categorias'); }
+
+  obterInput(input: string) {
+    this.descricao?.setValue(input);
+  }
+
+  obterFormaDePagamento(input: number) {
+    this.formaPagamento?.setValue(input);
+  }
+
+  obterData(input: Event) {
+    console.log(input);
+    this.data?.setValue(input);
+  }
 
   selecionarCategoria(categoria: ListarCategoriasViewModel) {
     this.categoriasSelecionadas.push(categoria);
     this.categorias = this.categorias!.filter(cat => cat !== categoria);
+    this.semCategorias = false;
   }
 
   removerCategoria(categoria: ListarCategoriasViewModel) {
@@ -109,8 +128,6 @@ export class InserirDespesaComponent implements OnInit {
     const novaDespesa: InserirDespesaViewModel = this.despesaForm.value;
     novaDespesa.categoriasSelecionadas = [];
     this.categoriasSelecionadas.forEach(x => novaDespesa.categoriasSelecionadas.push(x.id))
-
-    console.log(novaDespesa);
 
     const observer: PartialObserver<DespesaInseridaViewModel> = {
       next: (novaDespesa) => this.processarSucesso(novaDespesa),

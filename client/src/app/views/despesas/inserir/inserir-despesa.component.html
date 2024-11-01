@@ -4,22 +4,15 @@
   <div class="app-container-form">
     <form [formGroup]="despesaForm" (ngSubmit)="cadastrar()">
 
-      <mat-form-field class="app-form-field">
-        <mat-label>Descrição</mat-label>
-        <input formControlName="descricao" matInput placeholder="Ex: Não lavar o cachorro" />
-        <mat-icon matSuffix color="primary">subtitles</mat-icon>
-        <mat-error *ngIf="descricao!.invalid && descricao?.errors?.['required']">
-          A descrição é obrigatória!
-        </mat-error>
-        <mat-error *ngIf="descricao!.invalid && descricao?.errors?.['minlength']">
-          A descrição precisa conter ao menos 3 caracteres!
-        </mat-error>
-      </mat-form-field>
+      <app-input-texto
+        [placeholder]="'Ex: Compras de natal'" [campoDesejado]="'descrição'" [pronome]="'a'"
+        (inputValido)="descricao?.setValue($event)">
+      </app-input-texto>
 
       <mat-form-field appearance="fill" class="app-form-field">
         <mat-label>Valor</mat-label>
         <div class="app-btns-personalizados">
-          <input formControlName="valor" matInput type="number" placeholder="Ex: 100" />
+          <input formControlName="valor" matInput type="text" mask="separator.2" prefix="R$ " placeholder="Ex: 100,00" />
           <div class="mb-3">
             <button type="button" (click)="incrementar()"><mat-icon>arrow_drop_up</mat-icon></button>
             <button type="button" (click)="decrementar()"><mat-icon>arrow_drop_down</mat-icon></button>
@@ -34,28 +27,16 @@
         </mat-error>
       </mat-form-field>
 
-      <div class="app-input-forjado d-lg-flex app-form-field">
-        <mat-label class="me-5 mat-label">Forma de pagamento*</mat-label>
-        <div class="align-itens-center text-center">
-          <mat-radio-group formControlName="formaPagamento" aria-label="Tipo de Local">
-            <mat-radio-button value = '0' class="me-4 mat-label">Pix</mat-radio-button>
-            <mat-radio-button value = '1' class="me-4">Dinheiro</mat-radio-button>
-            <mat-radio-button value = '2' class="me-4">Cartão</mat-radio-button>
-          </mat-radio-group>
-        </div>
-      </div>
+      <app-input-radios
+        [label]="'Forma de pagamento*'" [opcoes]="[{nome: 'Pix', valor: 0}, {nome: 'Dinheiro', valor: 1}, {nome: 'Cartão', valor: 2}]"
+        (input)="formaPagamento?.setValue($event)">
+      </app-input-radios>
 
-      <mat-form-field class="app-form-field">
-        <mat-label>Data</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="data" placeholder="Escolha uma data">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        <mat-error *ngIf="data?.invalid && data?.errors?.['required']">
-          A data é obrigatória!
-        </mat-error>
-      </mat-form-field>
+      <app-input-data
+        (input)="data?.setValue($event)">
+      </app-input-data>
 
-      <div class="app-input-forjado mb-0 p-3">
+      <div class="app-input-forjado mb-0 p-3 pb-0">
         <mat-label [ngStyle]="{color: semCategorias ? '#ffb0b0' : '#fff0ffdc'}">
           Categorias*
         </mat-label>
@@ -71,7 +52,7 @@
         </div>
         <mat-form-field class="app-form-field mt-4">
           <mat-label>Inserir categorias</mat-label>
-          <mat-select formControlName="categoriasSelecionadasNome">
+          <mat-select>
             <mat-option *ngFor="let cat of categorias" [value]="cat.id" (click)="selecionarCategoria(cat)">
               {{ cat.titulo }}
             </mat-option>

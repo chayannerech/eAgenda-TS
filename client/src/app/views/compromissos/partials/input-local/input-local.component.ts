@@ -1,41 +1,36 @@
 import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { toTitleCase } from '../../../app.component';
 
 @Component({
-  selector: 'app-input-texto',
+  selector: 'app-input-local',
   standalone: true,
   imports: [ NgIf, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatIconModule ],
-  templateUrl: './input-texto.component.html'
+  templateUrl: './input-local.component.html'
 })
-export class InputTextoComponent implements OnChanges {
+export class InputLocalComponent implements OnChanges {
+  @Input() controle!: AbstractControl<any, any> | null;
   @Input() placeholder: string = '';
-  @Input() campoDesejado: string = '';
-  @Input() pronome: string = '';
   @Input() valorAtual: string = '';
-  @Output() inputTexto = new EventEmitter<string>();
-
-  label: string = '';
+  @Output() inputHorario = new EventEmitter<string>();
 
   inputControl = new FormControl(this.valorAtual, [
     Validators.required,
-    Validators.minLength(3)
+    Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/)
   ]);
 
   ngOnChanges(changes: any) {
     if (changes.valorAtual && changes.valorAtual.currentValue) {
       this.inputControl.setValue(changes.valorAtual.currentValue);
     }
-    this.label = this.campoDesejado === 'descricao' ? 'Descrição' : toTitleCase(this.campoDesejado);
   }
 
   validarInput() {
     if (this.inputControl.valid) {
-      this.inputTexto.emit(this.inputControl.value || '');
+      this.inputHorario.emit(this.inputControl.value || '');
     }
   }
 }

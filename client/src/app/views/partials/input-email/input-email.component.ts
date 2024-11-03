@@ -4,20 +4,17 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { toTitleCase } from '../../../app.component';
 
 @Component({
-  selector: 'app-input-texto',
+  selector: 'app-input-email',
   standalone: true,
   imports: [ NgIf, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatIconModule ],
-  templateUrl: './input-texto.component.html'
+  templateUrl: './input-email.component.html'
 })
-export class InputTextoComponent implements OnChanges {
+export class InputEmailComponent implements OnChanges {
   @Input() placeholder: string = '';
-  @Input() campoDesejado: string = '';
-  @Input() pronome: string = '';
   @Input() valorAtual: string = '';
-  @Output() inputTexto = new EventEmitter<string>();
+  @Output() input = new EventEmitter<string>();
 
   label: string = '';
 
@@ -30,12 +27,11 @@ export class InputTextoComponent implements OnChanges {
     if (changes.valorAtual && changes.valorAtual.currentValue) {
       this.inputControl.setValue(changes.valorAtual.currentValue);
     }
-    this.label = this.campoDesejado === 'descricao' ? 'Descrição' : toTitleCase(this.campoDesejado);
   }
 
   validarInput() {
     if (this.inputControl.valid) {
-      this.inputTexto.emit(this.inputControl.value || '');
+      this.input.emit(this.inputControl.value || '');
     }
   }
 }

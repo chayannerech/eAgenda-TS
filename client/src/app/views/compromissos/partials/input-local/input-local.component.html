@@ -1,0 +1,11 @@
+<mat-form-field class="app-form-field">
+  <mat-label>Local</mat-label>
+  <input formControlName="{{controle}}" matInput placeholder="Ex: sala 104" />
+  <mat-icon matSuffix color="primary">place</mat-icon>
+  <mat-error *ngIf="inputControl!.invalid && inputControl?.errors?.['required']">
+    O inputControl é obrigatório!
+  </mat-error>
+  <mat-error *ngIf="inputControl!.invalid && inputControl?.errors?.['minlength']">
+    O inputControl precisa conter ao menos 3 caracteres!
+  </mat-error>
+</mat-form-field>

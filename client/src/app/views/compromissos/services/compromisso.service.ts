@@ -16,7 +16,6 @@ export class CompromissoService {
 
   cadastrar(novoCompromisso: InserirCompromissoViewModel): Observable<CompromissoInseridoViewModel> {
     this.formatarCompromisso(novoCompromisso);
-    this.formatarTipoDeLocal(novoCompromisso);
 
     return this.http
       .post<CompromissoInseridoViewModel>(this.url, novoCompromisso)
@@ -26,7 +25,6 @@ export class CompromissoService {
   editar(id: string, compromissoEditado: EditarCompromissoViewModel): Observable<CompromissoEditadoViewModel> {
     const urlCompleto = `${this.url}/${id}`;
     this.formatarCompromisso(compromissoEditado);
-    this.formatarTipoDeLocal(compromissoEditado);
 
     return this.http
     .put<CompromissoEditadoViewModel>(urlCompleto, compromissoEditado)
@@ -62,11 +60,5 @@ export class CompromissoService {
     compromisso.assunto = toTitleCase(compromisso.assunto);
     if (compromisso.local)
       compromisso.local = toTitleCase(compromisso.local);
-  }
-
-  private formatarTipoDeLocal(compromisso: any) {
-    if (compromisso.tipoLocal == 0) compromisso.tipoLocal = 0;
-    else
-      compromisso.tipoLocal = 1;
   }
 }

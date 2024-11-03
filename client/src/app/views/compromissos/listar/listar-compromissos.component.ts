@@ -9,7 +9,7 @@ import { ListarCompromissosViewModel } from '../models/compromisso.models';
 import { BotaoCadastrarComponent } from "../../partials/botao-cadastrar/botao-cadastrar.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { CardFooterComponent } from "../../partials/card-footer/card-footer.component";
-import { CardCompromissosComponent } from "../card-compromissos/card-compromissos.component";
+import { CardCompromissosComponent } from '../partials/card-compromissos/card-compromissos.component';
 
 @Component({
   selector: 'app-listar-compromissos',

@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { SubmeterExclusaoComponent } from "../../partials/submeter-exclusao/submeter-exclusao.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { MatCardModule } from '@angular/material/card';
-import { DetalhesCompromissoComponent } from "../detalhes/detalhes-compromisso.component";
+import { DetalhesCompromissoComponent } from "../partials/detalhes/detalhes-compromisso.component";
 
 @Component({
   selector: 'app-excluir-compromisso',

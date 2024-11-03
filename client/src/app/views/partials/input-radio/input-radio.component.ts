@@ -4,25 +4,33 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 
+interface opcoes {
+  nome: string;
+  valor: number;
+}
 @Component({
-  selector: 'app-input-radios',
+  selector: 'app-input-radio',
   standalone: true,
   imports: [ NgForOf, MatFormFieldModule, MatRadioModule, ReactiveFormsModule ],
-  templateUrl: './input-radios.component.html'
+  templateUrl: './input-radio.component.html'
 })
-export class InputRadiosComponent {
-  @Input() label: string = '';
+
+export class InputRadioComponent {
+  @Input() campoDesejado: string = '';
   @Input() opcoes: opcoes[] = [];
   @Output() input = new EventEmitter<number>();
 
-  inputControl = new FormControl(0);
+  @Input() valorAtual: number = 0;
+
+  inputControl = new FormControl(this.valorAtual);
 
   onInputChange(event: any) {
     this.input.emit(event.value);
   }
-}
 
-interface opcoes {
-  nome: string;
-  valor: number;
+  ngOnChanges(changes: any) {
+    if (changes.valorAtual && changes.valorAtual.currentValue) {
+      this.inputControl.setValue(changes.valorAtual.currentValue);
+    }
+  }
 }

@@ -19,15 +19,20 @@ import { Observable, PartialObserver } from 'rxjs';
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
 import { InputTextoComponent } from "../../partials/input-texto/input-texto.component";
+import { InputRadioComponent } from "../../partials/input-radio/input-radio.component";
+import { InputDataComponent } from "../../partials/input-data/input-data.component";
+import { InputHorarioComponent } from "../partials/input-horario/input-horario.component";
+import { SelectContatosComponent } from "../partials/select-contatos/select-contatos.component";
+import { InputLocalComponent } from "../partials/input-local/input-local.component";
 
 @Component({
   selector: 'app-inserir-compromissos',
   standalone: true,
   imports: [
-    RouterLink,
     NgIf,
     NgForOf,
     AsyncPipe,
+    RouterLink,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -39,7 +44,12 @@ import { InputTextoComponent } from "../../partials/input-texto/input-texto.comp
     MatSelectModule,
     TituloComponent,
     SubmeterFormComponent,
-    InputTextoComponent
+    InputTextoComponent,
+    InputRadioComponent,
+    InputDataComponent,
+    InputHorarioComponent,
+    SelectContatosComponent,
+    InputLocalComponent
 ],
   templateUrl: './inserir-compromissos.component.html',
   styleUrl: '../styles/compromissos.scss'
@@ -63,7 +73,7 @@ export class InserirCompromissosComponent implements OnInit {
     this.compromissoForm = this.fb.group({
       assunto: ['', [ Validators.required, Validators.minLength(3) ]],
       local: ['', [ Validators.required, Validators.minLength(3) ]],
-      tipoLocal: ['1', [ Validators.required ]],
+      tipoLocal: ['0', [ Validators.required ]],
       link: ['', Validators.required],
       data: ['', Validators.required],
       horaInicio: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
@@ -74,7 +84,7 @@ export class InserirCompromissosComponent implements OnInit {
 
   ngOnInit(): void {
     this.contatos$ = this.contatoService.selecionarTodos();
-    this.tipoDeLocalEscolhido({ value: '1' });
+    this.tipoDeLocalEscolhido();
   }
 
   get assunto() { return this.compromissoForm.get('assunto'); }
@@ -95,11 +105,14 @@ export class InserirCompromissosComponent implements OnInit {
       error: (erro) => this.processarFalha(erro)
     }
 
+    console.log(novoCompromisso);
+
+
       this.compromissoService.cadastrar(novoCompromisso).subscribe(observer);
   }
 
-  public tipoDeLocalEscolhido(event: any) {
-    if (event.value === '1') {
+  public tipoDeLocalEscolhido() {
+    if (this.tipoLocal?.value === 1) {
       this.local!.enable();
       this.link!.disable();
 

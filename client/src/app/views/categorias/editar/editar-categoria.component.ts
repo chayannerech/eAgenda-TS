@@ -46,10 +46,6 @@ export class EditarCategoriaComponent implements OnInit{
 
   get titulo() { return this.categoriaForm.get('titulo');}
 
-  obterTitulo(titulo: string) {
-    this.titulo?.setValue(titulo);
-  }
-
   editar() {
     if (this.categoriaForm.invalid) return;
 

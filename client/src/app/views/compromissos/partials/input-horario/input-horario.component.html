@@ -1,0 +1,11 @@
+<mat-form-field class="app-form-field">
+  <mat-label>Hora de {{campoDesejado}}</mat-label>
+  <input [formControl]="inputControl" matInput placeholder="{{placeholder}}" (input)="validarInput()" />
+  <mat-icon matSuffix color="primary">schedule</mat-icon>
+  <mat-error *ngIf="inputControl?.invalid && inputControl?.errors?.['required']">
+    A hora de {{campoDesejado}} é obrigatória!
+  </mat-error>
+  <mat-error *ngIf="inputControl?.invalid && inputControl?.errors?.['pattern']">
+    Informe uma hora no formato HH:mm!
+  </mat-error>
+</mat-form-field>

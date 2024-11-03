@@ -5,7 +5,7 @@
     <form [formGroup]="categoriaForm" (submit)="editar()">
       <app-input-texto
         [valorAtual]="titulo?.value" [placeholder]="'Ex: Lazer'" [campoDesejado]="'Título'" [pronome]="'a'"
-        (inputValido)="titulo?.setValue($event)">
+        (inputTexto)="titulo?.setValue($event)">
       </app-input-texto>
       <app-submeter-form [rota]='"/categorias"'></app-submeter-form>
     </form>

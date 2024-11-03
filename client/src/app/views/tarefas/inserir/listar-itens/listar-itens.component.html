@@ -1,0 +1,19 @@
+<p class="m-0 py-2">{{item!.tituloTarefa}}</p>
+<section>
+  <div *ngIf="item != itemEmExclusao">
+    <a mat-icon-button matTooltip="Editar item" (click)="abrirEdicaoDeItem(item!.id)">
+      <mat-icon class="app-botao-item-editar"> edit</mat-icon>
+    </a>
+    <a mat-icon-button matTooltip="Excluir item" (click)="excluindoItem = true; itemEmExclusao = item">
+      <mat-icon class="app-botao-item-excluir"> delete </mat-icon>
+    </a>
+  </div>
+  <div *ngIf="item == itemEmExclusao">
+    <a class="app-excluir-itens" (click)="excluirItem(item!.id)">
+      <p class="app-confirmar-exclusao">confirmar exclusão</p>
+    </a>
+    <a class="mb-5 mx-1 text-decoration-none my-3" (click)="itemEmExclusao = undefined">
+      <p class="app-cancelar-exclusao">cancelar</p>
+    </a>
+  </div>
+</section>

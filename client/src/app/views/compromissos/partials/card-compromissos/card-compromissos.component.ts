@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { ListarCompromissosViewModel } from '../models/compromisso.models';
 import { NgForOf, NgIf } from '@angular/common';
-import { CardFooterComponent } from "../../partials/card-footer/card-footer.component";
+import { CardFooterComponent } from '../../../partials/card-footer/card-footer.component';
+import { ListarCompromissosViewModel } from '../../models/compromisso.models';
 
 @Component({
   selector: 'app-card-compromissos',
@@ -14,7 +14,7 @@ import { CardFooterComponent } from "../../partials/card-footer/card-footer.comp
     CardFooterComponent
 ],
   templateUrl: './card-compromissos.component.html',
-  styleUrl: '../styles/compromissos.scss'
+  styleUrl: '../../styles/compromissos.scss'
 })
 
 export class CardCompromissosComponent {

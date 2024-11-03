@@ -42,10 +42,6 @@ export class InserirCategoriaComponent {
     return this.categoriaForm.get('titulo');
   }
 
-  obterTitulo(titulo: string) {
-    this.titulo?.setValue(titulo);
-  }
-
   cadastrar() {
     if (this.categoriaForm.invalid) return;
 

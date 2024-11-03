@@ -6,7 +6,7 @@
 
       <app-input-texto
         [placeholder]="'Ex: Compras de natal'" [campoDesejado]="'descrição'" [pronome]="'a'"
-        (inputValido)="descricao?.setValue($event)">
+        (inputTexto)="descricao?.setValue($event)">
       </app-input-texto>
 
       <mat-form-field appearance="fill" class="app-form-field">
@@ -27,14 +27,12 @@
         </mat-error>
       </mat-form-field>
 
-      <app-input-radios
-        [label]="'Forma de pagamento*'" [opcoes]="[{nome: 'Pix', valor: 0}, {nome: 'Dinheiro', valor: 1}, {nome: 'Cartão', valor: 2}]"
+      <app-input-radio
+        [campoDesejado]="'Forma de pagamento*'" [opcoes]="[{nome: 'Pix', valor: 0}, {nome: 'Dinheiro', valor: 1}, {nome: 'Cartão', valor: 2}]"
         (input)="formaPagamento?.setValue($event)">
-      </app-input-radios>
+      </app-input-radio>
 
-      <app-input-data
-        (input)="data?.setValue($event)">
-      </app-input-data>
+      <app-input-data (input)="data?.setValue($event)"></app-input-data>
 
       <div class="app-input-forjado mb-0 p-3 pb-0">
         <mat-label [ngStyle]="{color: semCategorias ? '#ffb0b0' : '#fff0ffdc'}">

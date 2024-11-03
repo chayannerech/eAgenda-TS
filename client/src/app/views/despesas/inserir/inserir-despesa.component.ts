@@ -20,7 +20,7 @@ import { InserirDespesaViewModel, DespesaInseridaViewModel } from "../models/des
 import { DespesaService } from "../services/despesas.service";
 import { MatTooltip } from "@angular/material/tooltip";
 import { NgxMaskDirective, provideNgxMask } from "ngx-mask";
-import { InputRadiosComponent } from "../../partials/input-radios/input-radios.component";
+import { InputRadioComponent } from "../../partials/input-radio/input-radio.component";
 import { InputTextoComponent } from "../../partials/input-texto/input-texto.component";
 import { InputDataComponent } from "../../partials/input-data/input-data.component";
 
@@ -45,7 +45,7 @@ import { InputDataComponent } from "../../partials/input-data/input-data.compone
     TituloComponent,
     SubmeterFormComponent,
     InputTextoComponent,
-    InputRadiosComponent,
+    InputRadioComponent,
     InputDataComponent
 ],
   templateUrl: './inserir-despesa.component.html',
@@ -86,19 +86,6 @@ export class InserirDespesaComponent implements OnInit {
   get valor() { return this.despesaForm.get('valor'); }
   get data() { return this.despesaForm.get('data'); }
   get formaPagamento() { return this.despesaForm.get('formaPagamento'); }
-
-  obterInput(input: string) {
-    this.descricao?.setValue(input);
-  }
-
-  obterFormaDePagamento(input: number) {
-    this.formaPagamento?.setValue(input);
-  }
-
-  obterData(input: Event) {
-    console.log(input);
-    this.data?.setValue(input);
-  }
 
   selecionarCategoria(categoria: ListarCategoriasViewModel) {
     this.categoriasSelecionadas.push(categoria);

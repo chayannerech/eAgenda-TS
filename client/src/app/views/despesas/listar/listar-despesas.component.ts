@@ -9,7 +9,7 @@ import { ListarDespesasViewModel } from '../models/despesa.models';
 import { BotaoCadastrarComponent } from "../../partials/botao-cadastrar/botao-cadastrar.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { CardFooterComponent } from "../../partials/card-footer/card-footer.component";
-import { CardDespesasComponent } from "../card-despesas/card-despesas.component";
+import { CardDespesasComponent } from "../partials/card-despesas/card-despesas.component";
 
 @Component({
   selector: 'app-listar-despesas',

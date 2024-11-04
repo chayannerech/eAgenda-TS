@@ -1,30 +1,20 @@
-import { NgIf, AsyncPipe } from "@angular/common";
 import { Component } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatIconModule } from "@angular/material/icon";
-import { RouterLink, ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { PartialObserver } from "rxjs";
 import { NotificacaoService } from "../../../core/notificacao/notificacao.service";
 import { SubmeterExclusaoComponent } from "../../partials/submeter-exclusao/submeter-exclusao.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { DespesaExcluidaViewModel, DetalhesDespesaViewModel } from "../models/despesa.models";
 import { DespesaService } from "../services/despesas.service";
-import { DetalhesDespesaComponent } from "../detalhes/detalhes-despesa.component";
+import { DetalhesDespesaComponent } from "../partials/detalhes/detalhes-despesa.component";
 
 @Component({
   selector: 'app-excluir-despesa',
   standalone: true,
   imports: [
-    NgIf,
-    RouterLink,
-    AsyncPipe,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    SubmeterExclusaoComponent,
     TituloComponent,
-    DetalhesDespesaComponent
+    DetalhesDespesaComponent,
+    SubmeterExclusaoComponent
 ],
   templateUrl: './excluir-despesa.component.html',
   styleUrl: '../styles/despesas.scss'
@@ -62,7 +52,7 @@ export class ExcluirDespesaComponent {
 
   private processarSucesso() {
     this.notificacao.sucesso(
-      `O contato '${this.descricaoDaDespesa}' foi excluído com sucesso!`
+      `A despesa '${this.descricaoDaDespesa}' foi excluída com sucesso!`
     );
     this.router.navigate(['/despesas']);
   }

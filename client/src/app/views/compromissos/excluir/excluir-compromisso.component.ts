@@ -54,7 +54,7 @@ export class ExcluirCompromissoComponent {
 
   private processarSucesso() {
     this.notificacao.sucesso(
-      `O contato '${this.assuntoDoCompromisso}' foi excluído com sucesso!`
+      `O compromisso '${this.assuntoDoCompromisso}' foi excluído com sucesso!`
     );
     this.router.navigate(['/compromissos']);
   }

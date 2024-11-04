@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { DetalhesDespesaViewModel } from '../models/despesa.models';
+import { DetalhesDespesaViewModel } from '../../models/despesa.models';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -11,7 +11,7 @@ import { NgIf } from '@angular/common';
     MatCardModule
   ],
   templateUrl: './detalhes-despesa.component.html',
-  styleUrl: '../styles/despesas.scss'
+  styleUrl: '../../styles/despesas.scss'
 })
 
 export class DetalhesDespesaComponent {

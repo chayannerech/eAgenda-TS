@@ -1,43 +1,35 @@
-import { NgIf, NgForOf, AsyncPipe } from "@angular/common";
+import { NgIf } from "@angular/common";
 import { Component } from "@angular/core";
-import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatNativeDateModule } from "@angular/material/core";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatRadioModule } from "@angular/material/radio";
-import { MatSelectModule } from "@angular/material/select";
-import { RouterLink, ActivatedRoute, Router } from "@angular/router";
-import { Observable, PartialObserver } from "rxjs";
+import { ReactiveFormsModule, FormGroup, FormBuilder } from "@angular/forms";
+import { MatError } from "@angular/material/form-field";
+import { ActivatedRoute, Router } from "@angular/router";
+import { PartialObserver } from "rxjs";
 import { NotificacaoService } from "../../../core/notificacao/notificacao.service";
-import { ListarContatosViewModel } from "../../contatos/models/contato.models";
-import { ContatoService } from "../../contatos/services/contato.service";
 import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
-import { EditarDespesaViewModel, DetalhesDespesaViewModel, DespesaEditadaViewModel } from "../models/despesa.models";
+import { DespesaEditadaViewModel, DespesaInseridaViewModel, DetalhesDespesaViewModel, EditarDespesaViewModel, InserirDespesaViewModel } from "../models/despesa.models";
 import { DespesaService } from "../services/despesas.service";
+import { ListarCategoriasViewModel } from "../../categorias/models/categoria.models";
+import { InputDataComponent } from "../../partials/input-data/input-data.component";
+import { InputRadioComponent } from "../../partials/input-radio/input-radio.component";
+import { InputTextoComponent } from "../../partials/input-texto/input-texto.component";
+import { InputCategoriasComponent } from "../partials/input-categorias/input-categorias.component";
+import { InputValorComponent } from "../partials/input-valor/input-valor.component";
 
 @Component({
   selector: 'app-editar-despesas',
   standalone: true,
   imports: [
-    RouterLink,
     NgIf,
-    NgForOf,
-    AsyncPipe,
+    MatError,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatRadioModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
     TituloComponent,
-    SubmeterFormComponent
+    InputTextoComponent,
+    InputRadioComponent,
+    InputDataComponent,
+    InputValorComponent,
+    InputCategoriasComponent,
+    SubmeterFormComponent,
 ],
   templateUrl: './editar-despesa.component.html',
   styleUrl: '../styles/despesas.scss'
@@ -45,99 +37,99 @@ import { DespesaService } from "../services/despesas.service";
 
 export class EditarDespesaComponent {
   despesaForm: FormGroup;
-  localDesabilitado: boolean;
-  linkDesabilitado: boolean;
-  contatos$?: Observable<ListarContatosViewModel[]>;
+  categorias?: ListarCategoriasViewModel[];
+  categoriasSelecionadas: ListarCategoriasViewModel[];
+  semCategorias: boolean;
 
   constructor(
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder,
     private despesaService: DespesaService,
-    private contatoService: ContatoService,
     private notificacao: NotificacaoService
   ) {
-    this.localDesabilitado = false;
-    this.linkDesabilitado = true;
-    this.despesaForm = this.fb.group({
-      assunto: ['', [ Validators.required, Validators.minLength(3) ]],
-      local: ['', [ Validators.required, Validators.minLength(3) ]],
-      tipoLocal: ['1', [ Validators.required ]],
-      link: ['', Validators.required],
-      data: ['', Validators.required],
-      horaInicio: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
-      horaTermino: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
-      contatoId: ['', [ Validators.required, Validators.minLength(3) ]],
-    });
+    this.categoriasSelecionadas = [];
+    this.semCategorias = false;
+    this.despesaForm = this.fb.group({ descricao: '', valor: 0, data: '', formaPagamento: 0 });
   }
 
   ngOnInit(): void {
-    this.contatos$ = this.contatoService.selecionarTodos();
-
     const despesa = this.route.snapshot.data['despesa'];
+    this.categorias = this.route.snapshot.data['categorias'];
+
     this.trazerValoresParaEdicao(despesa);
   }
 
-  get assunto() { return this.despesaForm.get('assunto'); }
-  get local() { return this.despesaForm.get('local'); }
-  get tipoLocal() { return this.despesaForm.get('tipoLocal'); }
-  get link() { return this.despesaForm.get('link'); }
+  get descricao() { return this.despesaForm.get('descricao'); }
+  get valor() { return this.despesaForm.get('valor'); }
   get data() { return this.despesaForm.get('data'); }
-  get horaInicio() { return this.despesaForm.get('horaInicio'); }
-  get horaTermino() { return this.despesaForm.get('horaTermino'); }
-  get contatoId() { return this.despesaForm.get('contatoId'); }
+  get formaPagamento() { return this.despesaForm.get('formaPagamento'); }
+
+  selecionarCategoria(categoria: ListarCategoriasViewModel) {
+    this.categoriasSelecionadas.push(categoria);
+    this.categorias = this.categorias!.filter(cat => cat !== categoria);
+    this.semCategorias = false;
+  }
+
+  removerCategoria(categoria: ListarCategoriasViewModel) {
+    this.categoriasSelecionadas = this.categoriasSelecionadas.filter(cat => cat !== categoria);
+    this.categorias!.push(categoria);
+  }
 
   editar() {
-    if (this.despesaForm.invalid) return;
+    if (this.validarForm()) return;
 
     const id = this.route.snapshot.params['id'];
     if (!id) return this.notificacao.erro('Não foi possível encontrar o id requisitado');
 
-    const despesaEditado: EditarDespesaViewModel = this.despesaForm.value;
+    const despesaEditada: EditarDespesaViewModel = this.despesaForm.value;
     const observer: PartialObserver<DespesaEditadaViewModel> = {
-      next: (despesaEditado) => this.processarSucesso(despesaEditado),
+      next: (despesa) => this.processarSucesso(despesa),
       error: (erro) => this.processarFalha(erro)
     }
 
-    this.despesaService.editar(id, despesaEditado).subscribe(observer);
+    despesaEditada.categoriasSelecionadas = [];
+    this.categoriasSelecionadas.forEach(x => despesaEditada.categoriasSelecionadas.push(x.id))
+
+    this.despesaService.editar(id, despesaEditada).subscribe(observer);
   }
 
-  public tipoDeLocalEscolhido(event: any) {
-    if (event.value == '1') {
-      this.local!.enable();
-      this.local?.setValidators([Validators.required, Validators.minLength(3)]);
-      this.tipoLocal?.setValue('1');
-
-      this.link!.disable();
-      this.link?.clearValidators();
-      this.link?.setValue('');
-    } else {
-      this.link!.enable();
-      this.link?.setValidators([Validators.required]);
-      this.tipoLocal?.setValue('0');
-
-      this.local!.disable();
-      this.local?.clearValidators();
-      this.local?.setValue('');
+  private validarForm(): Boolean {
+    if (this.categoriasSelecionadas.length == 0) {
+      this.semCategorias = true;
+      return true;
     }
-
-    this.local?.updateValueAndValidity();
-    this.link?.updateValueAndValidity();
+    if (this.despesaForm.invalid) return true;
+    return false;
   }
 
-  private trazerValoresParaEdicao(despesaSelecionada: DetalhesDespesaViewModel) {
-    this.despesaForm.patchValue(despesaSelecionada);
-  }
-
-  private processarSucesso(despesaEditado: DespesaEditadaViewModel) {
+  private processarSucesso(novaDespesa: DespesaInseridaViewModel) {
     this.notificacao.sucesso(
-      `O Despesa '${despesaEditado.descricao}' foi cadastrado com sucesso!`
+      `A despesa '${novaDespesa.descricao}' foi editada com sucesso!`
     );
 
     this.router.navigate(['/despesas']);
-}
+  }
 
   private processarFalha(erro: Error) {
     this.notificacao.erro(erro.message);
+  }
+
+  private trazerValoresParaEdicao(despesa: DetalhesDespesaViewModel) {
+    this.despesaForm.patchValue(despesa);
+
+    for (let cat of this.categorias!)
+      if (despesa.categorias.includes(cat.titulo))
+        this.categoriasSelecionadas.push(cat);
+
+    for (let cat of this.categoriasSelecionadas)
+      this.categorias = this.categorias!.filter(c => c !== cat);
+
+    if (despesa.formaPagamento == 'Pix')
+      this.formaPagamento?.setValue(0);
+    else if (despesa.formaPagamento == 'Dinheiro')
+      this.formaPagamento?.setValue(1);
+    else
+      this.formaPagamento?.setValue(2);
   }
 }

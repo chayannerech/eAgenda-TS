@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { ListarDespesasViewModel } from '../models/despesa.models';
+import { ListarDespesasViewModel } from '../../models/despesa.models';
 import { NgForOf, NgIf } from '@angular/common';
-import { CardFooterComponent } from "../../partials/card-footer/card-footer.component";
+import { CardFooterComponent } from "../../../partials/card-footer/card-footer.component";
 
 @Component({
   selector: 'app-card-despesas',
@@ -14,7 +14,7 @@ import { CardFooterComponent } from "../../partials/card-footer/card-footer.comp
     CardFooterComponent
 ],
   templateUrl: './card-despesas.component.html',
-  styleUrl: '../styles/despesas.scss'
+  styleUrl: '../../styles/despesas.scss'
 })
 
 export class CardDespesasComponent {

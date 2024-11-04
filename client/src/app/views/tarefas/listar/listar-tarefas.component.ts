@@ -1,31 +1,19 @@
-import { NgForOf, NgIf, AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ListarTarefasViewModel } from '../models/tarefa.models';
 import { BotaoCadastrarComponent } from "../../partials/botao-cadastrar/botao-cadastrar.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { CardFooterComponent } from "../../partials/card-footer/card-footer.component";
-import { CardTarefasComponent } from "../card-tarefas/card-tarefas.component";
+import { CardTarefasComponent } from "../partials/card-tarefas/card-tarefas.component";
 
 @Component({
   selector: 'app-listar-tarefas',
   standalone: true,
   imports: [
-    NgIf,
-    NgForOf,
-    RouterLink,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    BotaoCadastrarComponent,
     TituloComponent,
-    CardFooterComponent,
-    CardTarefasComponent
+    BotaoCadastrarComponent,
+    CardTarefasComponent,
+    CardFooterComponent
 ],
   templateUrl: './listar-tarefas.component.html',
   styleUrl: '../styles/tarefas.scss'

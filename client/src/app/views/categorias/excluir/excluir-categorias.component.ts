@@ -1,30 +1,16 @@
-import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PartialObserver } from 'rxjs';
 import { CategoriaExcluidaViewModel, DetalhesCategoriaViewModel } from '../models/categoria.models';
 import { CategoriaService } from '../services/categoria.service';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { SubmeterExclusaoComponent } from '../../partials/submeter-exclusao/submeter-exclusao.component';
-import { MatCardModule } from '@angular/material/card';
 import { TituloComponent } from "../../partials/titulo/titulo.component";
-import { DetalhesCategoriaComponent } from "../detalhes/detalhes-categoria.component";
+import { DetalhesCategoriaComponent } from '../partials/detalhes/detalhes-categoria.component';
 @Component({
   selector: 'app-excluir-categorias',
   standalone: true,
-  imports: [
-    NgIf,
-    RouterLink,
-    AsyncPipe,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    SubmeterExclusaoComponent,
-    TituloComponent,
-    DetalhesCategoriaComponent
-],
+  imports: [ TituloComponent, DetalhesCategoriaComponent, SubmeterExclusaoComponent ],
   templateUrl: './excluir-categorias.component.html',
 })
 

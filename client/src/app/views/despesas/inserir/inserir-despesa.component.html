@@ -5,7 +5,7 @@
     <form [formGroup]="despesaForm" (ngSubmit)="cadastrar()">
 
       <app-input-texto
-        [placeholder]="'Ex: Compras de natal'" [campoDesejado]="'descrição'" [pronome]="'a'"
+        [campoDesejado]="'descrição'" [placeholder]="'Ex: Compras de natal'" [pronome]="'a'"
         (inputTexto)="descricao?.setValue($event)">
       </app-input-texto>
 

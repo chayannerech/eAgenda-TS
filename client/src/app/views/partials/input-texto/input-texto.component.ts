@@ -30,7 +30,7 @@ export class InputTextoComponent implements OnChanges {
     if (changes.valorAtual && changes.valorAtual.currentValue) {
       this.inputControl.setValue(changes.valorAtual.currentValue);
     }
-    this.label = this.campoDesejado === 'descricao' ? 'Descrição' : toTitleCase(this.campoDesejado);
+    this.label = toTitleCase(this.campoDesejado);
   }
 
   validarInput() {

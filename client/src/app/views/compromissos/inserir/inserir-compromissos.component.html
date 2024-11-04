@@ -4,7 +4,7 @@
   <div class="app-container-form">
     <form [formGroup]="compromissoForm" (ngSubmit)="cadastrar()">
       <app-input-texto
-        [placeholder]="'Ex: Não lavar o cachorro'" [campoDesejado]="'assunto'" [pronome]="'o'"
+        [campoDesejado]="'assunto'" [placeholder]="'Ex: Não lavar o cachorro'" [pronome]="'o'"
         (inputTexto)="assunto?.setValue($event)">
       </app-input-texto>
 
@@ -44,7 +44,7 @@
         [campoDesejado]="'término'" [placeholder]="'Ex: 10:00'" (inputHorario)="horaTermino?.setValue($event)">
       </app-input-horario>
 
-      <app-select-contatos [contatos$]="contatos$" (input)="contatoId?.setValue($event)"></app-select-contatos>
+      <app-select-contatos [contatos]="contatos" (input)="contatoId?.setValue($event)"></app-select-contatos>
 
       <app-submeter-form [rota]='"/compromissos"'></app-submeter-form>
     </form>

@@ -1,7 +1,4 @@
-import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { lastValueFrom, PartialObserver } from 'rxjs';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
@@ -9,10 +6,13 @@ import { ContatoService } from '../services/contato.service';
 import { ContatoExcluidoViewModel, DetalhesContatoViewModel } from '../models/contato.models';
 import { SubmeterExclusaoComponent } from "../../partials/submeter-exclusao/submeter-exclusao.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
-import { DetalhesCompromissoComponent } from "../detalhes/detalhes-contato.component";
+import { DetalhesCompromissoComponent } from "../partials/detalhes/detalhes-contato.component";
 import { CompromissoService } from '../../compromissos/services/compromisso.service';
 import { ListarCompromissosViewModel } from '../../compromissos/models/compromisso.models';
 import { MatError } from '@angular/material/form-field';
+import { NgIf } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-excluir-contato',
@@ -20,12 +20,13 @@ import { MatError } from '@angular/material/form-field';
   imports: [
     NgIf,
     RouterLink,
-    MatButtonModule,
     MatError,
     MatIconModule,
-    SubmeterExclusaoComponent,
+    MatButtonModule,
     TituloComponent,
-    DetalhesCompromissoComponent],
+    DetalhesCompromissoComponent,
+    SubmeterExclusaoComponent
+  ],
   templateUrl: './excluir-contato.component.html'
 })
 

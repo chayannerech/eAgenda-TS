@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { ListarTarefasViewModel } from '../models/tarefa.models';
+import { ListarTarefasViewModel } from '../../models/tarefa.models';
 import { NgForOf, NgIf } from '@angular/common';
-import { CardFooterComponent } from "../../partials/card-footer/card-footer.component";
+import { CardFooterComponent } from "../../../partials/card-footer/card-footer.component";
 
 @Component({
   selector: 'app-card-tarefas',
@@ -14,7 +14,7 @@ import { CardFooterComponent } from "../../partials/card-footer/card-footer.comp
     CardFooterComponent
 ],
   templateUrl: './card-tarefas.component.html',
-  styleUrl: '../styles/tarefas.scss'
+  styleUrl: '../../styles/tarefas.scss'
 })
 
 export class CardTarefasComponent {

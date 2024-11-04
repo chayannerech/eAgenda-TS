@@ -1,37 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { NgStyle } from '@angular/common';
 import { PartialObserver } from 'rxjs';
-import { DetalhesTarefaViewModel, EditarTarefaViewModel, InserirTarefaViewModel, ItemTarefaViewModel, TarefaEditadaViewModel, TarefaInseridaViewModel } from '../models/tarefa.models';
+import { DetalhesTarefaViewModel, EditarTarefaViewModel, ItemTarefaViewModel, TarefaEditadaViewModel } from '../models/tarefa.models';
 import { TarefaService } from '../services/tarefa.service';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
+import { InputTextoComponent } from "../../partials/input-texto/input-texto.component";
+import { InputRadioComponent } from "../../partials/input-radio/input-radio.component";
+import { ConclusaoItensComponent } from "../partials/conclusao-itens/conclusao-itens.component";
 
 @Component({
   selector: 'app-inserir-tarefa',
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
-    NgClass,
     NgStyle,
-    RouterLink,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatRadioModule,
-    MatExpansionModule,
     TituloComponent,
+    InputTextoComponent,
+    InputRadioComponent,
+    ConclusaoItensComponent,
     SubmeterFormComponent
 ],
 
@@ -41,33 +31,19 @@ import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-for
 
 export class EditarTarefaComponent implements OnInit {
   tarefaForm: FormGroup;
-  itemForm: FormGroup;
   itensTarefa: ItemTarefaViewModel[];
-  iconeSanfona: string;
   porcentagemConclusao: number;
 
   constructor(
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private tarefaService: TarefaService,
     private notificacao: NotificacaoService
   ) {
-    this.iconeSanfona = 'arrow_drop_down';
     this.porcentagemConclusao = 0;
     this.itensTarefa = [];
-    this.tarefaForm = new FormGroup({
-      titulo: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      prioridade: new FormControl<string>('0'),
-    });
-    this.itemForm = new FormGroup({
-      titulo: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-    });
+    this.tarefaForm = this.fb.group({ titulo: '', prioridade: 0 });
   }
 
   ngOnInit(): void {
@@ -79,15 +55,10 @@ export class EditarTarefaComponent implements OnInit {
   get titulo() { return this.tarefaForm.get('titulo'); }
   get prioridade() { return this.tarefaForm.get('prioridade'); }
   get empresa() { return this.tarefaForm.get('empresa'); }
-  get tituloTarefa() { return this.itemForm.get('titulo'); }
-
-  alterarIconeSanfona(): void {
-    this.iconeSanfona = this.iconeSanfona == 'arrow_drop_down' ? 'arrow_drop_up' : 'arrow_drop_down';
-  }
 
   concluirItem(id: string) {
-    const itemConcluido = this.selecionarItemPorId(id);
-    itemConcluido!.concluido = !itemConcluido!.concluido;
+    const item = this.itensTarefa.find(item => item.id === id);
+    if (item) item.concluido = !item.concluido;
 
     this.calcularPorcentagem(this.route.snapshot.data['tarefa']);
   }
@@ -120,29 +91,22 @@ export class EditarTarefaComponent implements OnInit {
     this.notificacao.erro(erro.message);
   }
 
-  private selecionarItemPorId(id: string) : ItemTarefaViewModel | undefined{
-    for(let item of this.itensTarefa)
-      if (item.id == id)
-        return item;
-    return;
-  }
-
   private trazerValoresParaEdicao(tarefaSelecionada: DetalhesTarefaViewModel) {
     this.itensTarefa = tarefaSelecionada.itens;
     this.tarefaForm.patchValue(tarefaSelecionada);
     this.calcularPorcentagem(tarefaSelecionada);
 
     if (tarefaSelecionada.prioridade == 'Normal')
-      this.prioridade?.setValue('1');
+      this.prioridade?.setValue(1);
     else if (tarefaSelecionada.prioridade == 'Baixinha')
-      this.prioridade?.setValue('0');
+      this.prioridade?.setValue(0);
     else
-      this.prioridade?.setValue('2');
+      this.prioridade?.setValue(2);
   }
 
   private calcularPorcentagem(tarefa: DetalhesTarefaViewModel) {
     const itensConcluidos = this.itensTarefa.filter(i => i.concluido);
-    const porcentagem = itensConcluidos.length * 100 / this.itensTarefa.length;
+    const porcentagem = Math.round(itensConcluidos.length * 100 / this.itensTarefa.length);
     this.porcentagemConclusao = porcentagem;
 
     porcentagem == 100 ? tarefa.dataConclusao = new Date().toString() : tarefa.dataConclusao = '';

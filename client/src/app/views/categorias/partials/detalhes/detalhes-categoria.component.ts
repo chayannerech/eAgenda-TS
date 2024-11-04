@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { NgIf } from '@angular/common';
-import { DetalhesCategoriaViewModel } from '../models/categoria.models';
+import { DetalhesCategoriaViewModel } from '../../models/categoria.models';
 
 @Component({
   selector: 'app-detalhes-categoria',
@@ -11,7 +11,7 @@ import { DetalhesCategoriaViewModel } from '../models/categoria.models';
     MatCardModule
   ],
   templateUrl: './detalhes-categoria.component.html',
-  styleUrl: '../styles/categorias.scss'
+  styleUrl: '../../styles/categorias.scss'
 })
 
 export class DetalhesCategoriaComponent {

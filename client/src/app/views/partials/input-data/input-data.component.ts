@@ -20,9 +20,16 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './input-data.component.html'
 })
 export class InputDataComponent {
-  @Output() input = new EventEmitter();
+  @Input() valorAtual: string = '';
+  @Output() input = new EventEmitter<string>();
 
   inputControl = new FormControl('', [ Validators.required ]);
+
+  ngOnChanges(changes: any) {
+    if (changes.valorAtual && changes.valorAtual.currentValue) {
+      this.inputControl.setValue(changes.valorAtual.currentValue);
+    }
+  }
 
   validarInput() {
     if (this.inputControl.valid) {

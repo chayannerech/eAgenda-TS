@@ -22,7 +22,7 @@
   <div class="row d-flex d-md-none" style="font-size: 14px;">
     <div class="col text-center">
       <p class="mb-1">Prioridade: {{ tarefa!.prioridade }}</p>
-      <p class="mb-1">Criada em:: {{ tarefa!.dataCriacao }}</p>
+      <p class="mb-1">Criada em: {{ mostrarData(tarefa!.dataCriacao) }}</p>
       <p *ngIf="tarefa?.percentualConcluido == 100" class="mb-1">Concluida em: {{ mostrarData(tarefa!.dataConclusao) }}</p>
       <p class="mb-1">Percentual concluído: {{ tarefa!.percentualConcluido }}%</p>
     </div>
@@ -38,7 +38,6 @@
         <div class="mb-3 rounded-3 p-1"
           [ngStyle]="{
             border: item.concluido ? '2px solid #a0ff34ec' : '2px solid #fffc53',
-            background: '#80808065',
             font: '500 13px / 1.5rem Roboto, sans-serif'
             }"
           >

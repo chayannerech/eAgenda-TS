@@ -3,71 +3,36 @@
 
   <div class="app-container-form">
     <form [formGroup]="tarefaForm" (submit)="editar()">
-      <!--#region Título-->
-      <mat-form-field class="app-form-field">
-        <mat-label>Título</mat-label>
-        <input formControlName="titulo" matInput placeholder="Ex: Não lavar o cachorro" />
-        <mat-icon matSuffix color="primary">subtitles</mat-icon>
-        <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['required']">
-          O titulo é obrigatório!
-        </mat-error>
-        <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['minlength']">
-          O titulo precisa conter ao menos 3 caracteres!
-        </mat-error>
-      </mat-form-field>
-      <!--#endregion -->
+      <app-input-texto
+        [campoDesejado]="'título'" [placeholder]="'Ex: Não lavar o cachorro'" [pronome]="'o'" [valorAtual]="titulo?.value"
+        (inputTexto)="titulo?.setValue($event)">
+      </app-input-texto>
 
-      <!--#region Prioridade-->
-      <div class="app-input-forjado d-md-flex">
-        <mat-label>Prioridade*</mat-label>
-        <div>
-          <mat-radio-group formControlName="prioridade">
-            <mat-radio-button value="0" class="me-4">Baixa</mat-radio-button>
-            <mat-radio-button value="1" class="me-4">Média</mat-radio-button>
-            <mat-radio-button value="2">Alta</mat-radio-button>
-          </mat-radio-group>
-        </div>
-      </div>
-      <!--#endregion -->
+      <app-input-radio
+        [campoDesejado]="'Prioridade*'" [opcoes]="[{nome: 'Baixa', valor: 0}, {nome: 'Média', valor: 1}, {nome: 'Alta', valor: 2}]" [valorAtual]="prioridade?.value"
+        (input)="prioridade?.setValue($event)">
+      </app-input-radio>
 
-      <!--#region Itens-->
-      <mat-expansion-panel hideToggle class="app-input-sanfona">
-        <mat-expansion-panel-header (click)="alterarIconeSanfona()">
-          <mat-panel-title> Itens </mat-panel-title>
-          <mat-icon>{{iconeSanfona}}</mat-icon>
-        </mat-expansion-panel-header>
-        <div class="mb-4">
-          <div *ngFor="let item of itensTarefa" class="app-listagem-itens">
-            <div class="my-2">
-              <p *ngIf="item.concluido" class="app-pill app-item-concluido">concluído</p>
-              <p *ngIf="!item.concluido" class="app-pill app-item-pendente">pendente</p>
-              <p class="d-inline my-2">{{item.titulo}}</p>
-            </div>
-            <div>
-              <a mat-icon-button (click)="concluirItem(item.id)">
-                <mat-icon *ngIf="!item.concluido" class="app-btn-alterar-item">done_outline</mat-icon>
-                <mat-icon *ngIf="item.concluido">history</mat-icon>
-              </a>
-            </div>
-          </div>
-        </div>
-      </mat-expansion-panel>
-      <!--#endregion-->
+      <app-conclusao-itens
+        [itensTarefa]="itensTarefa"
+        (concluirItem)="concluirItem($event)"
+      ></app-conclusao-itens>
 
-      <div>
-        <p class="m-0 mt-5 mx-3 mb-2" style="font-family: sans-serif;">Percentual de conclusão:</p>
+      <div class="mb-5">
+        <p class="mt-5 mx-3 mb-2" style="font-family: sans-serif;">Percentual de conclusão:</p>
         <h6
-        class="fs-6 text-center"
-        style="border: 1px solid black; border-radius: 25px;"
-        [ngStyle]="{
-          background:
-            porcentagemConclusao <= 25 ? 'linear-gradient(90deg, #ff4343 ' + porcentagemConclusao + '%, #e0e0e0 ' + porcentagemConclusao + '%)' :
-            porcentagemConclusao <= 50 ? 'linear-gradient(90deg, #ffde4c ' + porcentagemConclusao + '%, #e0e0e0 ' + porcentagemConclusao + '%)' :
-            porcentagemConclusao <= 75 ? 'linear-gradient(90deg, #d6ff42 ' + porcentagemConclusao + '%, #e0e0e0 ' + porcentagemConclusao + '%)' :
-            'linear-gradient(90deg, #71ff2f ' + porcentagemConclusao + '%, #e0e0e0 ' + porcentagemConclusao + '%)',
-          color: 'black',
-        }">
-        {{ porcentagemConclusao }}%
+          class="fs-6 text-center fw-semibold"
+          style="border: 1px solid gray; border-radius: 25px;"
+          [ngStyle]="{
+            background:
+              porcentagemConclusao <= 25 ? 'linear-gradient(90deg, #ff4343 ' + porcentagemConclusao + '%, transparent ' + porcentagemConclusao + '%)' :
+              porcentagemConclusao <= 50 ? 'linear-gradient(90deg, #ffde4c ' + porcentagemConclusao + '%, transparent ' + porcentagemConclusao + '%)' :
+              porcentagemConclusao <= 75 ? 'linear-gradient(90deg, #d6ff42 ' + porcentagemConclusao + '%, transparent ' + porcentagemConclusao + '%)' :
+              'linear-gradient(90deg, #71ff2f ' + porcentagemConclusao + '%, #e0e0e0 ' + porcentagemConclusao + '%)',
+            color: 'gray'
+          }"
+        >
+          {{ porcentagemConclusao }}%
         </h6>
       </div>
       <app-submeter-form [rota]='"/tarefas"'></app-submeter-form>

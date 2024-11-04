@@ -1,19 +1,17 @@
 import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PartialObserver } from 'rxjs';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { DetalhesTarefaViewModel, TarefaExcluidaViewModel } from '../models/tarefa.models';
 import { TarefaService } from '../services/tarefa.service';
 import { SubmeterExclusaoComponent } from "../../partials/submeter-exclusao/submeter-exclusao.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
-import { DetalhesTarefaComponent } from "../detalhes/detalhes-tarefa.component";
+import { DetalhesTarefaComponent } from "../partials/detalhes/detalhes-tarefa.component";
 
 @Component({
   selector: 'app-excluir-tarefa',
   standalone: true,
-  imports: [RouterLink, MatButtonModule, MatIconModule, SubmeterExclusaoComponent, TituloComponent, DetalhesTarefaComponent],
+  imports: [ SubmeterExclusaoComponent, TituloComponent, DetalhesTarefaComponent ],
   templateUrl: './excluir-tarefa.component.html'
 })
 
@@ -22,8 +20,8 @@ export class ExcluirTarefaComponent {
   nomeDotarefa: string;
 
   constructor (
-    private route: ActivatedRoute,
     private router: Router,
+    private route: ActivatedRoute,
     private tarefaService: TarefaService,
     private notificacao: NotificacaoService
   ) {

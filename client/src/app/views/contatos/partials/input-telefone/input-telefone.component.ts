@@ -1,24 +1,30 @@
 import { NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @Component({
-  selector: 'app-input-email',
+  selector: 'app-input-telefone',
   standalone: true,
-  imports: [ NgIf, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatIconModule ],
-  templateUrl: './input-email.component.html'
+  imports: [
+    NgIf,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    NgxMaskDirective,
+ ],
+  templateUrl: './input-telefone.component.html',
+  providers: [provideNgxMask()]
 })
-export class InputEmailComponent implements OnChanges {
+export class InputTelefoneComponent {
   @Input() valorAtual: string = '';
-  @Output() inputEmail = new EventEmitter<string>();
+  @Output() inputTelefone = new EventEmitter<string>();
 
-  inputControl = new FormControl(this.valorAtual, [
-    Validators.required,
-    Validators.email
-  ]);
+  inputControl = new FormControl('', [ Validators.required ]);
 
   ngOnChanges(changes: any) {
     if (changes.valorAtual && changes.valorAtual.currentValue) {
@@ -28,7 +34,7 @@ export class InputEmailComponent implements OnChanges {
 
   validarInput() {
     if (this.inputControl.valid) {
-      this.inputEmail.emit(this.inputControl.value || '');
+      this.inputTelefone.emit(this.inputControl.value || '');
     }
   }
 }

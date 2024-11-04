@@ -1,0 +1,11 @@
+<mat-form-field class="app-form-field">
+  <mat-label>Telefone</mat-label>
+  <input [formControl]="inputControl" matInput mask="(00) 00000-0000" placeholder="Ex: (22) 99999-9999" (input)="validarInput()" />
+  <mat-icon matSuffix color="primary">subtitles</mat-icon>
+  <mat-error *ngIf="inputControl?.invalid && (inputControl?.errors)!['required']">
+    O telefone é obrigatório!
+  </mat-error>
+  <mat-error *ngIf="inputControl?.invalid && (inputControl?.errors)!['pattern']">
+    O telefone precisa conter 11 dígitos!
+  </mat-error>
+</mat-form-field>

@@ -1,0 +1,60 @@
+<mat-expansion-panel hideToggle class="app-input-sanfona">
+  <mat-expansion-panel-header (click)="alterarIconeSanfona()">
+    <mat-panel-title> Itens </mat-panel-title>
+    <mat-icon>{{ iconeSanfona }}</mat-icon>
+  </mat-expansion-panel-header>
+
+  <p *ngIf="itensTarefa.length == 0 && !cadastrandoItem" class="app-nao-ha-itens">Ainda não existem itens para essa tarefa</p>
+
+  <div *ngIf="!editandoItem && !cadastrandoItem">
+    <div *ngFor="let item of itensTarefa" class="app-listagem-itens">
+      <p class="m-0 py-2">{{ item.titulo }}</p>
+      <section>
+        <div *ngIf="item !== itemEmExclusao">
+          <a mat-icon-button matTooltip="Editar item" (click)="iniciarEdicaoItem(item)">
+            <mat-icon class="app-btn-alterar-item"> edit</mat-icon>
+          </a>
+          <a mat-icon-button matTooltip="Excluir item" (click)="confirmarExclusao(item)">
+            <mat-icon class="app-btn-alterar-item app-btn-excluir-item"> delete </mat-icon>
+          </a>
+        </div>
+        <div *ngIf="item === itemEmExclusao">
+          <a (click)="concluirExclusao()">
+            <p class="app-pill app-confirmar-exclusao">confirmar exclusão</p>
+          </a>
+          <a class="mb-5 mx-1 text-decoration-none my-3" (click)="cancelarExclusao()">
+            <p class="app-pill">cancelar</p>
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <form *ngIf="cadastrandoItem || editandoItem" [formGroup]="itemForm" (ngSubmit)="salvarItem()" style="width: 95%; margin: 0 auto;">
+    <mat-form-field class="app-form-field">
+      <mat-label style="font-size: 15px;">Título do item</mat-label>
+      <input formControlName="titulo" style="font-size: 15px;" matInput placeholder="Ex: Comprar o shampoo" />
+      <mat-icon matSuffix color="primary">subtitles</mat-icon>
+      <mat-error *ngIf="itemForm.get('titulo')?.hasError('required')">
+        O título é obrigatório!
+      </mat-error>
+      <mat-error *ngIf="itemForm.get('titulo')?.hasError('minlength')">
+        O título precisa conter ao menos 3 caracteres!
+      </mat-error>
+    </mat-form-field>
+    <section class="row justify-content-center mt-2">
+      <a class="col" mat-button type="button" (click)="cancelarAcao()">
+        <mat-icon>close</mat-icon> Cancelar
+      </a>
+      <button class="col" mat-button type="submit">
+        <mat-icon>{{ editandoItem ? 'edit' : 'add' }}</mat-icon> {{ editandoItem ? 'Concluir edição' : 'Inserir' }}
+      </button>
+    </section>
+  </form>
+
+  <section *ngIf="!cadastrandoItem && !editandoItem" class="row justify-content-center mt-2">
+    <a mat-button (click)="iniciarCadastroItem()">
+      <mat-icon>add</mat-icon> Inserir item
+    </a>
+  </section>
+</mat-expansion-panel>

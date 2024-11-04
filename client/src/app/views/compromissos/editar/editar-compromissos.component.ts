@@ -1,43 +1,37 @@
-import { NgIf, NgForOf, AsyncPipe } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { RouterLink, Router, ActivatedRoute } from '@angular/router';
-import { Observable, PartialObserver } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
+import { PartialObserver } from 'rxjs';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { ListarContatosViewModel } from '../../contatos/models/contato.models';
-import { ContatoService } from '../../contatos/services/contato.service';
-import { CompromissoEditadoViewModel, DetalhesCompromissoViewModel, EditarCompromissoViewModel, InserirCompromissoViewModel } from '../models/compromisso.models';
+import { CompromissoEditadoViewModel, DetalhesCompromissoViewModel, EditarCompromissoViewModel } from '../models/compromisso.models';
 import { CompromissoService } from '../services/compromisso.service';
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
+import { InputTextoComponent } from "../../partials/input-texto/input-texto.component";
+import { InputRadioComponent } from "../../partials/input-radio/input-radio.component";
+import { InputDataComponent } from "../../partials/input-data/input-data.component";
+import { InputHorarioComponent } from "../partials/input-horario/input-horario.component";
+import { SelectContatosComponent } from "../partials/select-contatos/select-contatos.component";
 
 @Component({
   selector: 'app-editar-compromissos',
   standalone: true,
   imports: [
-    RouterLink,
     NgIf,
-    NgForOf,
-    AsyncPipe,
     ReactiveFormsModule,
-    MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule,
-    MatRadioModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
     TituloComponent,
-    SubmeterFormComponent
+    SubmeterFormComponent,
+    InputTextoComponent,
+    InputRadioComponent,
+    InputDataComponent,
+    InputHorarioComponent,
+    SelectContatosComponent,
 ],
   templateUrl: './editar-compromissos.component.html',
   styleUrl: '../styles/compromissos.scss'
@@ -47,33 +41,22 @@ export class EditarCompromissosComponent {
   compromissoForm: FormGroup;
   localDesabilitado: boolean;
   linkDesabilitado: boolean;
-  contatos$?: Observable<ListarContatosViewModel[]>;
+  contatos?: ListarContatosViewModel[];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
     private compromissoService: CompromissoService,
-    private contatoService: ContatoService,
     private notificacao: NotificacaoService
   ) {
     this.localDesabilitado = false;
     this.linkDesabilitado = true;
-    this.compromissoForm = this.fb.group({
-      assunto: ['', [ Validators.required, Validators.minLength(3) ]],
-      local: ['', [ Validators.required, Validators.minLength(3) ]],
-      tipoLocal: ['1', [ Validators.required ]],
-      link: ['', Validators.required],
-      data: ['', Validators.required],
-      horaInicio: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
-      horaTermino: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
-      contatoId: ['', [ Validators.required, Validators.minLength(3) ]],
-    });
+    this.compromissoForm = this.fb.group({ assunto: '', local: '', tipoLocal: '', link: '', data: '', horaInicio: '', horaTermino: '', contatoId: '' });
   }
 
   ngOnInit(): void {
-    this.contatos$ = this.contatoService.selecionarTodos();
-
+    this.contatos = this.route.snapshot.data['contatos'];
     const compromisso = this.route.snapshot.data['compromisso'];
     this.trazerValoresParaEdicao(compromisso);
   }
@@ -102,27 +85,22 @@ export class EditarCompromissosComponent {
     this.compromissoService.editar(id, compromissoEditado).subscribe(observer);
   }
 
-  public tipoDeLocalEscolhido(event: any) {
-    if (event.value == '1') {
+  public tipoDeLocalEscolhido() {
+    if (this.tipoLocal?.value === 1) {
       this.local!.enable();
-      this.local?.setValidators([Validators.required, Validators.minLength(3)]);
-      this.tipoLocal?.setValue('1');
-
       this.link!.disable();
+
+      this.local?.setValidators([Validators.required, Validators.minLength(3)]);
       this.link?.clearValidators();
       this.link?.setValue('');
     } else {
-      this.link!.enable();
-      this.link?.setValidators([Validators.required]);
-      this.tipoLocal?.setValue('0');
-
       this.local!.disable();
+      this.link!.enable();
+
+      this.link?.setValidators([Validators.required]);
       this.local?.clearValidators();
       this.local?.setValue('');
     }
-
-    this.local?.updateValueAndValidity();
-    this.link?.updateValueAndValidity();
   }
 
   private trazerValoresParaEdicao(compromissoSelecionado: DetalhesCompromissoViewModel) {
@@ -132,12 +110,12 @@ export class EditarCompromissosComponent {
     this.compromissoForm.patchValue(compromissoSelecionado);
 
     this.contatoId?.setValue(compromissoSelecionado.contato.id);
-    this.tipoDeLocalEscolhido({value: compromissoSelecionado.tipoLocal});
+    this.tipoDeLocalEscolhido();
   }
 
   private processarSucesso(compromissoEditado: CompromissoEditadoViewModel) {
     this.notificacao.sucesso(
-      `O Compromisso '${compromissoEditado.assunto}' foi cadastrado com sucesso!`
+      `O Compromisso '${compromissoEditado.assunto}' foi editado com sucesso!`
     );
 
     this.router.navigate(['/compromissos']);

@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { ListarContatosViewModel } from '../models/contato.models';
+import { ListarContatosViewModel } from '../../models/contato.models';
 import { NgForOf, NgIf } from '@angular/common';
-import { CardFooterComponent } from "../../partials/card-footer/card-footer.component";
+import { CardFooterComponent } from "../../../partials/card-footer/card-footer.component";
 
 @Component({
   selector: 'app-card-contatos',
@@ -14,7 +14,7 @@ import { CardFooterComponent } from "../../partials/card-footer/card-footer.comp
     CardFooterComponent
 ],
   templateUrl: './card-contatos.component.html',
-  styleUrl: '../styles/contatos.scss'
+  styleUrl: '../../styles/contatos.scss'
 })
 
 export class CardContatosComponent {

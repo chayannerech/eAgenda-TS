@@ -1,21 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { RouterLink, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { CompromissoService } from '../services/compromisso.service';
 import { CompromissoInseridoViewModel, InserirCompromissoViewModel } from '../models/compromisso.models';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
-import { MatSelectModule } from '@angular/material/select';
-import { ContatoService } from '../../contatos/services/contato.service';
+import { NgIf } from '@angular/common';
 import { ListarContatosViewModel } from '../../contatos/models/contato.models';
-import { Observable, PartialObserver } from 'rxjs';
+import { PartialObserver } from 'rxjs';
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
 import { InputTextoComponent } from "../../partials/input-texto/input-texto.component";
@@ -23,25 +16,15 @@ import { InputRadioComponent } from "../../partials/input-radio/input-radio.comp
 import { InputDataComponent } from "../../partials/input-data/input-data.component";
 import { InputHorarioComponent } from "../partials/input-horario/input-horario.component";
 import { SelectContatosComponent } from "../partials/select-contatos/select-contatos.component";
-import { InputLocalComponent } from "../partials/input-local/input-local.component";
 
 @Component({
   selector: 'app-inserir-compromissos',
   standalone: true,
   imports: [
     NgIf,
-    NgForOf,
-    AsyncPipe,
-    RouterLink,
     ReactiveFormsModule,
-    MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule,
-    MatRadioModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
     TituloComponent,
     SubmeterFormComponent,
     InputTextoComponent,
@@ -49,7 +32,6 @@ import { InputLocalComponent } from "../partials/input-local/input-local.compone
     InputDataComponent,
     InputHorarioComponent,
     SelectContatosComponent,
-    InputLocalComponent
 ],
   templateUrl: './inserir-compromissos.component.html',
   styleUrl: '../styles/compromissos.scss'
@@ -59,31 +41,25 @@ export class InserirCompromissosComponent implements OnInit {
   compromissoForm: FormGroup;
   localDesabilitado: boolean;
   linkDesabilitado: boolean;
-  contatos$?: Observable<ListarContatosViewModel[]>;
+  contatos?: ListarContatosViewModel[];
 
   constructor(
-    private router: Router,
     private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
     private compromissoService: CompromissoService,
-    private contatoService: ContatoService,
     private notificacao: NotificacaoService
   ) {
     this.localDesabilitado = false;
     this.linkDesabilitado = true;
-    this.compromissoForm = this.fb.group({
-      assunto: ['', [ Validators.required, Validators.minLength(3) ]],
-      local: ['', [ Validators.required, Validators.minLength(3) ]],
-      tipoLocal: ['0', [ Validators.required ]],
-      link: ['', Validators.required],
-      data: ['', Validators.required],
-      horaInicio: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
-      horaTermino: ['', [ Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/) ]],
-      contatoId: ['', [ Validators.required ]],
+    this.compromissoForm = this.fb.group({ assunto: '', tipoLocal: '0', data: '', horaInicio: '', horaTermino: '', contatoId: '',
+      local: ['',],
+      link: ['']
     });
   }
 
   ngOnInit(): void {
-    this.contatos$ = this.contatoService.selecionarTodos();
+    this.contatos = this.route.snapshot.data['contatos'];
     this.tipoDeLocalEscolhido();
   }
 
@@ -97,6 +73,9 @@ export class InserirCompromissosComponent implements OnInit {
   get contatoId() { return this.compromissoForm.get('contatoId'); }
 
   cadastrar() {
+    if (this.tipoLocal?.value == 1 && this.local?.value == '')
+      this.local.setErrors(Validators.required);
+
     if (this.compromissoForm.invalid) return;
 
     const novoCompromisso: InserirCompromissoViewModel = this.compromissoForm.value;
@@ -105,14 +84,11 @@ export class InserirCompromissosComponent implements OnInit {
       error: (erro) => this.processarFalha(erro)
     }
 
-    console.log(novoCompromisso);
-
-
-      this.compromissoService.cadastrar(novoCompromisso).subscribe(observer);
+    this.compromissoService.cadastrar(novoCompromisso).subscribe(observer);
   }
 
   public tipoDeLocalEscolhido() {
-    if (this.tipoLocal?.value === 1) {
+    if (this.tipoLocal?.value == 1) {
       this.local!.enable();
       this.link!.disable();
 

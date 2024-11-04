@@ -15,7 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 })
 
 export class SelectContatosComponent {
-  @Input() contatos$?: Observable<ListarContatosViewModel[]>;
+  @Input() contatos?: ListarContatosViewModel[];
   @Input() valorAtual: string = '';
   @Output() input = new EventEmitter<string>();
 

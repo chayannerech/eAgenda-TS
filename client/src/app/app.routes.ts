@@ -39,13 +39,45 @@ const authUserGuard: CanMatchFn = (): Observable<boolean | UrlTree> => {
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'registro', component: RegistroComponent, canMatch:[authUserGuard]},
-  { path: 'login', component: LoginComponent, canMatch:[authUserGuard]},
+  {
+    path: 'registro',
+    loadComponent: () => import('./core/auth/views/registro/registro.component').then(c => c.RegistroComponent),
+    canMatch:[authUserGuard]
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./core/auth/views/login/login.component').then(c => c.LoginComponent),
+    canMatch:[authUserGuard]
+  },
 
-  { path: 'dashboard', component: DashboardComponent, canMatch:[authGuard]},
-  { path: 'categorias', children: categoriasRoutes, canMatch:[authGuard]},
-  { path: 'contatos', children: contatosRoutes, canMatch:[authGuard]},
-  { path: 'compromissos', children: compromissosRoutes, canMatch:[authGuard]},
-  { path: 'tarefas', children: tarefasRoutes, canMatch:[authGuard]},
-  { path: 'despesas', children: despesasRoutes, canMatch:[authGuard]},
+  {
+    path: 'dashboard',
+    loadComponent: () => import('./views/dashboard/dashboard.component').then(c => c.DashboardComponent),
+    canMatch:[authGuard]
+  },
+  {
+    path: 'categorias',
+    loadChildren: () => import('./views/categorias/categorias.routes').then(m => m.categoriasRoutes),
+    canMatch:[authGuard]
+  },
+  {
+    path: 'contatos',
+    loadChildren: () => import('./views/contatos/contatos.routes').then(m => m.contatosRoutes),
+    canMatch:[authGuard]
+  },
+  {
+    path: 'compromissos',
+    loadChildren: () => import('./views/compromissos/compromissos.routes').then(m => m.compromissosRoutes),
+    canMatch:[authGuard]
+  },
+  {
+    path: 'tarefas',
+    loadChildren: () => import('./views/tarefas/tarefas.routes').then(m => m.tarefasRoutes),
+    canMatch:[authGuard]
+  },
+  {
+    path: 'despesas',
+    loadChildren: () => import('./views/despesas/despesas.routes').then(m => m.despesasRoutes),
+    canMatch:[authGuard]
+  }
 ];

@@ -57,6 +57,11 @@ export class ShellComponent {
       rota: '/dashboard',
     },
     {
+      titulo: 'Categorias',
+      icone: 'bookmarks',
+      rota: '/categorias',
+    },
+    {
       titulo: 'Contatos',
       icone: 'people',
       rota: '/contatos',
@@ -67,14 +72,14 @@ export class ShellComponent {
       rota: '/compromissos',
     },
     {
-      titulo: 'Categorias',
-      icone: 'bookmarks',
-      rota: '/categorias',
-    },
-    {
       titulo: 'Tarefas',
       icone: 'task_alt',
       rota: '/tarefas',
+    },
+    {
+      titulo: 'Despesas',
+      icone: 'currency_exchange',
+      rota: '/despesas',
     },
   ];
 

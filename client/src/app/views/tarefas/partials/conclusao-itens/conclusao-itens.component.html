@@ -1,0 +1,22 @@
+<mat-expansion-panel hideToggle class="app-input-sanfona">
+  <mat-expansion-panel-header (click)="alterarIconeSanfona()">
+    <mat-panel-title> Itens </mat-panel-title>
+    <mat-icon>{{ iconeSanfona }}</mat-icon>
+  </mat-expansion-panel-header>
+
+  <div class="mb-4">
+    <div *ngFor="let item of itensTarefa" class="app-listagem-itens">
+      <div class="my-2">
+        <p *ngIf="item.concluido" class="app-pill app-item-concluido">concluído</p>
+        <p *ngIf="!item.concluido" class="app-pill app-item-pendente">pendente</p>
+        <p class="d-inline my-2">{{ item.titulo }}</p>
+      </div>
+      <div>
+        <a mat-icon-button (click)="concluirItemClick(item.id)">
+          <mat-icon *ngIf="!item.concluido" class="app-btn-alterar-item">done_outline</mat-icon>
+          <mat-icon *ngIf="item.concluido">history</mat-icon>
+        </a>
+      </div>
+    </div>
+  </div>
+</mat-expansion-panel>

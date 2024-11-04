@@ -25,7 +25,6 @@ export class TarefaService {
   editar(id: string, tarefaEditada: EditarTarefaViewModel): Observable<TarefaEditadaViewModel> {
     const urlCompleto = `${this.url}/${id}`;
     this.formatarTarefa(tarefaEditada);
-    console.log(id)
 
     return this.http
       .put<TarefaEditadaViewModel>(urlCompleto, tarefaEditada)

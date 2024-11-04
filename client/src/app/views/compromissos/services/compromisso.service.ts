@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { LocalStorageService } from '../../../core/auth/service/local-storage.service';
 import { CompromissoEditadoViewModel, CompromissoExcluidoViewModel, CompromissoInseridoViewModel, DetalhesCompromissoViewModel, EditarCompromissoViewModel, InserirCompromissoViewModel, ListarCompromissosViewModel } from '../models/compromisso.models';
 import { processarDados, processarFalha, toTitleCase } from '../../../app.component';
 
@@ -13,11 +12,10 @@ import { processarDados, processarFalha, toTitleCase } from '../../../app.compon
 export class CompromissoService {
   private readonly url = `${environment.apiUrl}/compromissos`;
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
+  constructor(private http: HttpClient) { }
 
   cadastrar(novoCompromisso: InserirCompromissoViewModel): Observable<CompromissoInseridoViewModel> {
     this.formatarCompromisso(novoCompromisso);
-    this.formatarTipoDeLocal(novoCompromisso);
 
     return this.http
       .post<CompromissoInseridoViewModel>(this.url, novoCompromisso)
@@ -27,7 +25,6 @@ export class CompromissoService {
   editar(id: string, compromissoEditado: EditarCompromissoViewModel): Observable<CompromissoEditadoViewModel> {
     const urlCompleto = `${this.url}/${id}`;
     this.formatarCompromisso(compromissoEditado);
-    this.formatarTipoDeLocal(compromissoEditado);
 
     return this.http
     .put<CompromissoEditadoViewModel>(urlCompleto, compromissoEditado)
@@ -63,11 +60,5 @@ export class CompromissoService {
     compromisso.assunto = toTitleCase(compromisso.assunto);
     if (compromisso.local)
       compromisso.local = toTitleCase(compromisso.local);
-  }
-
-  private formatarTipoDeLocal(compromisso: any) {
-    if (compromisso.tipoLocal == 0) compromisso.tipoLocal = 0;
-    else
-      compromisso.tipoLocal = 1;
   }
 }

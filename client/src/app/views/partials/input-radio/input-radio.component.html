@@ -1,0 +1,10 @@
+<div class="app-input-forjado d-lg-flex app-form-field">
+  <mat-label class="me-5 mat-label">{{ campoDesejado }}</mat-label>
+  <div class="align-itens-center text-center">
+    <mat-radio-group [formControl]="inputControl" class="radio-group-inline">
+      <mat-radio-button *ngFor="let opcao of opcoes" [value]="opcao.valor" (change)="onInputChange($event)" class="me-4">
+        {{opcao.nome}}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+</div>

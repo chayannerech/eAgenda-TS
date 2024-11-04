@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { CategoriaEditadaViewModel, CategoriaExcluidaViewModel, CategoriaInseridaViewModel, DetalhesCategoriaViewModel, EditarCategoriaViewModel, InserirCategoriaViewModel, ListarCategoriasViewModel } from '../models/categoria.models';
 import { catchError, map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { LocalStorageService } from '../../../core/auth/service/local-storage.service';
 import { processarDados, processarFalha, toTitleCase } from '../../../app.component';
 
 @Injectable({
@@ -13,7 +12,7 @@ import { processarDados, processarFalha, toTitleCase } from '../../../app.compon
 export class CategoriaService {
   private readonly url = `${environment.apiUrl}/categorias`;
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
+  constructor(private http: HttpClient) { }
 
   cadastrar(novaCategoria: InserirCategoriaViewModel): Observable<CategoriaInseridaViewModel> {
     novaCategoria.titulo = toTitleCase(novaCategoria.titulo);

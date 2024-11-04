@@ -73,17 +73,3 @@
   font-family: sans-serif;
   padding: 0 15px;
 }
-mat-form-field {
-  font-size: 14px;
-}
-mat-label {
-  font-size: 15px;
-}
-@media (min-width: 768px) {
-  mat-form-field {
-    font-size: inherit;
-  }
-  mat-label {
-    font-size: inherit;
-  }
-}

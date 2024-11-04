@@ -1,0 +1,17 @@
+<mat-form-field appearance="fill" class="app-form-field">
+  <mat-label>Valor</mat-label>
+  <div class="app-btns-personalizados">
+    <input [formControl]="inputControl" matInput type="text" mask="separator.2" prefix="R$ " placeholder="Ex: 100,00" (input)="receberValor()"/>
+    <div class="mb-3">
+      <button type="button" (click)="incrementar()"><mat-icon>arrow_drop_up</mat-icon></button>
+      <button type="button" (click)="decrementar()"><mat-icon>arrow_drop_down</mat-icon></button>
+    </div>
+  </div>
+  <mat-icon class="mt-1" matSuffix color="primary">attach_money</mat-icon>
+  <mat-error *ngIf="inputControl.invalid && inputControl.errors?.['min']">
+    O valor é obrigatório!
+  </mat-error>
+  <mat-error *ngIf="inputControl.invalid && inputControl.errors?.['max']">
+    Não avacalhe
+  </mat-error>
+</mat-form-field>

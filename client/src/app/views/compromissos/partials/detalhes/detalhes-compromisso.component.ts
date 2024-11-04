@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { DetalhesCompromissoViewModel } from '../models/compromisso.models';
+import { DetalhesCompromissoViewModel } from '../../models/compromisso.models';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -11,7 +11,7 @@ import { NgIf } from '@angular/common';
     MatCardModule
   ],
   templateUrl: './detalhes-compromisso.component.html',
-  styleUrl: '../styles/compromissos.scss'
+  styleUrl: '../../styles/compromissos.scss'
 })
 
 export class DetalhesCompromissoComponent {

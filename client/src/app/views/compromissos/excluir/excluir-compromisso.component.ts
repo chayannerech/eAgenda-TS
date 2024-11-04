@@ -1,30 +1,20 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PartialObserver } from 'rxjs';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { CompromissoExcluidoViewModel, DetalhesCompromissoViewModel } from '../../compromissos/models/compromisso.models';
 import { CompromissoService } from '../../compromissos/services/compromisso.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { SubmeterExclusaoComponent } from "../../partials/submeter-exclusao/submeter-exclusao.component";
 import { TituloComponent } from "../../partials/titulo/titulo.component";
-import { MatCardModule } from '@angular/material/card';
-import { DetalhesCompromissoComponent } from "../detalhes/detalhes-compromisso.component";
+import { DetalhesCompromissoComponent } from "../partials/detalhes/detalhes-compromisso.component";
 
 @Component({
   selector: 'app-excluir-compromisso',
   standalone: true,
   imports: [
-    NgIf,
-    RouterLink,
-    AsyncPipe,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    SubmeterExclusaoComponent,
     TituloComponent,
-    DetalhesCompromissoComponent
+    DetalhesCompromissoComponent,
+    SubmeterExclusaoComponent
 ],
   templateUrl: './excluir-compromisso.component.html',
   styleUrl: '../styles/compromissos.scss'
@@ -64,7 +54,7 @@ export class ExcluirCompromissoComponent {
 
   private processarSucesso() {
     this.notificacao.sucesso(
-      `O contato '${this.assuntoDoCompromisso}' foi excluído com sucesso!`
+      `O compromisso '${this.assuntoDoCompromisso}' foi excluído com sucesso!`
     );
     this.router.navigate(['/compromissos']);
   }

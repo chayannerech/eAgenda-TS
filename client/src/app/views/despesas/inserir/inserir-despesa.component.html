@@ -1,0 +1,35 @@
+<main class="container-fluid app-container-componente">
+  <app-titulo [componenteCss]='"despesas"' [titulo]='"Cadastrar despesa"' [icone]='"currency_exchange"'></app-titulo>
+
+  <div class="app-container-form">
+    <form [formGroup]="despesaForm" (ngSubmit)="cadastrar()">
+
+      <app-input-texto
+        [campoDesejado]="'descrição'" [placeholder]="'Ex: Compras de natal'" [pronome]="'a'"
+        (inputTexto)="descricao?.setValue($event)">
+      </app-input-texto>
+
+      <app-input-valor (inputValor)="valor?.setValue($event)"></app-input-valor>
+
+      <app-input-radio
+        [campoDesejado]="'Forma de pagamento*'" [opcoes]="[{nome: 'Pix', valor: 0}, {nome: 'Dinheiro', valor: 1}, {nome: 'Cartão', valor: 2}]"
+        (input)="formaPagamento?.setValue($event)">
+      </app-input-radio>
+
+      <app-input-data (input)="data?.setValue($event)"></app-input-data>
+
+      <app-input-categorias
+        [categorias]="categorias!"
+        [categoriasSelecionadas]="categoriasSelecionadas"
+        [semCategorias]="semCategorias"
+        (categoriaAdicionada)="selecionarCategoria($event)"
+        (categoriaRemovida)="removerCategoria($event)"
+      ></app-input-categorias>
+      <mat-error *ngIf="semCategorias" class="ms-3">
+        Insira ao menos uma categoria
+      </mat-error>
+
+      <app-submeter-form [rota]='"/despesas"'></app-submeter-form>
+    </form>
+  </div>
+</main>

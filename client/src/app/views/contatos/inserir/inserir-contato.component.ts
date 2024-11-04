@@ -1,69 +1,41 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
-import { NgIf } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { ContatoInseridoViewModel, InserirContatoViewModel } from '../models/contato.models';
 import { ContatoService } from '../services/contato.service';
 import { PartialObserver } from 'rxjs';
 import { TituloComponent } from "../../partials/titulo/titulo.component";
 import { SubmeterFormComponent } from "../../partials/submeter-form/submeter-form.component";
+import { InputTextoComponent } from "../../partials/input-texto/input-texto.component";
+import { InputEmailComponent } from "../../partials/input-email/input-email.component";
+import { InputTelefoneComponent } from "../partials/input-telefone/input-telefone.component";
 
 @Component({
   selector: 'app-inserir-contato',
   standalone: true,
   imports: [
-    NgIf,
-    RouterLink,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    NgxMaskDirective,
     TituloComponent,
-    SubmeterFormComponent
+    SubmeterFormComponent,
+    InputTextoComponent,
+    InputEmailComponent,
+    InputTelefoneComponent
 ],
   templateUrl: './inserir-contato.component.html',
   styleUrl: '../styles/contatos.scss',
-  providers: [provideNgxMask()]
 })
 
 export class InserirContatoComponent {
   contatoForm: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private router: Router,
     private contatoService: ContatoService,
     private notificacao: NotificacaoService
   ) {
-    this.contatoForm = new FormGroup({
-      nome: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      email: new FormControl<string>('', [
-        Validators.required,
-        Validators.email,
-      ]),
-      empresa: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      cargo: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      telefone: new FormControl<string>('', [
-        Validators.required,
-        Validators.pattern('^\\d{11}$'),
-      ]),
-    });
+    this.contatoForm = this.fb.group({ nome: '' , email: '', empresa: '', cargo: '', telefone: '' });
   }
 
   get nome() { return this.contatoForm.get('nome'); }

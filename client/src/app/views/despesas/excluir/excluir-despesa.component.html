@@ -1,0 +1,7 @@
+<main class="container-fluid app-container-componente">
+  <app-titulo [componenteCss]='"despesas"' [titulo]='"Excluir despesa"' [icone]='"currency_exchange"'></app-titulo>
+  <p class="mx-3">Deseja realmente excluir esta despesa?</p>
+
+  <app-detalhes-despesa [despesa]="despesa"></app-detalhes-despesa>
+  <app-submeter-exclusao (confirmacaoExclusao)="excluir()" [rota]='"/despesas"'></app-submeter-exclusao>
+</main>

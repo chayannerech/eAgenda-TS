@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { NgForOf, NgIf } from '@angular/common';
-import { DetalhesContatoViewModel } from '../models/contato.models';
+import { DetalhesContatoViewModel } from '../../models/contato.models';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule
   ],
   templateUrl: './detalhes-contato.component.html',
-  styleUrl: '../styles/contatos.scss'
+  styleUrl: '../../styles/contatos.scss'
 })
 
 export class DetalhesCompromissoComponent{

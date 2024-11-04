@@ -1,0 +1,15 @@
+<mat-form-field class="app-form-field">
+  <mat-label>Contato</mat-label>
+  <mat-select
+    [formControl]="inputControl"
+    placeholder="Selecione um contato"
+    (selectionChange)="onInputChange($event)"
+  >
+    <mat-option *ngFor="let contato of contatos" [value]="contato.id">
+      {{ contato.nome }}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="inputControl.invalid && inputControl.hasError('required')">
+    O contato é obrigatório!
+  </mat-error>
+</mat-form-field>

@@ -1,6 +1,6 @@
 <mat-form-field class="app-form-field">
   <mat-label>Email</mat-label>
-  <input [formControl]="inputControl" matInput placeholder="Ex: ana@dominio.com" (input)="validarInput()" />
+  <input [formControl]="inputControl" matInput placeholder="Ex: ana@dominio.com" (input)="validarInput()" data-cy="email"/>
   <mat-icon matSuffix color="primary">subtitles</mat-icon>
   <mat-error *ngIf="inputControl?.invalid && (inputControl?.errors)!['required']">
     O email é obrigatório!

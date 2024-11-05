@@ -1,4 +1,3 @@
-
 describe('Processo de Login do Usuário', () => {
   beforeEach(() => {
     cy.visit('/')
@@ -11,8 +10,9 @@ describe('Processo de Login do Usuário', () => {
   it('Deve autenticar o usuário corretamente e redirecionar para o dashboard', () => {
     cy.registrar();
     cy.logout();
+    cy.visit('/')
 
-    cy.get('[data-cy=login]').type('Teste');
+    cy.get('[data-cy=login]').type('TesteLogin');
     cy.get('[data-cy=senha]').type('Teste@123');
     cy.get('[data-cy=submit]').click();
     cy.wait(1000);

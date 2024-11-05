@@ -4,92 +4,52 @@ describe('Ao navegar para o Cadastro de Contato', () => {
   const pageObject = new ContatosPageObject();
 
   beforeEach(() => {
-    cy.limparDados();
-
     cy.registrar();
-
-    cy.wait(2000);
-
-    cy.url().should('contain', '/dashboard');
-
+    cy.wait(500);
     cy.visit('contatos');
-
-    cy.contains('h1', 'Listagem de Contatos');
+    cy.get('[data-cy=cadastrar]').click();
+    cy.wait(500);
+    cy.contains('Cadastrar contato');
   });
 
   it('Deve cadastrar o contato corretamente', () => {
-    cy.get('[data-cy-list-item]').should('have.length', 0);
-
-    cy.get('[data-cy=novoRegistro]').click();
-
-    cy.get('[data-cy=nome]').type('Teste do Cypress');
-    cy.get('[data-cy=email]').type('testador@cypress.com');
-    cy.get('[data-cy=telefone]').type('49 99999-0000');
-    cy.get('[data-cy=empresa]').type('Cypress');
-    cy.get('[data-cy=cargo]').type('Testador');
-
-    cy.get('button[type=submit]').click();
-
-    cy.contains('Contato "Teste do Cypress" cadastrado com sucesso!');
-
+    pageObject.inserirContato();
+    cy.contains("O contato 'Teste de contato' foi cadastrado com sucesso!");
     cy.get('[data-cy-list-item').should('have.length', 1);
   });
 
-  it('Deve exibir erro ao tentar cadastrar sem preencher o nome', () => {
-    pageObject.inserirContato({ nome: '' });
+  it('Deve exibir erro campos vazios', () => {
+    cy.get('button[type=submit]').click();
 
-    cy.get('mat-error').should('have.text', 'O nome precisa ser preenchido.');
+    cy.contains("O nome é obrigatório!");
+    cy.contains("O email é obrigatório!");
+    cy.contains("A empresa é obrigatória!");
+    cy.contains("O cargo é obrigatório!");
+    cy.contains("O telefone é obrigatório!");
   });
 
-  it('Deve exibir erro ao tentar cadastrar com nome curto', () => {
+  it('Deve exibir erro nome menor que o mínimo', () => {
     pageObject.inserirContato({ nome: 'Jo' });
-
-    cy.get('mat-error').contains('O nome deve conter ao menos 3 caracteres.');
+    cy.get('mat-error').contains('O nome precisa conter ao menos 3 caracteres!');
   });
 
-  it('Deve exibir erro ao tentar cadastrar sem preencher o email', () => {
-    pageObject.inserirContato({ email: '' });
-
-    cy.get('mat-error').contains('O email precisa ser preenchido.');
-  });
-
-  it('Deve exibir erro ao tentar cadastrar com email inválido', () => {
+  it('Deve exibir erro email inválido', () => {
     pageObject.inserirContato({ email: 'emailinvalido' });
-
-    cy.get('mat-error').contains(
-      'O valor informado não segue um padrão de email.'
-    );
+    cy.get('mat-error').contains('O email precisa seguir o formato "usuario@dominio.com"');
   });
 
-  it('Deve exibir erro ao tentar cadastrar sem preencher o telefone', () => {
-    pageObject.inserirContato({ telefone: '' });
-
-    cy.get('mat-error').contains('O telefone precisa ser preenchido.');
-  });
-
-  it('Deve exibir erro ao tentar cadastrar sem preencher a empresa', () => {
-    pageObject.inserirContato({ empresa: '' });
-
-    cy.get('mat-error').contains('A empresa precisa ser preenchida.');
-  });
-
-  it('Deve exibir erro ao tentar cadastrar com empresa curta', () => {
+  it('Deve exibir erro empresa menor que o mínimo', () => {
     pageObject.inserirContato({ empresa: 'AB' });
-
-    cy.get('mat-error').contains(
-      'A empresa deve conter ao menos 3 caracteres.'
-    );
+    cy.get('mat-error').contains('A empresa precisa conter ao menos 3 caracteres!');
   });
 
-  it('Deve exibir erro ao tentar cadastrar sem preencher o cargo', () => {
-    pageObject.inserirContato({ cargo: '' });
-
-    cy.get('mat-error').contains('O cargo precisa ser preenchido.');
-  });
-
-  it('Deve exibir erro ao tentar cadastrar com cargo curto', () => {
+  it('Deve exibir erro cargo menor que o mínimo', () => {
     pageObject.inserirContato({ cargo: 'AB' });
+    cy.get('mat-error').contains('O cargo precisa conter ao menos 3 caracteres!');
+  });
 
-    cy.get('mat-error').contains('O cargo deve conter ao menos 3 caracteres.');
+  it('Deve exibir erro telefone no formato incorreto', () => {
+    pageObject.inserirContato({ telefone: '22222' });
+    cy.contains("'Telefone' não está no formato correto.");
   });
 });

@@ -8,7 +8,6 @@ describe('Processo de Registro do Usuário', () => {
   });
 
   it('Deve registrar o usuário corretamente e redirecionar para o dashboard', () => {
-    cy.limparDados();
     cy.get('[data-cy=nome]').type('Teste de registro');
     cy.get('[data-cy=login]').type('testeRegistro');
     cy.get('[data-cy=email]').type('testeRegistro@dominio.com');

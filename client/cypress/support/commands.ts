@@ -1,12 +1,7 @@
 declare namespace Cypress {
   interface Chainable<Subject = any> {
     limparDados(): typeof limparDados;
-    registrar(
-      nome?: string,
-      login?: string,
-      email?: string,
-      senha?: string
-    ): typeof registrar;
+    registrar(nome?: string, login?: string, email?: string, senha?: string): typeof registrar;
     logout(): typeof logout;
   }
 }
@@ -24,11 +19,12 @@ function limparDados(): void {
 }
 
 function registrar(
-  nome: string = 'Teste do Cypress',
-  login: string = 'Teste',
-  email: string = 'teste@cypress.com',
+  nome: string = 'Teste de login',
+  login: string = 'TesteLogin',
+  email: string = 'teste@dominio.com',
   senha: string = 'Teste@123'
 ) {
+  cy.limparDados();
   cy.visit('registro');
 
   cy.get('[data-cy=nome]').type(nome);
@@ -36,10 +32,12 @@ function registrar(
   cy.get('[data-cy=email]').type(email);
   cy.get('[data-cy=senha]').type(senha);
 
-  cy.get('button[type=submit]').click();
+  cy.get('[data-cy=submit]').click();
 }
 
 function logout() {
+  cy.get('[data-cy=sidenav]').click();
+  cy.get('[data-cy=perfilAutenticado]').click();
   cy.get('[data-cy=logout]').click();
 }
 

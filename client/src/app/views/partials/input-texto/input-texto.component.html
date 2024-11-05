@@ -1,6 +1,6 @@
 <mat-form-field class="app-form-field">
   <mat-label>{{label}}</mat-label>
-  <input [formControl]="inputControl" matInput [placeholder]="placeholder" (input)="validarInput()" />
+  <input [formControl]="inputControl" matInput [placeholder]="placeholder" (input)="validarInput()" class="'{{campoDesejado}}'" title="{{campoDesejado}}"/>
   <mat-icon matSuffix color="primary">subtitles</mat-icon>
   <mat-error *ngIf="inputControl.invalid && inputControl.errors?.['required']">
     {{pronome.toUpperCase()}} {{campoDesejado}} é obrigatóri{{pronome}}!

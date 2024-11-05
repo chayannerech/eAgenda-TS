@@ -1,38 +1,23 @@
 export class ContatosPageObject {
-  get nome() {
-    return cy.get('[data-cy=nome]');
-  }
+  get nome() { return cy.get('[title=nome]'); }
+  get email() { return cy.get('[data-cy=email]'); }
+  get empresa() { return cy.get('[title=empresa]'); }
+  get cargo() { return cy.get('[title=cargo]'); }
+  get telefone() { return cy.get('[data-cy=telefone]'); }
 
-  get email() {
-    return cy.get('[data-cy=email]');
-  }
-
-  get telefone() {
-    return cy.get('[data-cy=telefone]');
-  }
-
-  get empresa() {
-    return cy.get('[data-cy=empresa]');
-  }
-
-  get cargo() {
-    return cy.get('[data-cy=cargo]');
-  }
 
   public inserirContato({
-    nome = 'Teste do Cypress',
-    email = 'testador@cypress.com',
-    telefone = '49 99999-0000',
+    nome = 'Teste de contato',
+    email = 'testeContato@dominio.com',
     empresa = 'Cypress',
     cargo = 'Testador',
+    telefone = '49 99999-0000',
   } = {}) {
-    cy.get('[data-cy=novoRegistro]').click();
-
     if (nome) this.nome.type(nome);
     if (email) this.email.type(email);
-    if (telefone) this.telefone.type(telefone);
     if (empresa) this.empresa.type(empresa);
     if (cargo) this.cargo.type(cargo);
+    if (telefone) this.telefone.type(telefone);
 
     cy.get('button[type=submit').click();
   }

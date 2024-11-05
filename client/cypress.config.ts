@@ -6,7 +6,7 @@ export default defineConfig({
     'baseUrl': 'http://localhost:4200',
     supportFile: './cypress/support/e2e.ts',
     env: {
-      apiUrl: 'https://localhost:4400/api',
+      apiUrl: 'https://localhost:4300/api',
     },
   },
 })

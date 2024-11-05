@@ -28,7 +28,7 @@
         </mat-expansion-panel>
       </ng-container>
       <ng-container *ngIf="usuarioAutenticado">
-        <mat-expansion-panel hideToggle class="app-mat-expansion">
+        <mat-expansion-panel hideToggle class="app-mat-expansion" data-cy="perfilAutenticado">
           <mat-expansion-panel-header>
             <mat-icon>person</mat-icon>
             <mat-panel-title> {{ usuarioAutenticado.nome }} </mat-panel-title>
@@ -53,6 +53,7 @@
       <button
         *ngIf="isHandset$ | async"
         mat-icon-button
+        data-cy="sidenav"
         aria-label="Ativar barra lateral"
         type="button"
         (click)="drawer.toggle()"

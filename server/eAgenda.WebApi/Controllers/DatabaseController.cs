@@ -28,14 +28,13 @@ public class DatabaseController : Controller
         
         try
         {
-            await _context.Set<Contato>().IgnoreQueryFilters().ExecuteDeleteAsync();
             await _context.Set<Compromisso>().IgnoreQueryFilters().ExecuteDeleteAsync();
+            await _context.Set<Contato>().IgnoreQueryFilters().ExecuteDeleteAsync();
             await _context.Set<Despesa>().IgnoreQueryFilters().ExecuteDeleteAsync();
             await _context.Set<Categoria>().IgnoreQueryFilters().ExecuteDeleteAsync();
             await _context.Set<ItemTarefa>().IgnoreQueryFilters().ExecuteDeleteAsync();
             await _context.Set<Tarefa>().IgnoreQueryFilters().ExecuteDeleteAsync();
             await _context.Set<Usuario>().IgnoreQueryFilters().ExecuteDeleteAsync();
-            await _context.SaveChangesAsync();
 
             return Ok("O banco de dados foi limpo com sucesso.");
         }

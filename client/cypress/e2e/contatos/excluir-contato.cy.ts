@@ -4,17 +4,13 @@ describe('Ao navegar para a Exclusão de Contato', () => {
   const pageObject = new ContatosPageObject();
 
   beforeEach(() => {
-    cy.limparDados();
-
     cy.registrar();
-
-    cy.wait(2000);
-
-    cy.url().should('contain', '/dashboard');
-
+    cy.wait(500);
     cy.visit('contatos');
-
+    cy.get('[data-cy=cadastrar]').click();
+    cy.wait(500);
     pageObject.inserirContato();
+    cy.wait(500);
 
     cy.url().should('contain', '/contatos/listar');
   });
@@ -23,7 +19,7 @@ describe('Ao navegar para a Exclusão de Contato', () => {
     cy.get('[data-cy-list-item]')
       .first()
       .within(() => {
-        cy.get('[data-cy=botaoExcluir]').click();
+        cy.get('[data-cy=excluir]').click();
       });
 
     cy.url().should('contain', '/contatos/excluir');

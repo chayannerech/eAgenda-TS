@@ -9,11 +9,15 @@
       <p class="mb-1">Valor:</p>
       <p class="mb-1">Data:</p>
       <p class="mb-1">Forma de pagamento:</p>
+      <p class="m-0">Categorias:</p>
     </div>
     <div class="col text-start">
       <p class="mb-1">R$ {{ despesa?.valor }}</p>
       <p class="mb-1">{{ mostrarData(despesa!.data) }}</p>
       <p class="mb-1">{{ despesa!.formaPagamento }}</p>
+      <div *ngFor="let cat of despesa?.categorias">
+        <p class="m-0">{{cat}}</p>
+      </div>
     </div>
   </div>
 </mat-card>

@@ -11,39 +11,35 @@ describe('Ao navegar para a Exclusão de Contato', () => {
     cy.wait(500);
     pageObject.inserirContato();
     cy.wait(500);
-
     cy.url().should('contain', '/contatos/listar');
-  });
 
-  it('Deve exibir os detalhes corretos do contato a ser excluido', () => {
     cy.get('[data-cy-list-item]')
       .first()
       .within(() => {
         cy.get('[data-cy=excluir]').click();
       });
-
     cy.url().should('contain', '/contatos/excluir');
+  });
 
-    cy.get('mat-card-title').should('contain', 'Teste do Cypress');
-    cy.get('mat-card-content').should('contain', 'testador@cypress.com');
-    cy.get('mat-card-content').should('contain', '49 99999-0000');
-    cy.get('mat-card-content').should('contain', 'Cypress');
-    cy.get('mat-card-content').should('contain', 'Testador');
+  it('Deve exibir os detalhes corretos do contato a ser excluido', () => {
+    cy.contains('Teste de Contato');
+    cy.contains('p', 'Id:');
+    cy.contains('p', 'Empresa:');
+    cy.contains('p', 'Cypress');
+
+    cy.contains('p', 'Cargo:');
+    cy.contains('p', 'Testador');
+
+    cy.contains('p', 'Email:');
+    cy.contains('p', 'testeContato@dominio.com');
+
+    cy.contains('p', 'Telefone:');
+    cy.contains('p', '(49) 99999-0000');
   });
 
   it('Deve excluir o contato corretamente', () => {
-    cy.get('[data-cy-list-item]')
-      .first()
-      .within(() => {
-        cy.get('[data-cy=botaoExcluir]').click();
-      });
-
-    cy.url().should('contain', '/contatos/excluir');
-
-    cy.get('button').contains('Confirmar').click();
-
-    cy.contains('Contato excluído com sucesso!');
-
+    cy.get('button').contains('Excluir').click();
+    cy.contains("O contato 'Teste de Contato' foi excluído com sucesso!");
     cy.get('[data-cy-list-item]').should('have.length', 0);
   });
 });

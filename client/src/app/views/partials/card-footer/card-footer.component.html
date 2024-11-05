@@ -1,5 +1,6 @@
 <mat-card-footer class="d-flex justify-content-end p-3 mt-auto gap-1">
   <a mat-icon-button
+    data-cy="editar"
     class="app-btn-editar"
     [routerLink]="[rota, 'editar', id]"
     matTooltip="Editar"
@@ -7,7 +8,7 @@
     <mat-icon> edit </mat-icon>
   </a>
   <a mat-icon-button
-    data-cy=excluir
+    data-cy="excluir"
     class="app-btn-excluir"
     [routerLink]="[rota, 'excluir', id]"
     matTooltip="Excluir"

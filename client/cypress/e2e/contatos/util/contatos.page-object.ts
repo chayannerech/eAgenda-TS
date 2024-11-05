@@ -7,7 +7,7 @@ export class ContatosPageObject {
 
 
   public inserirContato({
-    nome = 'Teste de contato',
+    nome = 'Teste de Contato',
     email = 'testeContato@dominio.com',
     empresa = 'Cypress',
     cargo = 'Testador',

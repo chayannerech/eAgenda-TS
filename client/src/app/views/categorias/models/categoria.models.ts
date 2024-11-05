@@ -1,3 +1,4 @@
+import { ListarDespesasViewModel } from "../../despesas/models/despesa.models";
 
 export interface ListarCategoriasViewModel {
   id: string;
@@ -16,10 +17,12 @@ export interface EditarCategoriaViewModel {
 export interface CategoriaEditadaViewModel {
   id: string;
   titulo: string;
+  despesas: ListarDespesasViewModel[];
 }
 export interface DetalhesCategoriaViewModel {
   id: string;
   titulo: string;
+  despesas: ListarDespesasViewModel[];
 }
 
 export interface CategoriaExcluidaViewModel {}

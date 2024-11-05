@@ -1,13 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { DetalhesDespesaViewModel } from '../../models/despesa.models';
-import { NgIf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-detalhes-despesa',
   standalone: true,
   imports: [
     NgIf,
+    NgForOf,
     MatCardModule
   ],
   templateUrl: './detalhes-despesa.component.html',

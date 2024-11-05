@@ -6,6 +6,8 @@ import { ExcluirContatoComponent } from "./excluir/excluir-contato.component";
 import { inject } from "@angular/core";
 import { ContatoService } from "./services/contato.service";
 import { DetalhesContatoViewModel, ListarContatosViewModel } from "./models/contato.models";
+import { ListarCompromissosViewModel } from "../compromissos/models/compromisso.models";
+import { CompromissoService } from "../compromissos/services/compromisso.service";
 
 const listarContatosResolver: ResolveFn<ListarContatosViewModel[]> = () => {
   return inject(ContatoService).selecionarTodos();

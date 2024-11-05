@@ -14,7 +14,7 @@ describe('Ao navegar para o Cadastro de Contato', () => {
 
   it('Deve cadastrar o contato corretamente', () => {
     pageObject.inserirContato();
-    cy.contains("O contato 'Teste de contato' foi cadastrado com sucesso!");
+    cy.contains("O contato 'Teste de Contato' foi cadastrado com sucesso!");
     cy.get('[data-cy-list-item').should('have.length', 1);
   });
 

@@ -1,13 +1,12 @@
 <div class="row g-3 mt-2 mx-3">
-  <div *ngFor="let cat of categorias" class="col-sm-6 col-md-4 col-xxl-3">
+  <div *ngFor="let cat of categorias" class="col-sm-6 col-md-4 col-xxl-3" data-cy-list-item>
     <mat-card class="mat-mdc-elevation-specific mat-elevation-z3 h-100 app-card-componentes">
       <mat-card-header>
         <mat-card-title class="fs-5">
           {{ cat.titulo }}
         </mat-card-title>
       </mat-card-header>
-
-    <app-card-footer [rota]='"/categorias"' [id]='cat.id'></app-card-footer>
+      <app-card-footer [rota]='"/categorias"' [id]='cat.id'></app-card-footer>
     </mat-card>
   </div>
   <div *ngIf="categorias?.length == 0" class="row g-3 mt-2">

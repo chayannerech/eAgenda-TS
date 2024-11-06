@@ -15,7 +15,7 @@ interface opcoes {
   templateUrl: './input-radio.component.html'
 })
 
-export class InputRadioComponent {
+export class InputRadioComponent{
   @Input() campoDesejado: string = '';
   @Input() opcoes: opcoes[] = [];
   @Output() input = new EventEmitter<number>();

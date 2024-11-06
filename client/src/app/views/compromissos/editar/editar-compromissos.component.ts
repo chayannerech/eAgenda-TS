@@ -115,7 +115,7 @@ export class EditarCompromissosComponent {
 
   private processarSucesso(compromissoEditado: CompromissoEditadoViewModel) {
     this.notificacao.sucesso(
-      `O Compromisso '${compromissoEditado.assunto}' foi editado com sucesso!`
+      `O compromisso '${compromissoEditado.assunto}' foi editado com sucesso!`
     );
 
     this.router.navigate(['/compromissos']);

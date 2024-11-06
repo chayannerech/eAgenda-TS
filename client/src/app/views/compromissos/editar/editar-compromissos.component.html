@@ -15,7 +15,7 @@
 
       <mat-form-field class="app-form-field">
         <mat-label>Link</mat-label>
-        <input formControlName="link" matInput placeholder="Ex: https://reuniao.com" />
+        <input formControlName="link" matInput placeholder="Ex: https://reuniao.com" data-cy="link"/>
         <mat-icon matSuffix color="primary">link</mat-icon>
         <mat-error *ngIf="link?.invalid && link?.errors?.['required']">
           O link é obrigatório!
@@ -24,7 +24,7 @@
 
       <mat-form-field class="app-form-field">
         <mat-label>Local</mat-label>
-        <input formControlName="local" matInput placeholder="Ex: sala 104" />
+        <input formControlName="local" matInput placeholder="Ex: sala 104" data-cy="local"/>
         <mat-icon matSuffix color="primary">place</mat-icon>
         <mat-error *ngIf="local!.invalid && local?.errors?.['required']">
           O local é obrigatório!

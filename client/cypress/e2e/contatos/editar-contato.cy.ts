@@ -22,16 +22,7 @@ describe('Ao navegar para o Cadastro de Contato', () => {
   });
 
   it('Deve editar o contato corretamente', () => {
-    cy.get('[data-cy=email]').clear();
-    cy.get('[data-cy=telefone]').clear();
-
-    pageObject.inserirContato({
-      nome: ' Editado',
-      email: 'editado@dominio.com',
-      empresa: ' Editado',
-      cargo: ' Editado',
-      telefone: '(49) 99999-1111',
-      });
+    pageObject.editarContato();
     cy.contains("O contato 'Teste de Contato Editado' foi editado com sucesso!");
 
     cy.get('[data-cy-list-item').should('have.length', 1);

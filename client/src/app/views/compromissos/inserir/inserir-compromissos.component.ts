@@ -52,10 +52,7 @@ export class InserirCompromissosComponent implements OnInit {
   ) {
     this.localDesabilitado = false;
     this.linkDesabilitado = true;
-    this.compromissoForm = this.fb.group({ assunto: '', tipoLocal: '0', data: '', horaInicio: '', horaTermino: '', contatoId: '',
-      local: ['',],
-      link: ['']
-    });
+    this.compromissoForm = this.fb.group({ assunto: '', tipoLocal: 0, data: '', horaInicio: '', horaTermino: '', contatoId: '', local: '', link: '' });
   }
 
   ngOnInit(): void {
@@ -73,8 +70,9 @@ export class InserirCompromissosComponent implements OnInit {
   get contatoId() { return this.compromissoForm.get('contatoId'); }
 
   cadastrar() {
-    if (this.tipoLocal?.value == 1 && this.local?.value == '')
+    if (this.tipoLocal?.value == 1 && this.local?.value == ''){
       this.local.setErrors(Validators.required);
+    }
 
     if (this.compromissoForm.invalid) return;
 
@@ -107,7 +105,7 @@ export class InserirCompromissosComponent implements OnInit {
 
   private processarSucesso(novoCompromisso: CompromissoInseridoViewModel) {
     this.notificacao.sucesso(
-      `O Compromisso '${novoCompromisso.assunto}' foi cadastrado com sucesso!`
+      `O compromisso '${novoCompromisso.assunto}' foi cadastrado com sucesso!`
     );
 
     this.router.navigate(['/compromissos']);

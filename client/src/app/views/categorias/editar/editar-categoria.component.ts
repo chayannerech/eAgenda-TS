@@ -53,7 +53,7 @@ export class EditarCategoriaComponent implements OnInit{
 
   private processarSucesso(categoriaEditada: CategoriaEditadaViewModel) {
     this.notificacao.sucesso(
-      `A categoria ${categoriaEditada.titulo} foi editada com sucesso!`
+      `A categoria '${categoriaEditada.titulo}' foi editada com sucesso!`
     );
 
     this.router.navigate(['/categorias']);

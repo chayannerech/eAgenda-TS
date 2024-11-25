@@ -2,8 +2,7 @@
 {
     public class AutenticarUsuarioViewModel
     {
-        public string Login { get; set; }
-
-        public string Senha { get; set; }
+        public required string Login { get; set; }
+        public required string Senha { get; set; }
     }
 }

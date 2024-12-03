@@ -47,8 +47,6 @@ export class ExcluirCategoriaComponent implements OnInit {
     }
 
     this.categoria!.despesas = this.despesas;
-
-    console.log(despesas);
   }
 
   excluir() {

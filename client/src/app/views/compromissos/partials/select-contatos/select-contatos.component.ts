@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 @Component({
   selector: 'app-select-contatos',
   standalone: true,
-  imports: [ NgIf, NgForOf, AsyncPipe, MatFormFieldModule, MatRadioModule, ReactiveFormsModule, MatSelectModule ],
+  imports: [ NgIf, NgForOf, MatFormFieldModule, MatRadioModule, ReactiveFormsModule, MatSelectModule ],
   templateUrl: './select-contatos.component.html'
 })
 
